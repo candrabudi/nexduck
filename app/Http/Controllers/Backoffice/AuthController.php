@@ -57,4 +57,15 @@ class AuthController extends Controller
     
         return back()->withErrors(['username' => 'Invalid credentials.']);
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout(); // Logout pengguna
+
+        $request->session()->invalidate(); // Invalidasi sesi saat ini
+
+        $request->session()->regenerateToken(); // Regenerasi CSRF token
+
+        return redirect()->route('member'); // Redirect ke halaman login
+    }
 }

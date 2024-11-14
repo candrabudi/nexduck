@@ -126,10 +126,18 @@
                             <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="#"><i
-                                    class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted"></i> <span
-                                    class="align-middle">Sign out</span></a>
+                            <!-- Form untuk logout -->
+                            <form id="logout-form" action="{{ route('backoffice.logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            
+                            <!-- Tombol logout yang memicu form submit -->
+                            <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted"></i> 
+                                <span class="align-middle">Sign out</span>
+                            </a>
                         </div>
+                        
                     </div>
 
                     <div class="dropdown d-inline-block">

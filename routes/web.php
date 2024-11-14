@@ -54,6 +54,7 @@ Route::post('/backoffice/{a}', [AuthController::class, 'authenticate'])->name('b
 
 Route::middleware('auth')->group(function () {
 
+    Route::post('/logout', [AuthController::class, 'logout'])->name('backoffice.logout');
 
     // USER
     Route::get('/games/play-game/{a}', [GameController::class, 'playGame'])->name('game.playGame');

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class MemberExt extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'api_credential_id',
+        'ext_name',
+    ];
 }
