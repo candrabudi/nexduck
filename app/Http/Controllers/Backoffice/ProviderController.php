@@ -116,15 +116,14 @@ class ProviderController extends Controller
     {
         $postData = [
             'method' => 'provider_list',
-            'agent_code' => 'macan',
-            'agent_token' => '084bf19bc695e0c655dbc072b73a27c4',
+            'agent_code' => 'ducduc',
+            'agent_token' => 'c4648a633d8887d7d4f7bafc3dcfe656',
         ];
 
         $response = Http::post('https://api.nexusggr.com', $postData);
 
         if ($response->successful()) {
             $data = $response->json();
-            // return $data;
             foreach ($data['providers'] as $provider) {
                 $providerRecord = Provider::where('provider_name', 'LIKE', '%' . $provider['name'] . '%')->first();
 
@@ -168,8 +167,8 @@ class ProviderController extends Controller
         foreach ($providerApis as $pa) {
             $postData = [
                 'method' => 'game_list',
-                'agent_code' => 'macan',
-                'agent_token' => '084bf19bc695e0c655dbc072b73a27c4',
+                'agent_code' => 'ducduc',
+                'agent_token' => 'c4648a633d8887d7d4f7bafc3dcfe656',
                 'provider_code' => $pa->provider_code
             ];
 
