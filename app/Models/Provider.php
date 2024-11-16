@@ -13,4 +13,9 @@ class Provider extends Model
     {
         return $this->hasOne(Category::class, 'id', 'category_id');
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }

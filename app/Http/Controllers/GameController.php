@@ -18,18 +18,22 @@ class GameController extends Controller
     public function detail($a)
     {
         $provider = Provider::where('provider_slug', $a)
+            ->join('category_provider as cp', 'cp.provider_id', '=', 'providers.id')
+            ->where('category_id', 4)
             ->first();
 
         if (!$provider) {
             abort(404);
         }
 
-        $games = Game::where('api_credential_id', $provider->api_credential_id)
-            ->where('provider_id', $provider->id)
+        // return $provider;
+        $games = Game::where('provider_id', $provider->provider_id)
             ->where('category_id', $provider->category_id)
             ->get();
 
-        $slots = Provider::where('category_id', 1)
+        // return $games;
+        $slots = Provider::join('category_provider as cp', 'cp.provider_id',  'providers.id')
+            ->where('cp.category_id', 4)
             ->where('provider_status', 1)
             ->get();
 
