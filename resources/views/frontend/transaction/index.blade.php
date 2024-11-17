@@ -6,33 +6,33 @@
             @include('frontend.layouts.components.menuprofile')
 
             <div class="col-span-2 relative">
-                <!-- Withdrawal Section -->
-                <div class="flex flex-col w-full bg-gray-200 hover:bg-gray-300/20 dark:bg-gray-700 p-4 rounded">
-                    <div class="header flex w-full mb-3">
-                        <i class="fa-light fa-money-bill-transfer text-5xl mr-3"></i>
+                <!-- Bagian Penarikan -->
+                <div class="flex flex-col w-full bg-gray-100 hover:bg-gray-300/20 dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <div class="header flex w-full mb-4">
+                        <i class="fa-light fa-money-bill-transfer text-5xl text-green-500 mr-4"></i>
                         <div class="flex flex-col">
-                            <h1 class="text-2xl font-bold">Withdrawal List</h1>
-                            <p class="text-gray-400 text-sm">Below is the list of all requested withdrawals</p>
+                            <h1 class="text-2xl font-bold text-gray-700 dark:text-white">Daftar Penarikan</h1>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm">Berikut adalah daftar semua penarikan yang telah diajukan</p>
                         </div>
                     </div>
                     <div class="mt-3">
                         <div class="relative overflow-x-auto">
-                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400 border dark:border-gray-600">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
                                         <th scope="col" class="px-6 py-3">Bank</th>
-                                        <th scope="col" class="px-6 py-3">Amount</th>
+                                        <th scope="col" class="px-6 py-3">Jumlah</th>
                                         <th scope="col" class="px-6 py-3">Status</th>
-                                        <th scope="col" class="px-6 py-3">Transaction Date</th>
+                                        <th scope="col" class="px-6 py-3">Tanggal Transaksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($withdraws as $withdraw)
-                                        <tr>
-                                            <td class="px-6 py-3">{{ $withdraw->userBank->bank->bank_code ?? 'N/A' }}</td>
-                                            <td class="px-6 py-3">Rp {{ number_format($withdraw->amount, 2) }}</td>
-                                            <td class="px-6 py-3">{{ ucfirst($withdraw->status) }}</td>
-                                            <td class="px-6 py-3">{{ $withdraw->created_at->format('Y-m-d') }}</td>
+                                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                                            <td class="px-6 py-3">{{ $withdraw->userBank->bank->bank_code ?? 'Tidak Tersedia' }}</td>
+                                            <td class="px-6 py-3">Rp {{ number_format($withdraw->amount, 2, ',', '.') }}</td>
+                                            <td class="px-6 py-3 text-green-500 font-bold">{{ ucfirst($withdraw->status) }}</td>
+                                            <td class="px-6 py-3">{{ $withdraw->created_at->format('d-m-Y') }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -40,31 +40,32 @@
                         </div>
                     </div>
 
-                    <div class="header flex w-full mb-3 mt-5">
-                        <i class="fa-light fa-money-bill-transfer text-5xl mr-3"></i>
+                    <!-- Bagian Deposit -->
+                    <div class="header flex w-full mb-4 mt-8">
+                        <i class="fa-light fa-money-bill-transfer text-5xl text-blue-500 mr-4"></i>
                         <div class="flex flex-col">
-                            <h1 class="text-2xl font-bold">Deposit List</h1>
-                            <p class="text-gray-400 text-sm">List of completed deposits</p>
+                            <h1 class="text-2xl font-bold text-gray-700 dark:text-white">Daftar Deposit</h1>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm">Berikut adalah daftar semua deposit yang telah berhasil</p>
                         </div>
                     </div>
                     <div class="mt-3">
                         <div class="relative overflow-x-auto">
-                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400 border dark:border-gray-600">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
                                         <th scope="col" class="px-6 py-3">Bank</th>
-                                        <th scope="col" class="px-6 py-3">Amount</th>
+                                        <th scope="col" class="px-6 py-3">Jumlah</th>
                                         <th scope="col" class="px-6 py-3">Status</th>
-                                        <th scope="col" class="px-6 py-3">Transaction Date</th>
+                                        <th scope="col" class="px-6 py-3">Tanggal Transaksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($deposits as $deposit)
-                                        <tr>
-                                            <td class="px-6 py-3">{{ $deposit->userBank->bank->bank_code ?? 'N/A' }}</td>
-                                            <td class="px-6 py-3">Rp {{ number_format($deposit->amount, 2) }}</td>
-                                            <td class="px-6 py-3">{{ ucfirst($deposit->status) }}</td>
-                                            <td class="px-6 py-3">{{ $deposit->created_at->format('Y-m-d') }}</td>
+                                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                                            <td class="px-6 py-3">{{ $deposit->userBank->bank->bank_code ?? 'Tidak Tersedia' }}</td>
+                                            <td class="px-6 py-3">Rp {{ number_format($deposit->amount, 2, ',', '.') }}</td>
+                                            <td class="px-6 py-3 text-blue-500 font-bold">{{ ucfirst($deposit->status) }}</td>
+                                            <td class="px-6 py-3">{{ $deposit->created_at->format('d-m-Y') }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

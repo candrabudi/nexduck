@@ -58,7 +58,7 @@
             </div>
 
             <div class="w-full flex justify-between mb-4">
-                <h2 class="text-xl font-bold">Top Game Slot</h2>
+                <h2 class="text-xl font-bold">Slot</h2>
             </div>
             <div style="background: black; border-radius: 14px; padding: 10px; min-height: 130px; margin-bottom: 20px; position: relative;">
                 <div class="home-menu-list"
@@ -74,6 +74,29 @@
                                         style="max-width: 100%; height: auto;">
                                 </div>
                                 <span class="provider-name">{{ $sl->provider_name }}</span>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            
+            <div class="w-full flex justify-between mb-4">
+                <h2 class="text-xl font-bold">Casino</h2>
+            </div>
+            <div style="background: black; border-radius: 14px; padding: 10px; min-height: 130px; margin-bottom: 20px; position: relative;">
+                <div class="home-menu-list"
+                    style="display: flex; flex-wrap: nowrap; gap: 20px; margin-bottom: 0; overflow-x: auto; overflow-y: hidden; white-space: nowrap; scroll-behavior: smooth; padding-bottom: 40px;">
+                    @foreach ($casinos as $csn)
+                        <div class="home-menu-item text-center"
+                            style="flex: 0 0 auto; width: 80px; height: 80px; background-color: rgba(126, 214, 223, 0.2); display: flex; align-items: center; justify-content: center; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s;">
+                            <a href="{{ route('game', $csn->provider_slug) }}"
+                                style="display: block; height: 100%; width: 100%;">
+                                <div class="home-menu-img"
+                                    style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    <img src="{{ $csn->provider_image }}" alt="{{ $csn->provider_name }}"
+                                        style="max-width: 100%; height: auto;">
+                                </div>
+                                <span class="provider-name">{{ $csn->provider_name }}</span>
                             </a>
                         </div>
                     @endforeach

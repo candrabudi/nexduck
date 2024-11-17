@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\ApiCredential;
 use App\Models\Member;
 use App\Models\MemberBank;
@@ -14,37 +13,72 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\RateLimiter;
 
 class UserAuthController extends Controller
 {
+    // Login with validation and error handling
     public function login(Request $request)
     {
-        $request->validate([
+        // Validasi input login
+        $validator = Validator::make($request->all(), [
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
+        // Jika validasi gagal, kembalikan error
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        // Rate limiting untuk mencegah brute force
+        if (RateLimiter::tooManyAttempts('login.' . $request->ip(), 5)) {
+            return response()->json(['error' => 'Too many login attempts. Please try again later.'], 429);
+        }
+
+        // Cek kredensial pengguna
         $credentials = [
             'username' => $request->username,
             'password' => $request->password,
         ];
 
         if (Auth::attempt($credentials)) {
+            // Resetting the rate limiter on successful login
+            RateLimiter::clear('login.' . $request->ip());
             return redirect()->intended('/');
         }
 
+        // Jika login gagal, tampilkan pesan error
+        RateLimiter::hit('login.' . $request->ip(), 60); // Limit attempts for 1 minute
         return back()->withErrors([
             'username' => 'These credentials do not match our records.',
         ]);
     }
 
+    // Register new user with validation and error handling
     public function register(Request $request)
     {
-        // Begin a database transaction
+        // Validasi input registrasi
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string|unique:users',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'full_name' => 'required|string',
+            'phone_number' => 'required|string',
+            'bank_id' => 'required|integer',
+            'account_name' => 'required|string',
+            'account_number' => 'required|string',
+        ]);
+
+        // Jika validasi gagal, kembalikan pesan error
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        // Jika validasi berhasil, lakukan proses pendaftaran
         DB::beginTransaction();
 
         try {
-            // Create a new user
             $newUser = User::create([
                 'username' => $request->input('username'),
                 'email' => $request->input('email'),
@@ -53,7 +87,6 @@ class UserAuthController extends Controller
                 'register_ip_address' => $request->ip(),
             ]);
 
-            // Create member details
             Member::create([
                 'user_id' => $newUser->id,
                 'full_name' => $request->input('full_name'),
@@ -61,118 +94,55 @@ class UserAuthController extends Controller
                 'ip_address' => $request->ip(),
             ]);
 
-            // Create bank account details
             MemberBank::create([
                 'user_id' => $newUser->id,
                 'bank_id' => $request->input('bank_id'),
                 'account_name' => $request->input('account_name'),
                 'account_number' => $request->input('account_number'),
-                'account_status' => 1, // active status
+                'account_status' => 1, // Active status
             ]);
 
-            // Generate a random string for external username
             $externalUsername = $this->generateRandomString(12);
+            MemberExt::create([
+                'user_id' => $newUser->id,
+                'ext_name' => $externalUsername,
+            ]);
 
-            // Get all API credentials
-            $apiCredentials = ApiCredential::all();
+            // Panggil API eksternal untuk membuat anggota di sistem lain
+            $this->createNexusMember($externalUsername);
 
-            // Handle member extension creation for each API credential
-            foreach ($apiCredentials as $apiCredential) {
-                $this->createMemberExtension($newUser->id, $apiCredential, $externalUsername);
-            }
-
-            // Commit the transaction
             DB::commit();
 
-            // Log in the newly registered user
+            // Login otomatis setelah registrasi
             Auth::login($newUser);
 
-            // Redirect to the home page
-            return redirect('/');
+            return redirect('/')->with('success', 'Registration successful!');
 
         } catch (\Exception $e) {
-            // Rollback the transaction in case of an error
             DB::rollBack();
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => 'Registration failed. Please try again later.'], 500);
         }
     }
 
-    /**
-     * Generate a random string.
-     *
-     * @param int $length
-     * @return string
-     */
+    // Generate random string for external username
     private function generateRandomString($length = 12)
     {
         $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         return substr(str_shuffle(str_repeat($characters, ceil($length / strlen($characters)))), 0, $length);
     }
 
-    /**
-     * Create a member extension based on API credentials.
-     *
-     * @param int $userId
-     * @param ApiCredential $apiCredential
-     * @param string $externalUsername
-     * @return void
-     */
-    private function createMemberExtension($userId, $apiCredential, $externalUsername)
-    {
-        // Create and save the member extension
-        MemberExt::create([
-            'api_credential_id' => $apiCredential->id,
-            'user_id' => $userId,
-            'ext_name' => $externalUsername,
-        ]);
-
-        // Handle API-specific requests
-        if ($apiCredential->agent_type === 'sg') {
-            $this->createSgMember($apiCredential, $externalUsername);
-        } elseif ($apiCredential->agent_type === 'nexus') {
-            $this->createNexusMember($apiCredential, $externalUsername);
-        }
-    }
-
-    /**
-     * Create a member on SG platform.
-     *
-     * @param ApiCredential $apiCredential
-     * @param string $externalUsername
-     * @return void
-     */
-    private function createSgMember($apiCredential, $externalUsername)
-    {
-        $url = $apiCredential->agent_url . 'CreateMember.aspx';
-
-        Http::withHeaders([
-            'Accept' => 'application/json',
-        ])->get($url, [
-                    'agent_code' => $apiCredential->agent_code,
-                    'signature' => $apiCredential->agent_signature,
-                    'username' => $externalUsername,
-                ]);
-    }
-
-    /**
-     * Create a member on Nexus platform.
-     *
-     * @param ApiCredential $apiCredential
-     * @param string $externalUsername
-     * @return void
-     */
-    private function createNexusMember($apiCredential, $externalUsername)
+    // External API call to create nexus member
+    private function createNexusMember($externalUsername)
     {
         $postData = [
             'method' => 'user_create',
-            'agent_code' => $apiCredential->agent_code,
-            'agent_token' => $apiCredential->agent_signature,
+            'agent_code' => env('NEXUS_AGENT_CODE'),
+            'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
             'user_code' => $externalUsername,
         ];
 
-        Http::post($apiCredential->agent_url, $postData);
+        Http::post(env('NEXUS_URL'), $postData);
     }
-
 
     // Logout user
     public function logout()

@@ -47,13 +47,6 @@
                     <img src="/assets/images/icons/home.svg" alt="" width="35">
                     <span class="text-[12px] mt-2">Home</span>
                 </a>
-                @foreach ($categories as $ctg)
-                    <a href="/"
-                        class="h-20 site-menu-item flex flex-col items-center justify-center text-center p-3 rounded-xl">
-                        <img src="{{ $ctg->category_desktop_image }}" alt="" width="35">
-                        <span class="text-[12px] mt-2">{{ $ctg->category_name }}</span>
-                    </a>
-                @endforeach
             </div>
         </div>
         <div class="grid grid-cols-2 gap-4 mt-4">

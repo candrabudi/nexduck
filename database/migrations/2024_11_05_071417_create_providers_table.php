@@ -16,10 +16,9 @@ return new class extends Migration
             $table->string('provider_name');
             $table->string('provider_slug');
             $table->string('provider_code');
+            $table->string('provider_type');
             $table->integer('provider_position')->default(0);
             $table->string('provider_image')->nullable();
-            $table->string('provider_icon')->nullable();
-            $table->string('provider_icon_nav')->nullable();
             $table->integer('provider_status')->default(0);
             $table->timestamps();
         });

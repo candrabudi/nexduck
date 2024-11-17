@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->string('category_id');
-            $table->string('game_provider_code');
             $table->string('provider_id');
+            $table->string('game_provider_code');
             $table->string('game_code');
             $table->string('game_name');
             $table->string('game_image');

@@ -58,21 +58,25 @@
                                 </strong>
                             </div>
                         </button>
-                        <button type="button" class="hidden md:block ui-button-blue mr-3 rounded">
+                        <button class="hidden md:block ui-button-blue mr-3 rounded"
+                            onclick="window.location.href='/profile/deposit'">
                             Deposit
                         </button>
+
                         <div class="flex items-center ml-3">
                             <div>
                                 <button type="button"
                                     class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                                     aria-expanded="false" id="dropdown-toggle-button">
                                     <span class="sr-only">Open user menu</span>
-                                    <img class="w-8 h-8 rounded-full" src="/assets/images/profile.jpg" alt="User Profile">
+                                    <img class="w-8 h-8 rounded-full" src="/assets/images/profile.jpg"
+                                        alt="User Profile">
                                 </button>
-                                <div id="dropdown-user" class="hidden absolute right-0 mt-2 w-48 bg-gray-700 rounded-lg shadow-lg">
+                                <div id="dropdown-user"
+                                    class="hidden absolute right-0 mt-2 w-48 bg-gray-700 rounded-lg shadow-lg">
                                     <ul class="py-2 text-sm text-white">
                                         <li>
-                                            <a href="/profile" class="block px-4 py-2">Profile</a>
+                                            <a href="/profile/wallet" class="block px-4 py-2">Profile</a>
                                         </li>
                                         <li>
                                             <a href="/settings" class="block px-4 py-2">Settings</a>
@@ -84,22 +88,22 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <script>
                             const button = document.getElementById('dropdown-toggle-button');
                             const dropdown = document.getElementById('dropdown-user');
-                        
+
                             button.addEventListener('click', () => {
                                 dropdown.classList.toggle('hidden');
                             });
-                        
+
                             window.addEventListener('click', (event) => {
                                 if (!button.contains(event.target) && !dropdown.contains(event.target)) {
                                     dropdown.classList.add('hidden');
                                 }
                             });
                         </script>
-                        
+
                     </div>
                 </div>
             @else
