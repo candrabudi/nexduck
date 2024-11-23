@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
+            $table->string('title');
+            $table->string('slug');
+            $table->text('short_desc');
+            $table->text('desc');
             $table->date('start_date');
             $table->date('end_date');
-            $table->enum('type', ['turnover', 'winover', 'balance']);
+            $table->enum('type', ['turnover', 'winover', 'balance', 'manual']);
             $table->integer('claim_deposit')->default(0);
-            $table->integer('min_deposit');
-            $table->integer('max_deposit');
-            $table->integer('max_withdraw');
-            $table->integer('target');
+            $table->integer('min_deposit')->default(0);
+            $table->integer('max_deposit')->default(0);
+            $table->integer('max_withdraw')->default(0);
+            $table->integer('target')->default(0);
             $table->integer('status')->default(1);
             $table->string('image');
             $table->timestamps();

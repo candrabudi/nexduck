@@ -49,15 +49,36 @@
                     <div class="flex items-center">
                         <button type="button" class="flex justify-center items-center mr-3 pt-1 wallet-money">
                             <div class="mr-2">
-                                <img src="https://cdn270.picsart.com/297e52e4-65f2-409d-8a3e-032d3b24403b/451868880001211.png?to=crop&amp;type=webp&amp;r=1456x1456&amp;q=85"
+                                <img src="https://cdn270.picsart.com/297e52e4-65f2-409d-8a3e-032d3b24403b/451868880001211.png?to=crop&amp;type=webp&amp;r=1456x1456&amp;q=85" 
                                     alt="" width="20">
                             </div>
                             <div>
-                                <strong>
-                                    Rp {{ number_format(Auth::user()->member->balance, 0, ',', '.') }}
+                                <strong id="user-balance">
+                                    Rp 0
                                 </strong>
                             </div>
                         </button>
+                        
+                        <script>
+                            function updateBalance() {
+                                fetch('http://localhost:5001/user/getBall')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.status === 1) {
+                                            const userBalance = data.user.balance;
+                                            const formattedBalance = new Intl.NumberFormat('id-ID').format(userBalance);
+                                            document.getElementById('user-balance').innerText = 'Rp ' + formattedBalance;
+                                        } else {
+                                            console.error('Gagal mengambil data balance');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Terjadi kesalahan:', error);
+                                    });
+                            }
+                            setInterval(updateBalance, 3000);
+                        </script>
+                        
                         <button class="hidden md:block ui-button-blue mr-3 rounded"
                             onclick="window.location.href='/profile/deposit'">
                             Deposit
@@ -82,7 +103,10 @@
                                             <a href="/settings" class="block px-4 py-2">Settings</a>
                                         </li>
                                         <li>
-                                            <a href="/logout" class="block px-4 py-2">Logout</a>
+                                            <form action="/logout" method="POST" class="block px-4 py-2">
+                                                @csrf
+                                                <button type="submit" class="w-full text-left">Logout</button>
+                                            </form>
                                         </li>
                                     </ul>
                                 </div>
@@ -109,9 +133,16 @@
             @else
                 <div class="flex items-center py-3">
                     <div class="flex ml-5">
-                        <button id="openModalLoginBtn" class="ui-button-blue">Login</button>
-                        <button class="ui-button-blue ml-3 rounded" id="openModalRegisterBtn">Register</button>
+                        <button class="ui-button-blue" onclick="navigateTo('/login')">Login</button>
+                        <button class="ui-button-blue ml-3 rounded" onclick="navigateTo('/register')">Register</button>
                     </div>
+                    
+                    <script>
+                        function navigateTo(url) {
+                            window.location.href = url;
+                        }
+                    </script>
+                    
                 </div>
             @endif
 

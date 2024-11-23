@@ -18,9 +18,11 @@ use App\Http\Controllers\DepositController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PromotionController as ControllersPromotionController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\WithdrawController;
+use App\Models\Bank;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -45,7 +47,12 @@ Route::post('/register', [UserAuthController::class, 'register'])->name('registe
 
 
 Route::get('/login', function() {
-    return redirect()->route('member');
+    return view('frontend.auth.login');
+});
+
+Route::get('/register', function() {
+    $banks = Bank::get();
+    return view('frontend.auth.register', compact('banks'));
 });
 
 // backoffice
@@ -63,7 +70,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/deposit/store', [DepositController::class, 'store'])->name('deposit.store');
     Route::get('/profile/withdraw', [WithdrawController::class, 'index'])->name('withdraw');
     Route::get('/profile/transactions', [TransactionController::class, 'index'])->name('transaction');
+    Route::get('/user/getBall', [HomeController::class, 'getBall'])->name('getBall');
 
+    Route::get('/promotion', [ControllersPromotionController::class, 'index'])->name('promotion.index');
+    Route::get('/promotion/{a}', [ControllersPromotionController::class, 'show'])->name('promotion.show');
+
+
+    // BACKOFFICE
     $setting = Setting::first();
     Route::get('/backoffice/dashboard/' . $setting->web_token, [DashboardController::class, 'index'])->name('backoffice.dashboard');
     Route::get('/backoffice/dashboard/get-transaction-data/' . $setting->web_token, [DashboardController::class, 'getTransactionData'])->name('backoffice.getTransactionData');
@@ -78,6 +91,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/backoffice/providers/getProviderListSG', [ProviderController::class, 'getProviderListSG'])->name('backoffice.getProviderListSG');
     Route::get('/backoffice/providers/' . $setting->web_token, [ProviderController::class, 'index'])->name('backoffice.provider');
     Route::get('/backoffice/providers/update/' . $setting->web_token, [ProviderController::class, 'updateProvider'])->name('backoffice.updateProvider');
+    Route::get('/backoffice/providers/update-game/' . $setting->web_token, [ProviderController::class, 'updateGame'])->name('backoffice.updateGame');
     Route::post('/backoffice/providers/update/data/' . $setting->web_token, [ProviderController::class, 'update'])->name('backoffice.provider.update');
 
     Route::get('/backoffice/games/' . $setting->web_token, [BGameController::class, 'index'])->name('backoffice.games');
@@ -129,6 +143,7 @@ Route::middleware('auth')->group(function () {
 
     // Show the promotions list
     Route::get('backoffice/promotions/' . $setting->web_token, [PromotionController::class, 'index'])->name('backoffice.promotions');
+    Route::get('backoffice/promotions/create/' . $setting->web_token, [PromotionController::class, 'create'])->name('backoffice.promotions.create');
 
     // Store a new promotion
     Route::post('backoffice/promotions/store/' . $setting->web_token, [PromotionController::class, 'store'])->name('backoffice.promotions.store');

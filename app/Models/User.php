@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(MemberBank::class, 'user_id', 'id');
     }
+
+    public function memberExt()
+    {
+        return $this->hasOne(MemberExt::class, 'user_id', 'id');
+    }
 }

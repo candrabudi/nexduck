@@ -1,23 +1,23 @@
 @extends('frontend.layouts.app')
+
 @section('content')
     <div class="">
+
+        <!-- Swiper Section -->
         <div class="swiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"
-                    style="background-image: url('https://api2-p7g.imgnxb.com/images/P7G/id_cbd_8d22b25c-d49d-42d9-b1af-7b5b312a9f78_1728472534997.jpg');">
-                </div>
-                <div class="swiper-slide"
-                    style="background-image: url('https://api2-p7g.imgnxb.com/images/P7G/id_cbd_cbc8214e-197c-4c11-88ca-9f158ef6edf6_1728380651430.jpg');">
-                </div>
-                <div class="swiper-slide"
-                    style="background-image: url('https://api2-p7g.imgnxb.com/images/P7G/id_cbd_ad41f7de-ce7d-4b14-9135-b529c18a3c00_1728380695850.jpg');">
-                </div>
+                @foreach ($banners as $banner)    
+                    <div class="swiper-slide"
+                        style="background-image: url('{{ $banner->banner_image }}');">
+                    </div>
+                @endforeach
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
             <div class="swiper-pagination"></div>
         </div>
 
+        <!-- Swiper JS -->
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
         <script>
             const swiper = new Swiper('.swiper', {
@@ -37,6 +37,7 @@
             });
         </script>
 
+        <!-- Search Input Section -->
         <div class="md:w-4/6 2xl:w-4/6 mx-auto p-4">
             <div class="mb-5 cursor-pointer w-full">
                 <div class="flex">
@@ -57,290 +58,165 @@
                 </div>
             </div>
 
-            <div class="w-full flex justify-between mb-4">
-                <h2 class="text-xl font-bold">Slot</h2>
-            </div>
-            <div style="background: black; border-radius: 14px; padding: 10px; min-height: 130px; margin-bottom: 20px; position: relative;">
-                <div class="home-menu-list"
-                    style="display: flex; flex-wrap: nowrap; gap: 20px; margin-bottom: 0; overflow-x: auto; overflow-y: hidden; white-space: nowrap; scroll-behavior: smooth; padding-bottom: 40px;">
-                    @foreach ($slots as $sl)
-                        <div class="home-menu-item text-center"
-                            style="flex: 0 0 auto; width: 80px; height: 80px; background-color: rgba(126, 214, 223, 0.2); display: flex; align-items: center; justify-content: center; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s;">
-                            <a href="{{ route('game', $sl->provider_slug) }}"
-                                style="display: block; height: 100%; width: 100%;">
-                                <div class="home-menu-img"
-                                    style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-                                    <img src="{{ $sl->provider_image }}" alt="{{ $sl->provider_name }}"
-                                        style="max-width: 100%; height: auto;">
-                                </div>
-                                <span class="provider-name">{{ $sl->provider_name }}</span>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-            
-            <div class="w-full flex justify-between mb-4">
-                <h2 class="text-xl font-bold">Casino</h2>
-            </div>
-            <div style="background: black; border-radius: 14px; padding: 10px; min-height: 130px; margin-bottom: 20px; position: relative;">
-                <div class="home-menu-list"
-                    style="display: flex; flex-wrap: nowrap; gap: 20px; margin-bottom: 0; overflow-x: auto; overflow-y: hidden; white-space: nowrap; scroll-behavior: smooth; padding-bottom: 40px;">
-                    @foreach ($casinos as $csn)
-                        <div class="home-menu-item text-center"
-                            style="flex: 0 0 auto; width: 80px; height: 80px; background-color: rgba(126, 214, 223, 0.2); display: flex; align-items: center; justify-content: center; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s;">
-                            <a href="{{ route('game', $csn->provider_slug) }}"
-                                style="display: block; height: 100%; width: 100%;">
-                                <div class="home-menu-img"
-                                    style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-                                    <img src="{{ $csn->provider_image }}" alt="{{ $csn->provider_name }}"
-                                        style="max-width: 100%; height: auto;">
-                                </div>
-                                <span class="provider-name">{{ $csn->provider_name }}</span>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-            
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    const providerNames = document.querySelectorAll('.provider-name');
-                    
-                    providerNames.forEach(function (nameElement) {
-                        const nameText = nameElement.textContent.trim();
-                        const words = nameText.split(' ');
-            
-                        if (words.length > 1) {
-                            const firstLine = words.slice(0, 2).join(' ');
-                            const secondLine = words.slice(2).join(' ');
-            
-                            if (secondLine) {
-                                nameElement.innerHTML = `${firstLine}<br>${secondLine}`;
-                            }
-                        }
-                    });
-                });
-            </script>                
-
-            <style>
-                .home-menu-list {
-                    scrollbar-width: thin;
-                    scrollbar-color: rgba(126, 214, 223, 0.5) transparent;
-                }
-        
-                .home-menu-list::-webkit-scrollbar {
-                    height: 6px;
-                }
-        
-                .home-menu-list::-webkit-scrollbar-track {
-                    background: transparent;
-                }
-        
-                .home-menu-list::-webkit-scrollbar-thumb {
-                    background-color: rgba(126, 214, 223, 0.5);
-                    border-radius: 10px;
-                }
-        
-                .home-menu-item:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-                }
-        
-                @media (min-width: 768px) {
-                    .home-menu-item {
-                        flex: 1 1 calc(16.66% - 20px);
-                        max-width: calc(16.66% - 20px);
-                    }
-                }
-        
-                @media (max-width: 767px) {
-                    .home-menu-list {
-                        display: flex;
-                        flex-wrap: nowrap;
-                        overflow-x: auto;
-                        overflow-y: hidden;
-                        white-space: nowrap;
-                        scroll-behavior: smooth;
-                    }
-        
-                    .home-menu-item {
-                        flex: 0 0 auto;
-                        width: 80px;
-                        max-width: 80px;
-                    }
-                }
-        
-                .home-menu-list:before, .home-menu-list:after {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    bottom: 0;
-                    width: 30px;
-                    pointer-events: none;
-                    z-index: 2;
-                    transition: opacity 0.3s;
-                }
-        
-                .home-menu-list:before {
-                    left: 0;
-                    background: linear-gradient(to right, black, transparent);
-                }
-        
-                .home-menu-list:after {
-                    right: 0;
-                    background: linear-gradient(to left, black, transparent);
-                }
-        
-                .home-menu-list:hover:before,
-                .home-menu-list:hover:after {
-                    opacity: 1;
-                }
-            </style>
-
-
-            <div class="hightlight-container" style="margin-top: 50px;">
-                <div class="w-full flex justify-between mb-4">
-                    <h2 class="text-xl font-bold">Highlights</h2>
-                </div>
-                <div class="grid grid-cols-3 md:grid-cols-6 gap-4 mb-5">
-                    <div class="item-game text-gray-700 w-full h-auto mr-4 cursor-pointer" title="Gates of Olympus"
-                        style="background-image: url('/storage/fivers/vs20olympgate.png'); background-size: cover; background-position: center;">
-                        <a href="/games/play/12221/vs20olympgate" class=""></a>
-                        <div class="flex justify-between w-full text-gray-700 dark:text-gray-400 px-3 py-2">
-                            <div class="flex flex-col justify-start items-start"></div>
-                        </div>
-                    </div>
-                    <div class="item-game text-gray-700 w-full h-auto mr-4 cursor-pointer" title="Sailor Princess"
-                        style="background-image: url('/storage/fivers/sailor.png'); background-size: cover; background-position: center;">
-                        <a href="/games/play/12794/sailor" class=""></a>
-                        <div class="flex justify-between w-full text-gray-700 dark:text-gray-400 px-3 py-2">
-                            <div class="flex flex-col justify-start items-start"></div>
-                        </div>
-                    </div>
-                    <div class="item-game text-gray-700 w-full h-auto mr-4 cursor-pointer" title="Infinity Club"
-                        style="background-image: url('/storage/fivers/nightclub.png'); background-size: cover; background-position: center;">
-                        <a href="/games/play/12795/nightclub" class=""></a>
-                        <div class="flex justify-between w-full text-gray-700 dark:text-gray-400 px-3 py-2">
-                            <div class="flex flex-col justify-start items-start"></div>
-                        </div>
-                    </div>
-                    <div class="item-game text-gray-700 w-full h-auto mr-4 cursor-pointer" title="Nezha Legend"
-                        style="background-image: url('/storage/fivers/nezha.png'); background-size: cover; background-position: center;">
-                        <a href="/games/play/12796/nezha" class=""></a>
-                        <div class="flex justify-between w-full text-gray-700 dark:text-gray-400 px-3 py-2">
-                            <div class="flex flex-col justify-start items-start"></div>
-                        </div>
-                    </div>
-                    <div class="item-game text-gray-700 w-full h-auto mr-4 cursor-pointer" title="Bird Island"
-                        style="background-image: url('/storage/fivers/bird.png'); background-size: cover; background-position: center;">
-                        <a href="/games/play/12797/bird" class=""></a>
-                        <div class="flex justify-between w-full text-gray-700 dark:text-gray-400 px-3 py-2">
-                            <div class="flex flex-col justify-start items-start"></div>
-                        </div>
-                    </div>
-                    <div class="item-game text-gray-700 w-full h-auto mr-4 cursor-pointer" title="Field Of Honor"
-                        style="background-image: url('/storage/fivers/honor.png'); background-size: cover; background-position: center;">
-                        <a href="/games/play/12798/honor" class=""></a>
-                        <div class="flex justify-between w-full text-gray-700 dark:text-gray-400 px-3 py-2">
-                            <div class="flex flex-col justify-start items-start"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <!-- CSS for Game Items and Overlay -->
             <style>
                 .hightlight-container .item-game {
-                    width: 300px;
-                    height: 200px;
+                    width: 150px;
+                    height: 150px;
+                    background-size: cover;
+                    background-position: center center;
+                    border-radius: 8px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
 
                 @media (min-width: 768px) {
-                    .hightlight-container .item-game img {
-                        height: 200px;
-                        /* Height for desktop */
+                    .hightlight-container .item-game {
+                        width: 150px;
+                        height: 150px;
                     }
                 }
 
                 @media (max-width: 767px) {
-                    .hightlight-container .item-game img {
+                    .hightlight-container .item-game {
+                        width: 150px;
                         height: 150px;
-                        /* Height for mobile */
                     }
+                }
+
+                .owl-carousel .owl-item {
+                    padding: 10px;
+                }
+
+                .game-overlay {
+                    background-color: rgba(0, 0, 0, 0.5);
+                    color: white;
+                    padding: 5px;
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    text-align: center;
+                }
+
+                .game-title {
+                    font-size: 12px;
+                    font-weight: bold;
                 }
             </style>
 
-
-
+            <!-- Owl Carousel CSS -->
             <link rel="stylesheet"
                 href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
             <link rel="stylesheet"
                 href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
 
-            <div class="mt-5">
-                <div class="game-list flex flex-col mt-5 relative">
-                    <div class="w-full flex justify-between mb-2">
-                        <h2 class="text-xl font-bold">TopTrend Gaming</h2>
-                        <div class="flex">
-                            <a href="/casino/provider/170/category/all" class="item-game px-3 py-2 mr-2 rounded">See
-                                all</a>
-                            <button class="item-game px-3 py-2 rounded mr-2 owl-prev"><i
-                                    class="fa-solid fa-angle-left"></i></button>
-                            <button class="item-game px-3 py-2 rounded owl-next"><i
-                                    class="fa-solid fa-angle-right"></i></button>
+            <!-- Providers Loop -->
+            @foreach ($providers as $index => $pv)
+                <div class="mt-5">
+                    <div class="game-list flex flex-col mt-5 relative">
+                        <div class="w-full flex justify-between mb-2">
+                            <h2 class="text-xl font-bold">{{ $pv['provider_name'] }}</h2>
+                            <div class="flex">
+                                <a href="{{ route('game', $pv['provider_slug']) }}"
+                                    class="item-game px-3 py-2 mr-2 rounded">See all</a>
+                                <button class="item-game px-3 py-2 rounded mr-2 custom-prev"
+                                    data-target="#carousel-{{ $index }}">
+                                    <i class="fa-solid fa-angle-left"></i>
+                                </button>
+                                <button class="item-game px-3 py-2 rounded custom-next"
+                                    data-target="#carousel-{{ $index }}">
+                                    <i class="fa-solid fa-angle-right"></i>
+                                </button>
+                            </div>
                         </div>
+
+                        <!-- Carousel Section -->
+                        <section class="carousel owl-carousel" id="carousel-{{ $index }}" dir="ltr"
+                            aria-label="Gallery" tabindex="0">
+                            @foreach ($pv['games'] as $pgm)
+                                <div class="item-game text-gray-700 w-full h-auto mr-4 cursor-pointer"
+                                    title="{{ $pgm['game_name'] }}"
+                                    style="background-image: url('{{ $pgm['game_image'] }}'); width: 150px; height: 150px; display: inline-block; background-size: cover;"
+                                    gamecode="{{ $pgm['game_code'] }}" data-game-id="{{ $pgm['id'] }}"
+                                    onclick="handleGameClick(this)">
+                                    <a href="javascript:void(0)">
+                                        <div class="game-overlay">
+                                            <span class="game-title">{{ $pgm['game_name'] }}</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </section>
+
+                        <!-- Redirect and Login Alert Scripts -->
+                        <script>
+                            function handleGameClick(gameElement) {
+                                const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }}; // Cek apakah pengguna login
+                                if (isLoggedIn) {
+                                    const gameId = gameElement.getAttribute('data-game-id');
+                                    if (gameId) {
+                                        window.location.href = `/games/play-game/${gameId}`;
+                                    }
+                                } else {
+                                    showLoginAlert(); // Tampilkan alert jika belum login
+                                }
+                            }
+
+                            function showLoginAlert() {
+                                Swal.fire({
+                                    title: 'Harap login terlebih dahulu!',
+                                    text: 'Anda harus login untuk memainkan game ini.',
+                                    icon: 'warning',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        </script>
+
                     </div>
-                    <section class="carousel owl-carousel" dir="ltr" aria-label="Gallery" tabindex="0">
-                        <div class="item-game text-gray-700 w-full h-auto mr-4 cursor-pointer" title="Golden Dragon"
-                            cover="fivers/GoldenDragon.png" gamecode="GoldenDragon" type="fivers">
-                            <a href="/games/play/12708/GoldenDragon" class="">
-                                <img src="/storage/fivers/GoldenDragon.png" alt="" class="w-full">
-                            </a>
-                            <div class="flex justify-between w-full text-gray-700 dark:text-gray-400 px-3 py-2">
-                            </div>
-                        </div>
-                        <div class="item-game text-gray-700 w-full h-auto mr-4 cursor-pointer" title="Golden Dragon"
-                            cover="fivers/GoldenDragon.png" gamecode="GoldenDragon" type="fivers">
-                            <a href="/games/play/12708/GoldenDragon" class="">
-                                <img src="//dsuown9evwz4y.cloudfront.net/Images/providers/PP/vswaysmahwblck.webp?v=20241103-1"
-                                    alt="" class="w-full">
-                            </a>
-                            <div class="flex justify-between w-full text-gray-700 dark:text-gray-400 px-3 py-2">
-                            </div>
-                        </div>
-                        <div class="item-game text-gray-700 w-full h-auto mr-4 cursor-pointer" title="Golden Dragon"
-                            cover="fivers/GoldenDragon.png" gamecode="GoldenDragon" type="fivers">
-                            <a href="/games/play/12708/GoldenDragon" class="">
-                                <img src="//dsuown9evwz4y.cloudfront.net/Images/providers/PP/vswaysmahwin2.webp?v=20241103-1"
-                                    alt="" class="w-full">
-                            </a>
-                            <div class="flex justify-between w-full text-gray-700 dark:text-gray-400 px-3 py-2">
-                            </div>
-                        </div>
-                        <div class="item-game text-gray-700 w-full h-auto mr-4 cursor-pointer" title="Golden Dragon"
-                            cover="fivers/GoldenDragon.png" gamecode="GoldenDragon" type="fivers">
-                            <a href="/games/play/12708/GoldenDragon" class="">
-                                <img src="//dsuown9evwz4y.cloudfront.net/Images/providers/HACKSAW/HACKSAW_1534.webp?v=20241103-1"
-                                    alt="" class="w-full">
-                            </a>
-                            <div class="flex justify-between w-full text-gray-700 dark:text-gray-400 px-3 py-2">
-                            </div>
-                        </div>
-                        <div class="item-game text-gray-700 w-full h-auto mr-4 cursor-pointer" title="Golden Dragon"
-                            cover="fivers/GoldenDragon.png" gamecode="GoldenDragon" type="fivers">
-                            <a href="/games/play/12708/GoldenDragon" class="">
-                                <img src="//dsuown9evwz4y.cloudfront.net/Images/providers/PGSOFT/mahjong-ways2.webp?v=20241103-1"
-                                    alt="" class="w-full">
-                            </a>
-                            <div class="flex justify-between w-full text-gray-700 dark:text-gray-400 px-3 py-2">
-                            </div>
-                        </div>
-                    </section>
                 </div>
-            </div>
+            @endforeach
 
-
-            <!---->
         </div>
     </div>
+
+    <!-- External JS Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Initialize OwlCarousel and Custom Navigation -->
+    <script>
+        $(document).ready(function() {
+            @foreach ($providers as $index => $pv)
+                $("#carousel-{{ $index }}").owlCarousel({
+                    items: 5,
+                    margin: 10,
+                    loop: true,
+                    nav: false,
+                    responsive: {
+                        0: {
+                            items: 2
+                        },
+                        768: {
+                            items: 4
+                        },
+                        1024: {
+                            items: 5
+                        }
+                    }
+                });
+
+                $('[data-target="#carousel-{{ $index }}"].custom-prev').on('click', function() {
+                    var owl = $('#carousel-{{ $index }}');
+                    owl.trigger('prev.owl.carousel');
+                });
+
+                $('[data-target="#carousel-{{ $index }}"].custom-next').on('click', function() {
+                    var owl = $('#carousel-{{ $index }}');
+                    owl.trigger('next.owl.carousel');
+                });
+            @endforeach
+        });
+    </script>
 @endsection

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use App\Models\MemberExt;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class TransactionDepositController extends Controller
 {
@@ -65,10 +67,25 @@ class TransactionDepositController extends Controller
         ]);
 
         if($request->transaction_status == "approved") {
+
+            $memberExt = MemberExt::where('user_id', $transaction->user_id)
+                ->first();
+
             $member = Member::where('user_id', $transaction->user_id)
                 ->first();
+
             $member->balance = $member->balance + $transaction->amount;
             $member->save();
+
+            $postData = [
+                'method' => 'user_deposit',
+                'agent_code' => env('NEXUS_AGENT_CODE'),
+                'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
+                'user_code' => $memberExt->ext_name,
+                'amount' => $transaction->amount
+            ];
+
+            Http::post(env('NEXUS_URL'), $postData);
         }
 
         return redirect()->back();

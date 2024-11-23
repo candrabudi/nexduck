@@ -43,13 +43,12 @@ class DepositController extends Controller
             $store->status = "pending";
             $store->created_ip_address = $request->ip();
             $store->save();
-
+            
             DB::commit();
             return redirect()->back();
 
         }catch(\Exception $e) {
             DB::rollBack();
-            return response()->json($e->getMessage());
             return redirect()->back();
         }
     }

@@ -40,55 +40,13 @@
     class="hide-aside translate-x-0 fixed top-[67px] left-0 z-50 w-64 w-full-mobile h-screen transition-transform -translate-x-full sm:translate-x-0 sidebar-color custom-side-shadow"
     aria-label="Sidebar">
     <div class="h-full pb-4 overflow-y-auto sidebar-color p-4">
-        <div class="mt-4">
-            <div class="grid grid-cols-2 gap-4 mt-4 mb-4">
-                <a href="/"
-                    class="category-active site-menu-item flex flex-col items-center justify-center text-center p-3 rounded-xl">
-                    <img src="/assets/images/icons/home.svg" alt="" width="35">
-                    <span class="text-[12px] mt-2">Home</span>
-                </a>
-            </div>
-        </div>
-        <div class="grid grid-cols-2 gap-4 mt-4">
-            <div>
-                <a href="/events" class="relative">
-                    <img src="/assets/images/eventos.png" alt="" class="w-full">
-                    <h1 class="button-title-menu">Event</h1>
-                </a>
-            </div>
-            <div>
-                <a href="/profile/recents" class="relative">
-                    <img src="/assets/images/juros.png" alt="" class="w-full">
-                    <h1 class="button-title-menu">Recents</h1>
-                </a>
-            </div>
-            <div>
-                <a href="/awards" class="relative">
-                    <img src="/assets/images/pendente.png" alt="" class="w-full">
-                    <h1 class="button-title-menu">Awards</h1>
-                </a>
-            </div>
-            <div>
-                <a href="/records" class="relative">
-                    <img src="/assets/images/rebate.png" alt="" class="w-full">
-                    <h1 class="button-title-menu">Records</h1>
-                </a>
-            </div>
-            <div>
-                <a href="/vip" class="relative">
-                    <img src="/assets/images/vip.png" alt="" class="w-full">
-                    <h1 class="button-title-menu">Vip</h1>
-                </a>
-            </div>
-            <div>
-                <a href="/bonus" class="relative">
-                    <img src="/assets/images/coletas.png" alt="" class="w-full">
-                    <h1 class="button-title-menu">Bonus</h1>
-                </a>
-            </div>
-        </div>
         <ul class="font-medium mt-5 mb-[200px]">
             <li class="px-3">
+                <a href="/"
+                    class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
+                    <img src="/assets/images/icons/home.svg" alt="" width="16">
+                    <span class="ml-3">Home</span>
+                </a>
                 <a href="#"
                     class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"

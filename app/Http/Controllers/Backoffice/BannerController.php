@@ -29,11 +29,15 @@ class BannerController extends Controller
             'banner_status' => 'required|integer',
         ]);
 
+        // Simpan file ke storage
         $path = $request->file('banner_image')->store('banners', 'public');
+        
+        // Dapatkan URL publik untuk file yang disimpan
+        $url = Storage::url($path);
 
         Banner::create([
             'banner_name' => $request->banner_name,
-            'banner_image' => $path,
+            'banner_image' => url($url), // Simpan URL publik ke kolom banner_image
             'banner_status' => $request->banner_status,
             'created_by' => auth()->id(),
             'created_ip_address' => $request->ip(),
@@ -54,14 +58,17 @@ class BannerController extends Controller
         $path = $banner->banner_image;
 
         if ($request->hasFile('banner_image')) {
-            // Delete old image and store new one
+            // Hapus gambar lama dan simpan yang baru
             Storage::disk('public')->delete($banner->banner_image);
             $path = $request->file('banner_image')->store('banners', 'public');
+            
+            // Dapatkan URL publik baru
+            $path = url(Storage::url($path));
         }
 
         $banner->update([
             'banner_name' => $request->banner_name,
-            'banner_image' => $path,
+            'banner_image' => $path, // Simpan URL publik baru
             'banner_status' => $request->banner_status,
             'updated_by' => auth()->id(),
             'updated_ip_address' => $request->ip(),
