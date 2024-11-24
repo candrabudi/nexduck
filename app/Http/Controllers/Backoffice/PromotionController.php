@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Promotion;
+use App\Models\PromotionDetail;
+use Illuminate\Support\Str;
 
 class PromotionController extends Controller
 {
@@ -22,24 +24,32 @@ class PromotionController extends Controller
 
     public function store(Request $request)
     {
-
-        // Buat instance baru Promotion
         $promotion = new Promotion();
-        $promotion->name = $request->name;
-        $promotion->description = $request->description;
+        $promotion->title = $request->title;
+        $promotion->slug = Str::slug($request->title);
+        $promotion->short_desc = $request->short_desc;
+        $promotion->desc = $request->desc;
         $promotion->start_date = $request->start_date;
         $promotion->end_date = $request->end_date;
         $promotion->type = $request->type;
         $promotion->status = $request->promotion_status;
+        $promotion->is_claim = $request->is_claim;
 
-        // Proses gambar jika ada
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('promotions', 'public');
             $promotion->image = asset(Storage::url($path)); // Simpan URL publik
         }
-
-        // Simpan ke database
         $promotion->save();
+
+        if($request->is_claim == 1) {
+            $promotionDetail = new PromotionDetail();
+            $promotionDetail->promotion_id = $promotion->id;
+            $promotionDetail->min_deposit = $request->min_deposit;
+            $promotionDetail->max_deposit = $request->max_deposit;
+            $promotionDetail->max_withdraw = $request->max_withdraw;
+            $promotionDetail->target = $request->target;
+            $promotionDetail->percentage = $request->percentage;
+        }
 
         return redirect()->route('backoffice.promotions')->with('success', 'Promotion created successfully!');
     }
@@ -55,7 +65,9 @@ class PromotionController extends Controller
 
         // Cari promotion yang akan diperbarui
         $promotion = Promotion::findOrFail($id);
-        $promotion->name = $request->name;
+        $promotion->title = $request->name;
+        $promotion->slug = Str::slug($request->name);
+        $promotion->short_dec = $request->description;
         $promotion->description = $request->description;
         $promotion->start_date = $request->start_date;
         $promotion->end_date = $request->end_date;

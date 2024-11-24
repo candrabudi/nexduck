@@ -17,43 +17,59 @@ use Illuminate\Support\Str;
 class HomeController extends Controller
 {
     public function index()
-    {
-        $slots = cache()->remember('slots', 60, function () {
-            return Provider::where('provider_type', 'SLOT')
-                ->where('provider_status', 1)
-                ->get();
-        });
+{
+    // Caching slots
+    $slots = cache()->remember('slots', 60, function () {
+        return Provider::where('provider_type', 'SLOT')
+            ->where('provider_status', 1)
+            ->get();
+    });
 
-        $casinos = cache()->remember('casinos', 60, function () {
-            return Provider::where('provider_type', 'LIVE')
-                ->where('provider_status', 1)
-                ->get();
-        });
+    // Caching casinos
+    $casinos = cache()->remember('casinos', 60, function () {
+        return Provider::where('provider_type', 'LIVE')
+            ->where('provider_status', 1)
+            ->get();
+    });
 
-        $providers = cache()->remember('providers_with_games', 60, function () {
-            $qpv = Provider::where('provider_status', 1)
-                ->get();
-
-            $providers = $qpv->map(function ($pv) {
-                $games = Game::where('provider_id', $pv->id)
-                    ->take(20)
-                    ->get();
-
-                return [
-                    'provider_name' => $pv->provider_name,
-                    'provider_slug' => $pv->provider_slug,
-                    'games' => $games,
-                ];
-            });
-
-            return $providers;
-        });
-
-        $banners = Banner::where('banner_status', 1)
+    // Caching providers with games and dynamic gradient colors
+    $providers = cache()->remember('providers_with_games', 60, function () {
+        $qpv = Provider::where('provider_status', 1)
             ->get();
 
-        return view('frontend.home', compact('slots', 'casinos', 'providers', 'banners'));
-    }
+        $providers = $qpv->map(function ($pv) {
+            $games = Game::where('provider_id', $pv->id)
+                ->take(20)
+                ->get()
+                ->map(function ($game) {
+                    // Generate dynamic gradient colors for each game
+                    $game->start_color = '#' . substr(md5($game->id), 0, 6); // Dynamic start color
+                    $game->end_color = '#' . substr(md5($game->id * 2), 0, 6); // Dynamic end color
+                    return $game;
+                });
+
+            return [
+                'provider_name' => $pv->provider_name,
+                'provider_slug' => $pv->provider_slug,
+                'games' => $games,
+            ];
+        });
+
+        return $providers;
+    });
+
+    // Fetch banners
+    $banners = Banner::where('banner_status', 1)
+        ->get();
+
+    // Clear specific caches (optional if you want to refresh manually)
+    cache()->forget('slots');
+    cache()->forget('casinos');
+    cache()->forget('providers_with_games');
+
+    return view('frontend.home', compact('slots', 'casinos', 'providers', 'banners'));
+}
+
 
 
     public function getBall()

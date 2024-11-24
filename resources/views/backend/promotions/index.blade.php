@@ -5,8 +5,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <h4 class="mb-0">Promotions</h4>
-                    <a href="{{ route('backoffice.promotions.create') }}" class="btn btn-success">Add Promotion</a>
+                    <h4 class="mb-0">Promosi</h4>
+                    <a href="{{ route('backoffice.promotions.create') }}" class="btn btn-success">Tambah Promosi</a>
                 </div>
             </div>
         </div>
@@ -19,19 +19,19 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Type</th>
+                                    <th>Judul</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Tanggal Berakhir</th>
+                                    <th>Tipe</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($promotions as $promotion)
                                     <tr>
                                         <td>{{ $promotion->id }}</td>
-                                        <td>{{ $promotion->name }}</td>
+                                        <td>{{ $promotion->title }}</td>
                                         <td>{{ $promotion->start_date }}</td>
                                         <td>{{ $promotion->end_date }}</td>
                                         <td>{{ ucfirst($promotion->type) }}</td>

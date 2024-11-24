@@ -23,6 +23,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\WithdrawController;
 use App\Models\Bank;
+use App\Models\Game;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -55,9 +56,26 @@ Route::get('/register', function() {
     return view('frontend.auth.register', compact('banks'));
 });
 
+Route::get('/support', function() {
+    return view('frontend.support');
+});
+
+Route::get('/contact', function() {
+    return view('frontend.contact');
+});
+
+Route::get('/slots', function() {
+    $games = Game::all();
+    return view('frontend.slot', compact('games'));
+});
+
 // backoffice
 Route::get('/backoffice/{a}', [AuthController::class, 'login'])->name('backoffice.login');
 Route::post('/backoffice/{a}', [AuthController::class, 'authenticate'])->name('backoffice.authenticate');
+
+Route::get('/promotion', [ControllersPromotionController::class, 'index'])->name('promotion.index');
+Route::get('/promotion/{a}', [ControllersPromotionController::class, 'show'])->name('promotion.show');
+
 
 Route::middleware('auth')->group(function () {
 
@@ -71,10 +89,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/withdraw', [WithdrawController::class, 'index'])->name('withdraw');
     Route::get('/profile/transactions', [TransactionController::class, 'index'])->name('transaction');
     Route::get('/user/getBall', [HomeController::class, 'getBall'])->name('getBall');
-
-    Route::get('/promotion', [ControllersPromotionController::class, 'index'])->name('promotion.index');
-    Route::get('/promotion/{a}', [ControllersPromotionController::class, 'show'])->name('promotion.show');
-
 
     // BACKOFFICE
     $setting = Setting::first();

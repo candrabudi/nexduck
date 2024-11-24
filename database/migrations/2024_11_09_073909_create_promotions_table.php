@@ -17,14 +17,10 @@ return new class extends Migration
             $table->string('slug');
             $table->text('short_desc');
             $table->text('desc');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->enum('type', ['turnover', 'winover', 'balance', 'manual']);
-            $table->integer('claim_deposit')->default(0);
-            $table->integer('min_deposit')->default(0);
-            $table->integer('max_deposit')->default(0);
-            $table->integer('max_withdraw')->default(0);
-            $table->integer('target')->default(0);
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->enum('type', ['turnover', 'winover', 'post'])->default('post');
+            $table->integer('is_claim')->default(0);
             $table->integer('status')->default(1);
             $table->string('image');
             $table->timestamps();

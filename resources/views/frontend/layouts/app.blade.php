@@ -2,13 +2,12 @@
     use App\Models\Setting;
     use App\Models\Bank;
     use App\Models\Category;
-    $categories = Category::where('category_status', 1)
-        ->get();
+    $categories = Category::where('category_status', 1)->get();
     $setting = Setting::first();
-    $banks = Bank::where('bank_status', 1)
-        ->get();
+    $banks = Bank::where('bank_status', 1)->get();
 @endphp
 <html lang="pt-BR" class="dark">
+
 <head>
     <style id="react-native-stylesheet"></style>
     <meta charset="UTF-8">
@@ -21,6 +20,7 @@
         rel="stylesheet">
     <title>DUCK BET</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .swiper {
             width: 65%;
@@ -216,31 +216,195 @@
     <div id="viperpro" data-v-app="">
         <div class="">
             @include('frontend.layouts.nav')
-            
+
             @include('frontend.layouts.components.aside')
             @include('frontend.layouts.components.sidebar')
             <div class="sm:ml-64 mt-[65px]">
                 <div class="relative">
-                        @yield('content')
+                    @yield('content')
                     <div class="footer pb-32 md:pb-5 mt-5 footer-color p-4 md:p-8">
-                        <hr class="border-t border-gray-200 dark:border-gray-600 mt-5">
-                        <div class="mt-5 flex flex-col justify-start">
-                            <p class="text-[3px] w-full"></p>
-                            <div class="eng-license">
-                                <img src="https://assets.website-files.com/6483631a773f6af2b4edabab/6483631a773f6af2b4edabb4_curacao.png"
-                                    width="150" loading="eager" alt="" class="ico-brand-type-footer">
-                                <p class="txt-label text-[10px]">DUCK BET is operated by BritoSistemaBet, company
-                                    registration number 150731, with registered address at Groot Kwartierweg 10, Curaçao
-                                    and is licensed and authorized by the Government of Curacao and operates under the
-                                    Master License of Gaming Services Provider, N.V. #365/JAZ License Number:
-                                    GLH-OCCHKTW0709172018. Payment agent company is Horangi Trading Limited with address
-                                    Chytron, 30, 2nd floor, Flat/Office A22, 1075, Nicosia, Cyprus and Registration
-                                    number: HE 411494.<br><br>Gambling can be addictive. Please play responsibly.only
-                                    accepts customers over 18 years of age.</p>
+                        <div class="content-section py-8 text-white">
+                            <div class="container mx-auto px-4">
+                                <h1 class="text-3xl font-semibold mb-6">Bitcoin Slots</h1>
+                                <p class="text-sm text-gray-200 mb-6">
+                                    Welcome to NxWhisper.io! We are one of the best platforms for playing Bitcoin slots and
+                                    other casino games. Since its inception, it has grown to become a leading platform
+                                    in the online crypto casino world.
+                                </p>
+
+                                <h2 class="text-2xl font-semibold mb-4">Play Bitcoin Slots Online at NxWhisper.io</h2>
+                                <p class="text-sm text-gray-200 mb-6">
+                                    Our platform has redefined online casino excitement with a vast collection of
+                                    thrilling slot games. It offers a colorful environment for players to enjoy their
+                                    gameplay. The benefits here range from the welcoming 350% bonus offer to highly
+                                    rewarding promotional offers and loyalty programs. Upon signing up, you will get
+                                    access to our convenient, bright, and user-friendly platform! Why wait? Sign up and
+                                    enjoy the benefits provided by NxWhisper.io.
+                                </p>
+
+                                <h2 class="text-2xl font-semibold mb-4">How to Play Bitcoin Slot Games Online</h2>
+                                <p class="text-sm text-gray-200 mb-6">
+                                    Bitcoin slots operate on a set of straightforward rules. The objective is to match
+                                    specific combinations of symbols across the reels. Each slot game has a unique
+                                    paytable, outlining the value of each symbol and the winning combinations. Players
+                                    should check out the presence of special symbols like NxWhispers and Scatters because
+                                    they are often the key triggers behind the bonus features or free spins.
+                                </p>
+
+                                <!-- Read More / Read Less Button Section -->
+                                <div class="text-sm text-gray-200" id="moreContent">
+                                    <p>
+                                        NxWhisper.io offers diverse betting options to cater to your unique preferences, even
+                                        for Bitcoin live casino games. Before spinning the reels, you can customize your
+                                        bet size. Adjust the coin denomination, number of coins per line, and the number
+                                        of active paylines to tailor your bets to your gaming style.
+                                    </p>
+                                    <p id="dots">...</p>
+                                    <div id="more" class="hidden transition-all duration-300 ease-in-out">
+                                        <p>
+                                            Bitcoin slots are one of the most accessible casino titles to play in online
+                                            gambling now. In the step-by-step guide below, we've highlighted the process
+                                            of placing your first bet. Let's get started:
+                                        </p>
+                                        <ul>
+                                            <li><strong>Step 1:</strong> Sign Up - We believe in making things easy for
+                                                you. Head to NxWhisper.io's user-friendly website and click the "Sign Up"
+                                                button. Fill in your details, create a strong password, verify your
+                                                email, and voila! You're officially part of our gaming community.</li>
+                                            <li><strong>Step 2:</strong> Deposit Crypto - Now that you're a member, you
+                                                can explore and play all the games available. Click the "Deposit" button
+                                                and select BTC or other available coins as your preferred payment
+                                                method. The site will then provide you with a unique wallet address to
+                                                transfer your preferred amount of crypto. Confirm the transaction; your
+                                                account will be loaded with the funds within a few moments.</li>
+                                            <li><strong>Step 3:</strong> Explore Our Bitcoin Slots Section - NxWhisper.io has
+                                                curated a collection of top-notch Bitcoin casino slots, available when
+                                                you navigate to the "Slots" section. Choose your favorite titles and get
+                                                ready to place your bets.</li>
+                                            <li><strong>Step 4:</strong> Set Your Bet - Now, adjust your bet size using
+                                                the user-friendly controls. The site has options that cater to both high
+                                                roller and conservative bettors.</li>
+                                            <li><strong>Step 5:</strong> Spin and Win - With your bets set, hit the
+                                                "Spin" button and watch the reels come to life.</li>
+                                        </ul>
+                                    </div>
+                                    <button id="readMoreBtn"
+                                        class="mt-4 py-2 px-6 rounded-full bg-gradient-to-l from-gray-800 to-gray-500 text-white font-semibold hover:opacity-80 transition-opacity duration-300">
+                                        Read More
+                                    </button>
+                                </div>
                             </div>
-                            <p></p>
-                            <p class="flex text-[10px] md:text-[12px] w-full"></p>
                         </div>
+
+                        <footer class="bg-dark-blue text-white py-8">
+                            <div class="container mx-auto px-4">
+                                <!-- Logo and Social Media -->
+                                <div class="flex flex-col items-center space-y-4 mb-8">
+                                    <img src="{{ $setting->web_logo }}"
+                                        alt="NxWhisper.io Logo" class="h-9">
+                                    <p class="text-sm">© 2024 NxWhisper. All rights reserved.</p>
+                                    <div class="flex space-x-4">
+                                        <a href="https://t.me/wildcasinohq" target="_blank" rel="noreferrer"
+                                            class="text-xl hover:opacity-75">
+                                            <i class="fab fa-telegram"></i>
+                                        </a>
+                                        <a href="https://twitter.com/wild_io" target="_blank" rel="noreferrer"
+                                            class="text-xl hover:opacity-75">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                        <a href="https://www.instagram.com/wildcasino.io" target="_blank"
+                                            rel="noreferrer" class="text-xl hover:opacity-75">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                        <a href="https://bit.ly/wild-discord" target="_blank" rel="noreferrer"
+                                            class="text-xl hover:opacity-75">
+                                            <i class="fab fa-discord"></i>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span>AM</span>
+                                        <button
+                                            class="bg-white w-10 h-6 rounded-full flex items-center justify-between px-1 focus:outline-none">
+                                            <span class="w-4 h-4 bg-green-500 rounded-full shadow-md"></span>
+                                        </button>
+                                        <span>PM</span>
+                                    </div>
+                                </div>
+
+                                <!-- Footer Links -->
+                                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-sm">
+                                    <div>
+                                        <h4 class="font-semibold uppercase mb-4">Slot Games</h4>
+                                        <ul class="space-y-2">
+                                            <li><a href="/categories/slots" class="hover:text-primary">Slots</a></li>
+                                            <li><a href="/categories/skill-games" class="hover:text-primary">Skill
+                                                    Games</a></li>
+                                            <li><a href="/categories/jackpot" class="hover:text-primary">Jackpot</a>
+                                            </li>
+                                            <li><a href="/categories/bonus-buy" class="hover:text-primary">Bonus Buy</a>
+                                            </li>
+                                            <li><a href="/categories/crash-games" class="hover:text-primary">Crash
+                                                    Games</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold uppercase mb-4">Live Casino</h4>
+                                        <ul class="space-y-2">
+                                            <li><a href="/categories/roulette" class="hover:text-primary">Roulette</a>
+                                            </li>
+                                            <li><a href="/categories/blackjack" class="hover:text-primary">Blackjack</a>
+                                            </li>
+                                            <li><a href="/categories/live-casino" class="hover:text-primary">Live
+                                                    Casino</a></li>
+                                            <li><a href="/categories/table-games" class="hover:text-primary">Table
+                                                    Games</a></li>
+                                            <li><a href="/categories/video-poker" class="hover:text-primary">Video
+                                                    Poker</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold uppercase mb-4">Casino</h4>
+                                        <ul class="space-y-2">
+                                            <li><a href="/about" class="hover:text-primary">About Us</a></li>
+                                            <li><a href="/promotions" class="hover:text-primary">Promotions</a></li>
+                                            <li><a href="/tournaments" class="hover:text-primary">Tournaments</a></li>
+                                            <li><a href="https://wildpartners.io/"
+                                                    class="hover:text-primary">Affiliate Program</a></li>
+                                            <li><a href="/loyalty" class="hover:text-primary">Loyalty Program</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold uppercase mb-4">Legal</h4>
+                                        <ul class="space-y-2">
+                                            <li><a href="/privacy" class="hover:text-primary">Privacy Policy</a></li>
+                                            <li><a href="/terms" class="hover:text-primary">Terms & Conditions</a>
+                                            </li>
+                                            <li><a href="/bonus-terms" class="hover:text-primary">Bonus Terms</a></li>
+                                            <li><a href="/responsible-gambling" class="hover:text-primary">Responsible
+                                                    Gambling</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold uppercase mb-4">Support</h4>
+                                        <ul class="space-y-2">
+                                            <li><a href="/support" class="hover:text-primary">Live Support</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Awards Section -->
+                                <div class="mt-8">
+                                    <p class="text-sm text-center">Awards</p>
+                                    <div class="flex justify-center mt-4 space-x-6">
+                                        <img src="images/best-new-casino.svg" alt="Best New Casino" class="h-10">
+                                        <img src="images/best-casino.svg" alt="Best Casino" class="h-10">
+                                        <img src="images/players-choice.svg" alt="Players Choice" class="h-10">
+                                        <img src="images/intercom.svg" alt="Intercom" class="h-10">
+                                    </div>
+                                </div>
+                            </div>
+                        </footer>
+
                     </div>
                     @include('frontend.layouts.components.mobilemenu')
                 </div>
@@ -250,6 +414,23 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/datepicker.min.js"></script>
+    <script>
+        document.getElementById("readMoreBtn").addEventListener("click", function() {
+            var dots = document.getElementById("dots");
+            var moreText = document.getElementById("more");
+            var btnText = document.getElementById("readMoreBtn");
+
+            if (moreText.classList.contains("hidden")) {
+                moreText.classList.remove("hidden");
+                dots.style.display = "none";
+                btnText.textContent = "Read Less";
+            } else {
+                moreText.classList.add("hidden");
+                dots.style.display = "inline";
+                btnText.textContent = "Read More";
+            }
+        });
+    </script>
     <script>
         const sidebar = document.getElementById('sidebar');
         const toggleBtn = document.getElementById('toggle-btn');

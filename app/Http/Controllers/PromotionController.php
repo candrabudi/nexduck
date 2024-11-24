@@ -18,20 +18,17 @@ class PromotionController extends Controller
 
     public function show($a)
     {
-
-        $postArray = [
-            'method' => 'game_list', 
-            'agent_code' => 'ducduc', 
-            'agent_token' => 'c4648a633d8887d7d4f7bafc3dcfe656',
-            'provider_code' => 'PRAGMATIC'
-        ];
-        $jsonData = json_encode($postArray);
+        // Ambil promosi berdasarkan slug
+        $promotion = Promotion::where('slug', $a)->firstOrFail();
     
-        $headerArray = ['Content-Type: application/json'];
-        
-        $promotion = Promotion::where('slug', $a)
-            ->first();
-
-        return view('frontend.promotion.show', compact('promotion'));
+        // Ambil promosi lain, kecuali promosi yang sedang dilihat
+        $otherPromotions = Promotion::where('slug', '!=', $a)
+            ->latest() // Urutkan berdasarkan waktu terbaru
+            ->limit(5) // Batasi hanya 5 promosi
+            ->get();
+    
+        // Return view dengan data promosi dan promosi lainnya
+        return view('frontend.promotion.show', compact('promotion', 'otherPromotions'));
     }
+    
 }

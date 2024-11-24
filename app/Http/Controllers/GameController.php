@@ -26,7 +26,7 @@ class GameController extends Controller
 
         $games = Game::where('provider_id', $provider->id)
             ->get();
-
+        
         $slots = Provider::where('provider_type', 'SLOT')
             ->where('provider_status', 1)
             ->get();

@@ -20,33 +20,44 @@
                             @if (isset($promotion))
                                 @method('PUT')
                             @endif
+
                             <div class="form-group mt-3">
-                                <label for="name">Promotion Name</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    value="{{ old('name', $promotion->name ?? '') }}" required>
+                                <label for="title">Judul Promosi</label>
+                                <input type="text" class="form-control" id="title" name="title"
+                                    value="{{ old('name', $promotion->title ?? '') }}" required>
                             </div>
+
                             <div class="form-group mt-3">
-                                <label for="description">Promotion Description</label>
-                                <textarea class="form-control" id="classic-editor" name="description">{{ old('description', $promotion->description ?? '') }}</textarea>
+                                <label for="description">Deskripsi Singkat Promosi <strong>(untuk seo)</strong></label>
+                                <textarea class="form-control" name="short_desc">{{ old('short_desc', $promotion->short_desc ?? '') }}</textarea>
                             </div>
+
                             <div class="form-group mt-3">
-                                <label for="start_date">Start Date</label>
+                                <label for="description">Konten Promosi</label>
+                                <textarea class="form-control" id="classic-editor" name="desc">{{ old('desc', $promotion->desc ?? '') }}</textarea>
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label for="start_date">Tanggal Mulai</label>
                                 <input type="date" class="form-control" id="start_date" name="start_date"
                                     value="{{ old('start_date', $promotion->start_date ?? '') }}" required>
                             </div>
+
                             <div class="form-group mt-3">
-                                <label for="end_date">End Date</label>
+                                <label for="end_date">Tanggal Berakhir</label>
                                 <input type="date" class="form-control" id="end_date" name="end_date"
                                     value="{{ old('end_date', $promotion->end_date ?? '') }}" required>
                             </div>
+
                             <div class="form-group mt-3">
-                                <label for="type">Type</label>
+                                <label for="type">Tipe Promosi</label>
                                 <select class="form-control" id="type" name="type" required>
                                     <option value="turnover" {{ old('type', $promotion->type ?? '') == 'turnover' ? 'selected' : '' }}>Turnover</option>
                                     <option value="winover" {{ old('type', $promotion->type ?? '') == 'winover' ? 'selected' : '' }}>Winover</option>
-                                    <option value="balance" {{ old('type', $promotion->type ?? '') == 'balance' ? 'selected' : '' }}>Balance</option>
+                                    <option value="postingan" {{ old('type', $promotion->type ?? '') == 'balance' ? 'selected' : '' }}>Postingan</option>
                                 </select>
                             </div>
+
                             <div class="form-group mt-3">
                                 <label for="status">Status</label>
                                 <select class="form-control" id="promotion_status" name="promotion_status" required>
@@ -54,10 +65,54 @@
                                     <option value="0" {{ old('promotion_status', $promotion->status ?? '') == 0 ? 'selected' : '' }}>Inactive</option>
                                 </select>
                             </div>
+
                             <div class="form-group mt-3">
-                                <label for="image">Image</label>
+                                <label for="status">Claim Promosi ?</label>
+                                <select class="form-control" id="is_claim" name="is_claim" required>
+                                    <option value="">Pilih Bisa Di Claim ?</option>
+                                    <option value="1" {{ old('is_claim', $promotion->is_claim ?? '') == 1 ? 'selected' : '' }}>Claim</option>
+                                    <option value="0" {{ old('is_claim', $promotion->is_claim ?? '') == 0 ? 'selected' : '' }}>Tidak Claim</option>
+                                </select>
+                            </div>
+
+                            <!-- Input Tambahan -->
+                            <div id="claim-inputs" style="display: none;">
+                                <div class="form-group mt-3">
+                                    <label for="min_deposit">Min Deposit</label>
+                                    <input type="number" class="form-control" id="min_deposit" name="min_deposit"
+                                        value="{{ old('min_deposit', $promotion->min_deposit ?? 0) }}">
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="max_deposit">Max Deposit</label>
+                                    <input type="number" class="form-control" id="max_deposit" name="max_deposit"
+                                        value="{{ old('max_deposit', $promotion->max_deposit ?? 0) }}">
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="max_withdraw">Max Withdraw</label>
+                                    <input type="number" class="form-control" id="max_withdraw" name="max_withdraw"
+                                        value="{{ old('max_withdraw', $promotion->max_withdraw ?? 0) }}">
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="target">Target</label>
+                                    <input type="number" class="form-control" id="target" name="target"
+                                        value="{{ old('target', $promotion->target ?? 0) }}">
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="percentage_bonus">Percentage Bonus</label>
+                                    <input type="number" class="form-control" id="percentage_bonus" name="percentage_bonus"
+                                        value="{{ old('percentage_bonus', $promotion->percentage_bonus ?? 0) }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label for="image">Gambar Thumbnail</label>
                                 <input type="file" class="form-control" id="image" name="image">
                             </div>
+
                             <div class="mt-4">
                                 <button type="submit" class="btn btn-primary">Save</button>
                                 <a href="{{ route('backoffice.promotions') }}" class="btn btn-secondary">Cancel</a>
@@ -79,5 +134,25 @@
             .catch(error => {
                 console.error(error);
             });
+
+        // Script untuk toggle claim inputs
+        document.addEventListener('DOMContentLoaded', function () {
+            const isClaimSelect = document.getElementById('is_claim');
+            const claimInputs = document.getElementById('claim-inputs');
+
+            function toggleClaimInputs() {
+                if (isClaimSelect.value === '1') {
+                    claimInputs.style.display = 'block';
+                } else {
+                    claimInputs.style.display = 'none';
+                }
+            }
+
+            // Jalankan saat halaman dimuat
+            toggleClaimInputs();
+
+            // Event listener untuk dropdown
+            isClaimSelect.addEventListener('change', toggleClaimInputs);
+        });
     </script>
 @endsection
