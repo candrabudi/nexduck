@@ -207,8 +207,8 @@
             background-color: #24262B;
         }
     </style>
-    <link rel="preload" as="style" href="{{ asset('/buildasset/assets/app-a5287762.css') }}">
-    <link rel="stylesheet" href="{{ asset('/buildasset/assets/app-a5287762.css') }}" data-navigate-track="reload">
+    <link rel="preload" as="style" href="{{ asset('/buildassets/assets/app-a5287762.css') }}">
+    <link rel="stylesheet" href="{{ asset('/buildassets/assets/app-a5287762.css') }}" data-navigate-track="reload">
     <style></style>
     <style></style>
 </head>

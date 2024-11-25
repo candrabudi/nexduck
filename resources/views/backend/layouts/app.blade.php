@@ -231,8 +231,8 @@
     <script src="{{ asset('backoffice/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('backoffice/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('backoffice/assets/libs/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('backoffice/assets/libs/pdfmake/buildasset/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('backoffice/assets/libs/pdfmake/buildasset/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('backoffice/assets/libs/pdfmake/buildassets/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('backoffice/assets/libs/pdfmake/buildassets/vfs_fonts.js') }}"></script>
     <script src="{{ asset('backoffice/assets/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('backoffice/assets/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('backoffice/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>

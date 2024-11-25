@@ -3910,17 +3910,17 @@ body {
 }
 
 .casino-sports-container.casino {
-    background-image: url(/buildasset/assets/cassino-527189c0.png)
+    background-image: url(/buildassets/assets/cassino-527189c0.png)
 }
 
 @media screen and (max-width: 901px) {
     .casino-sports-container.casino {
-        background-image: url(/buildasset/assets/cassino-small-3b2680a4.png)
+        background-image: url(/buildassets/assets/cassino-small-3b2680a4.png)
     }
 }
 
 .casino-sports-container.sport {
-    background-image: url(/buildasset/assets/sport-a0e04fbf.png)
+    background-image: url(/buildassets/assets/sport-a0e04fbf.png)
 }
 
 @media screen and (max-width: 901px) {
@@ -3935,7 +3935,7 @@ body {
     }
 
     .casino-sports-container.sport {
-        background-image: url(/buildasset/assets/sport-small-5e566ee2.png)
+        background-image: url(/buildassets/assets/sport-small-5e566ee2.png)
     }
 }
 
