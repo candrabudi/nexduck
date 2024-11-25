@@ -101,17 +101,19 @@
 
         <div class="absolute inset-0">
             <picture>
-                <!-- Gambar untuk resolusi desktop yang besar (1920x1080) -->
+                <!-- Gambar untuk resolusi besar (1920px dan lebih) -->
                 <source media="(min-width: 1920px)" srcset="{{ asset('images/hero-background-desktop.webp') }}">
-                <source media="(min-width: 1368px)" srcset="{{ asset('images/hero-background-desktop.webp') }}">
-                <!-- Gambar untuk desktop umum -->
-                <source media="(min-width: 1280px)" srcset="{{ asset('images/hero-background-desktop.webp') }}">
+                <!-- Gambar untuk resolusi desktop menengah (1368px - 1919px) -->
+                <source media="(min-width: 1368px) and (max-width: 1919px)" srcset="{{ asset('images/hero-background-desktop.webp') }}">
+                <!-- Gambar untuk resolusi desktop umum (1280px - 1367px) -->
+                <source media="(min-width: 1280px) and (max-width: 1367px)" srcset="{{ asset('images/hero-background-desktop.webp') }}">
                 <!-- Gambar untuk resolusi lebih kecil (mobile) -->
                 <source media="(max-width: 640px)" srcset="{{ asset('images/hero-background-mobile.webp') }}">
                 <!-- Gambar default untuk fallback -->
-                <img src="{{ asset('images/hero-background-desktop.webp') }}" alt="Background"
+                <img src="{{ asset('images/hero-background-desktop.webp') }}" alt="Background Desktop"
                     class="absolute inset-0 object-cover w-full h-full" />
             </picture>
+            
             <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-transparent to-gray-900 opacity-60"></div>
         </div>
         
