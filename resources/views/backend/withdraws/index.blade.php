@@ -44,6 +44,7 @@
             </div>
         </form>
 
+        <!-- Transaction Table -->
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -139,6 +140,8 @@
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <script>
         function editTransaction(id) {
             $.get(`/backoffice/transactions/withdraw/{{ $setting->web_token }}/${id}`, function(transaction) {
@@ -150,7 +153,7 @@
                     $('#reason-group').hide();
                 }
 
-                $('#updateStatusForm').attr('action',`/backoffice/transactions/withdraw/{{ $setting->web_token }}/${id}/update-status`);
+                $('#updateStatusForm').attr('action', `/backoffice/transactions/withdraw/{{ $setting->web_token }}/${id}/update-status`);
             });
         }
 
@@ -174,5 +177,45 @@
                 $('#viewTransactionModal').modal('show');
             });
         }
+
+        $('#updateStatusForm').submit(function(e) {
+            e.preventDefault();
+
+            var form = $(this);
+            var actionUrl = form.attr('action');
+            var formData = form.serialize();
+
+            $.post(actionUrl, formData, function(response) {
+                $('#updateStatusModal').modal('hide');
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Status Updated',
+                    text: response.message,
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+
+                setTimeout(function() {
+                    location.reload();
+                }, 3000);
+            }).fail(function(response) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Update Failed',
+                    text: response.responseJSON.message,
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            });
+        });
+
+        $('#transaction_status').change(function() {
+            if ($(this).val() == 'rejected') {
+                $('#reason-group').show();
+            } else {
+                $('#reason-group').hide();
+            }
+        });
     </script>
 @endsection

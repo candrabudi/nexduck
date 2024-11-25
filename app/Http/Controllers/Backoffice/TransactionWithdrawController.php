@@ -18,7 +18,7 @@ class TransactionWithdrawController extends Controller
 
         if ($request->has('start_date') && $request->has('end_date')) {
             $query->whereDate('created_at', '>=', $request->start_date)
-                  ->whereDate('created_at', '<=', $request->end_date);
+                ->whereDate('created_at', '<=', $request->end_date);
         }
 
         if ($request->status) {
@@ -48,43 +48,40 @@ class TransactionWithdrawController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        try{
-
+        try {
             $transaction = Transaction::findOrFail($id);
 
             if (!in_array($request->transaction_status, ['approved', 'rejected', 'process'])) {
-                return response()->json(['message' => 'Invalid status update.'], 400);
+                return redirect()->back()->with('error', 'Gagal melakukan update status transasksi withdraw.');
             }
-    
-            if ($request->status == 'rejected' && !$request->has('reason')) {
-                return response()->json(['message' => 'Reason is required when status is rejected.'], 400);
+
+            if ($request->transaction_status == 'rejected' && !$request->has('reason')) {
+                return redirect()->back()->with('error', 'Jika status di tolak, maka isi alasannya');
             }
-    
+
             $transaction->update([
                 'status' => $request->transaction_status,
                 'reason' => $request->transaction_status == 'rejected' ? $request->reason : null,
                 'updated_by' => auth()->id(),
                 'updated_ip_address' => $request->ip(),
             ]);
-    
-            if($request->transaction_status == 'rejected') {
-                $memberExt = MemberExt::where('user_id', $transaction->user_id)
-                    ->first();
-    
+
+            if ($request->transaction_status == 'rejected') {
+                $memberExt = MemberExt::where('user_id', $transaction->user_id)->first();
                 $postData = [
                     'method' => 'user_deposit',
                     'agent_code' => env('NEXUS_AGENT_CODE'),
                     'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
                     'user_code' => $memberExt->ext_name,
-                    'amount' => (int)$transaction->amount
+                    'amount' => (int) $transaction->amount
                 ];
-    
                 Http::post(env('NEXUS_URL'), $postData);
             }
-    
-            return response()->json(['message' => 'Transaction status updated successfully.']);
-        }catch(\Exception $e) {
-            return response()->json($e->getMessage());
+
+            return redirect()->back()->with('success', 'Status Withdraw Berhasil Di Rubah.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('Maaf ada kesalahan sistem, silahkan hubungi developer.');
         }
     }
+
 }
