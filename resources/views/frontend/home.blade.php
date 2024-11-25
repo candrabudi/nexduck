@@ -102,8 +102,8 @@
         <div class="absolute inset-0">
             <picture>
                 <!-- Gambar untuk resolusi desktop yang besar (1920x1080) -->
-                <source media="(min-width: 1920px)" srcset="{{ asset('images/hero-background-desktop-large.webp') }}">
-                <source media="(min-width: 1368px)" srcset="{{ asset('images/hero-background-desktop-large.webp') }}">
+                <source media="(min-width: 1920px)" srcset="{{ asset('images/hero-background-desktop.webp') }}">
+                <source media="(min-width: 1368px)" srcset="{{ asset('images/hero-background-desktop.webp') }}">
                 <!-- Gambar untuk desktop umum -->
                 <source media="(min-width: 1280px)" srcset="{{ asset('images/hero-background-desktop.webp') }}">
                 <!-- Gambar untuk resolusi lebih kecil (mobile) -->
