@@ -86,7 +86,7 @@
                             <select id="bankMethod" name="bankMethod" class="block w-full p-2 bg-white dark:bg-gray-900 border rounded-md" required>
                                 <option value="">Pilih Bank</option>
                                 @foreach ($memberbanks as $ma)
-                                    <option value="{{ e($ma->id) }}">{{ e($ma->bank->bank_code . ' - ' . $ma->account_name . ' - ' . $ma->account_number) }}</option>
+                                    <option value="{{ e($ma->id) }}">{{ e($ma->bank->bank_name . ' - ' . $ma->account_name . ' - ' . $ma->account_number) }}</option>
                                 @endforeach
                             </select>
                         </div>

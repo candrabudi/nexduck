@@ -22,4 +22,9 @@ class Promotion extends Model
         'status',
         'image',
     ];
+
+    public function promotionDetail()
+    {
+        return $this->hasOne(PromotionDetail::class, 'promotion_id', 'id');
+    }
 }

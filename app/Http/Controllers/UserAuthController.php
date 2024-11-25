@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ApiCredential;
 use App\Models\Member;
+use App\Models\MemberBalance;
 use App\Models\MemberBank;
 use App\Models\MemberExt;
 use App\Models\User;
@@ -62,6 +63,8 @@ class UserAuthController extends Controller
             'account_number' => 'required|string',
         ]);
         if ($validator->fails()) {
+            return response()
+                ->json($validator->errors());
             return back()->withErrors($validator)->withInput();
         }
 
@@ -96,6 +99,12 @@ class UserAuthController extends Controller
                 'user_id' => $newUser->id,
                 'ext_name' => $externalUsername,
             ]);
+
+            MemberBalance::create([
+                'user_id' => $newUser->id, 
+                'main_balance' => 0,
+                'referral_balance' => 0,
+            ]);
             $this->createNexusMember($externalUsername);
 
             DB::commit();
@@ -104,6 +113,7 @@ class UserAuthController extends Controller
             return redirect('/')->with('success', 'Registration successful!');
 
         } catch (\Exception $e) {
+            return response()->json($e->getMessage());
             DB::rollBack();
             return response()->json(['error' => 'Registration failed. Please try again later.'], 500);
         }

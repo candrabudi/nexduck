@@ -17,6 +17,10 @@ class GameController extends Controller
 {
     public function detail($a)
     {
+        if(!Auth::user()) {
+            return redirect()->route('member');
+        }
+        
         $provider = Provider::where('provider_slug', $a)
             ->first();
 
@@ -37,6 +41,9 @@ class GameController extends Controller
 
     public function playGame($gameId)
     {
+        if(!Auth::user()) {
+            return redirect()->route('member');
+        }
         try {
             $game = Game::where('id', $gameId)->first();
             if (!$game) {
@@ -66,7 +73,6 @@ class GameController extends Controller
                 return redirect()->route('member')->with('error', 'Game URL not found');
 
         } catch (\Exception $e) {
-            return $e->getMessage();
             return redirect()->route('member')->with('error', $e->getMessage());
         }
     }

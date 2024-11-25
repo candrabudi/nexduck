@@ -40,6 +40,7 @@
                 <ul class="sub-menu mm-collapse" aria-expanded="false">
                     <li><a href="{{ route('backoffice.transactions.deposit') }}">Deposit</a></li>
                     <li><a href="{{ route('backoffice.transactions.withdraw') }}">Withdraw</a></li>
+                    <li><a href="{{ route('backoffice.transactions.bonus') }}">Bonus</a></li>
                 </ul>
             </li>
             <li>
@@ -54,7 +55,6 @@
                     <span>Struktur Game</span>
                 </a>
                 <ul class="sub-menu mm-collapse" aria-expanded="false">
-                    {{-- <li><a href="{{ route('backoffice.category') }}">Kategori</a></li> --}}
                     <li><a href="{{ route('backoffice.provider') }}">Provider</a></li>
                     <li><a href="{{ route('backoffice.games') }}">Game</a></li>
                 </ul>
@@ -65,12 +65,6 @@
                     <span>Togel</span>
                 </a>
             </li>
-            {{-- <li>
-                <a href="{{ route('backoffice.apicredentials') }}">
-                    <i class="fas fa-dice-six"></i>
-                    <span>Pengaturan Api</span>
-                </a>
-            </li> --}}
             <li>
                 <a href="#">
                     <i class="fab fa-google"></i>

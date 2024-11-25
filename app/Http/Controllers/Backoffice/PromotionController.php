@@ -48,7 +48,8 @@ class PromotionController extends Controller
             $promotionDetail->max_deposit = $request->max_deposit;
             $promotionDetail->max_withdraw = $request->max_withdraw;
             $promotionDetail->target = $request->target;
-            $promotionDetail->percentage = $request->percentage;
+            $promotionDetail->percentage_bonus = $request->percentage_bonus;
+            $promotionDetail->save();
         }
 
         return redirect()->route('backoffice.promotions')->with('success', 'Promotion created successfully!');

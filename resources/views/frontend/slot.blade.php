@@ -78,7 +78,6 @@
                         <li><a href="#" class="block px-4 py-2 hover:bg-gray-600">1spin4win</a></li>
                         <li><a href="#" class="block px-4 py-2 hover:bg-gray-600">3 Oaks</a></li>
                         <li><a href="#" class="block px-4 py-2 hover:bg-gray-600">Amigo</a></li>
-                        <!-- Add more providers as necessary -->
                     </ul>
                 </div>
             </div>
@@ -107,7 +106,7 @@
     <div id="game-cards" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 px-6 pb-6">
         @foreach ($games as $game)
             <div class="flex-none">
-                <a href="/games/{{ $game->game_slug }}" class="block relative group">
+                <a href="{{ route('game.playGame', $game->id) }}" class="block relative group">
                     <div class="relative rounded-lg overflow-hidden p-2"
                         style="background: linear-gradient(to bottom, {{ $game->start_color ?? '#535c68' }}, {{ $game->end_color ?? '#2d3436' }});">
                         <!-- Game Image -->

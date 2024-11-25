@@ -1,18 +1,19 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-    <div class="mx-auto p-4" style="width: 50%">
-        <div class="mb-5 cursor-pointer w-full">
-            <form method="POST" action="{{ route('login') }}" class="" style="margin-top: 100px;">
+    <div class="mx-auto p-4">
+        <div class="mb-5 cursor-pointer w-full max-w-md mx-auto">
+            <form method="POST" action="{{ route('login') }}" class="" style="margin-top: 50px;">
                 @csrf
                 <div class="flex justify-between mb-6">
                     <h5 class="mb-3 font-bold text-xl">Masuk</h5>
                 </div>
+
                 <div class="relative mb-3">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                         <i class="fa-solid fa-user text-success-emphasis"></i>
                     </div>
-                    <input required="" type="text" name="username" class="input-group" placeholder="Masukkan Username"
+                    <input required="" type="text" name="username" class="input-group w-full" placeholder="Masukkan Username"
                         value="{{ old('username') }}" autocomplete="username">
                 </div>
                 @error('username')
@@ -23,7 +24,7 @@
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                         <i class="fa-solid fa-lock text-success-emphasis"></i>
                     </div>
-                    <input required="" type="password" name="password" class="input-group"
+                    <input required="" type="password" name="password" class="input-group w-full"
                         placeholder="Masukkan Password" autocomplete="current-password">
                 </div>
                 @error('password')

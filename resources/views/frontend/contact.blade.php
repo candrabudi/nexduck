@@ -5,14 +5,12 @@
     <div class="container mx-auto py-10 px-4">
         <h1 class="text-3xl font-bold text-gray-100 text-center mb-8">Hubungi Kami</h1>
 
-        <!-- Grid Layout -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Live Chat -->
-            <div class="bg-gradient-to-b from-black via-transparent to-transparent shadow-lg rounded-2xl p-6 text-center relative">
-                <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent opacity-20 rounded-2xl"></div>
+            <div class="bg-gradient-to-b from-gray via-transparent to-transparent shadow-lg rounded-2xl p-6 text-center relative">
+                <div class="absolute inset-0 bg-gradient-to-b from-gray via-transparent to-transparent opacity-20 rounded-2xl"></div>
                 <div class="relative z-10">
                     <div class="mb-4">
-                        <img src="https://via.placeholder.com/100" alt="Live Chat" class="mx-auto w-20 h-20">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2593/2593678.png" alt="Live Chat" class="mx-auto w-20 h-20">
                     </div>
                     <h2 class="text-xl font-semibold text-white mb-2">Live Chat</h2>
                     <p class="text-white leading-relaxed">
@@ -25,12 +23,11 @@
                 </div>
             </div>
 
-            <!-- Telegram -->
-            <div class="bg-gradient-to-b from-black via-transparent to-transparent shadow-lg rounded-2xl p-6 text-center relative">
-                <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent opacity-20 rounded-2xl"></div>
+            <div class="bg-gradient-to-b from-gray via-transparent to-transparent shadow-lg rounded-2xl p-6 text-center relative">
+                <div class="absolute inset-0 bg-gradient-to-b from-gray via-transparent to-transparent opacity-20 rounded-2xl"></div>
                 <div class="relative z-10">
                     <div class="mb-4">
-                        <img src="https://via.placeholder.com/100" alt="Telegram" class="mx-auto w-20 h-20">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2504/2504941.png" alt="Telegram" class="mx-auto w-20 h-20">
                     </div>
                     <h2 class="text-xl font-semibold text-white mb-2">Telegram</h2>
                     <p class="text-white leading-relaxed">
@@ -43,12 +40,11 @@
                 </div>
             </div>
 
-            <!-- WhatsApp -->
-            <div class="bg-gradient-to-b from-black via-transparent to-transparent shadow-lg rounded-2xl p-6 text-center relative">
-                <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent opacity-20 rounded-2xl"></div>
+            <div class="bg-gradient-to-b from-gray via-transparent to-transparent shadow-lg rounded-2xl p-6 text-center relative">
+                <div class="absolute inset-0 bg-gradient-to-b from-gray via-transparent to-transparent opacity-20 rounded-2xl"></div>
                 <div class="relative z-10">
                     <div class="mb-4">
-                        <img src="https://via.placeholder.com/100" alt="WhatsApp" class="mx-auto w-20 h-20">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2504/2504957.png" alt="WhatsApp" class="mx-auto w-20 h-20">
                     </div>
                     <h2 class="text-xl font-semibold text-white mb-2">WhatsApp</h2>
                     <p class="text-white leading-relaxed">

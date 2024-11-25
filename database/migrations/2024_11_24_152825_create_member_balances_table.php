@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('member_exts', function (Blueprint $table) {
+        Schema::create('member_balances', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('ext_name');
+            $table->foreignId('user_id');
+            $table->decimal('main_balance', 15, 2)->default(0);
+            $table->decimal('referral_balance', 15, 2)->default(0);
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('member_exts');
+        Schema::dropIfExists('member_balances');
     }
 };

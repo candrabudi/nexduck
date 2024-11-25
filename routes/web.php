@@ -5,6 +5,7 @@ use App\Http\Controllers\Backoffice\AuthController;
 use App\Http\Controllers\Backoffice\BankAccountController;
 use App\Http\Controllers\Backoffice\BankController;
 use App\Http\Controllers\Backoffice\BannerController;
+use App\Http\Controllers\Backoffice\BonusController;
 use App\Http\Controllers\Backoffice\CategoryController;
 use App\Http\Controllers\Backoffice\DashboardController;
 use App\Http\Controllers\Backoffice\ProviderController;
@@ -87,8 +88,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/deposit', [DepositController::class, 'index'])->name('deposit');
     Route::post('/profile/deposit/store', [DepositController::class, 'store'])->name('deposit.store');
     Route::get('/profile/withdraw', [WithdrawController::class, 'index'])->name('withdraw');
+    Route::post('/profile/withdraw', [WithdrawController::class, 'index'])->name('withdraw.store');
     Route::get('/profile/transactions', [TransactionController::class, 'index'])->name('transaction');
     Route::get('/user/getBall', [HomeController::class, 'getBall'])->name('getBall');
+    Route::get('/promotion-progress/{a}', [HomeController::class, 'getPromotionProgress'])->name('getPromotionProgress');
+    Route::get('/history-game', [HomeController::class, 'getHistoryGame'])->name('getHistoryGame');
 
     // BACKOFFICE
     $setting = Setting::first();
@@ -170,4 +174,8 @@ Route::middleware('auth')->group(function () {
 
     // Delete a specific promotion
     Route::delete('backoffice/promotions/' . $setting->web_token . '/destroy/{id}', [PromotionController::class, 'destroy'])->name('backoffice.promotions.destroy');
+
+
+    Route::get('/transaction/bonus', [BonusController::class, 'index'])->name('backoffice.transactions.bonus');
+    Route::put('/transaction/bonus/update', [BonusController::class, 'updateStatus'])->name('backoffice.transaction.bonus.updateStatus');
 });

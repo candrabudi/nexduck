@@ -22,39 +22,57 @@
                             @endif
 
                             <div class="form-group mt-3">
-                                <label for="title">Judul Promosi</label>
+                                <label for="title">Promotion Title</label>
                                 <input type="text" class="form-control" id="title" name="title"
-                                    value="{{ old('name', $promotion->title ?? '') }}" required>
+                                    value="{{ old('title', $promotion->title ?? '') }}" required>
                             </div>
 
                             <div class="form-group mt-3">
-                                <label for="description">Deskripsi Singkat Promosi <strong>(untuk seo)</strong></label>
+                                <label for="short_desc">Short Description <strong>(for SEO)</strong></label>
                                 <textarea class="form-control" name="short_desc">{{ old('short_desc', $promotion->short_desc ?? '') }}</textarea>
                             </div>
 
                             <div class="form-group mt-3">
-                                <label for="description">Konten Promosi</label>
+                                <label for="desc">Promotion Content</label>
                                 <textarea class="form-control" id="classic-editor" name="desc">{{ old('desc', $promotion->desc ?? '') }}</textarea>
                             </div>
 
                             <div class="form-group mt-3">
-                                <label for="start_date">Tanggal Mulai</label>
+                                <label for="start_date">Start Date</label>
                                 <input type="date" class="form-control" id="start_date" name="start_date"
                                     value="{{ old('start_date', $promotion->start_date ?? '') }}" required>
                             </div>
 
                             <div class="form-group mt-3">
-                                <label for="end_date">Tanggal Berakhir</label>
+                                <label for="end_date">End Date</label>
                                 <input type="date" class="form-control" id="end_date" name="end_date"
                                     value="{{ old('end_date', $promotion->end_date ?? '') }}" required>
                             </div>
 
                             <div class="form-group mt-3">
-                                <label for="type">Tipe Promosi</label>
+                                <label for="type">Promotion Type</label>
                                 <select class="form-control" id="type" name="type" required>
                                     <option value="turnover" {{ old('type', $promotion->type ?? '') == 'turnover' ? 'selected' : '' }}>Turnover</option>
                                     <option value="winover" {{ old('type', $promotion->type ?? '') == 'winover' ? 'selected' : '' }}>Winover</option>
-                                    <option value="postingan" {{ old('type', $promotion->type ?? '') == 'balance' ? 'selected' : '' }}>Postingan</option>
+                                    <option value="post" {{ old('type', $promotion->type ?? '') == 'post' ? 'selected' : '' }}>Post</option>
+                                </select>
+                            </div>
+
+                            <!-- New Fields -->
+                            <div class="form-group mt-3">
+                                <label for="provider_category">Provider Category</label>
+                                <select class="form-control" id="provider_category" name="provider_category" required>
+                                    <option value="slot" {{ old('provider_category', $promotion->provider_category ?? '') == 'slot' ? 'selected' : '' }}>Slot</option>
+                                    <option value="live_casino" {{ old('provider_category', $promotion->provider_category ?? '') == 'live_casino' ? 'selected' : '' }}>Live Casino</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label for="bonus_type">Bonus Type</label>
+                                <select class="form-control" id="bonus_type" name="bonus_type" required>
+                                    <option value="daily_bonus" {{ old('bonus_type', $promotion->bonus_type ?? '') == 'daily_bonus' ? 'selected' : '' }}>Daily Bonus</option>
+                                    <option value="new_member" {{ old('bonus_type', $promotion->bonus_type ?? '') == 'new_member' ? 'selected' : '' }}>New Member</option>
+                                    <option value="old_member" {{ old('bonus_type', $promotion->bonus_type ?? '') == 'old_member' ? 'selected' : '' }}>Old Member</option>
                                 </select>
                             </div>
 
@@ -67,15 +85,15 @@
                             </div>
 
                             <div class="form-group mt-3">
-                                <label for="status">Claim Promosi ?</label>
+                                <label for="is_claim">Claim Promotion?</label>
                                 <select class="form-control" id="is_claim" name="is_claim" required>
-                                    <option value="">Pilih Bisa Di Claim ?</option>
+                                    <option value="">Select Claimable?</option>
                                     <option value="1" {{ old('is_claim', $promotion->is_claim ?? '') == 1 ? 'selected' : '' }}>Claim</option>
-                                    <option value="0" {{ old('is_claim', $promotion->is_claim ?? '') == 0 ? 'selected' : '' }}>Tidak Claim</option>
+                                    <option value="0" {{ old('is_claim', $promotion->is_claim ?? '') == 0 ? 'selected' : '' }}>No Claim</option>
                                 </select>
                             </div>
 
-                            <!-- Input Tambahan -->
+                            <!-- Claim Inputs -->
                             <div id="claim-inputs" style="display: none;">
                                 <div class="form-group mt-3">
                                     <label for="min_deposit">Min Deposit</label>
@@ -109,7 +127,7 @@
                             </div>
 
                             <div class="form-group mt-3">
-                                <label for="image">Gambar Thumbnail</label>
+                                <label for="image">Thumbnail Image</label>
                                 <input type="file" class="form-control" id="image" name="image">
                             </div>
 
@@ -135,7 +153,7 @@
                 console.error(error);
             });
 
-        // Script untuk toggle claim inputs
+        // Script to toggle claim inputs
         document.addEventListener('DOMContentLoaded', function () {
             const isClaimSelect = document.getElementById('is_claim');
             const claimInputs = document.getElementById('claim-inputs');
@@ -148,10 +166,10 @@
                 }
             }
 
-            // Jalankan saat halaman dimuat
+            // Run on page load
             toggleClaimInputs();
 
-            // Event listener untuk dropdown
+            // Event listener for the dropdown
             isClaimSelect.addEventListener('change', toggleClaimInputs);
         });
     </script>

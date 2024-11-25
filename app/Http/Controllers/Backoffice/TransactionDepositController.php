@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use App\Models\MemberBalance;
 use App\Models\MemberExt;
 use App\Models\Transaction;
 use App\Models\User;
@@ -71,11 +72,11 @@ class TransactionDepositController extends Controller
             $memberExt = MemberExt::where('user_id', $transaction->user_id)
                 ->first();
 
-            $member = Member::where('user_id', $transaction->user_id)
+            $memberBalance = MemberBalance::where('user_id', $transaction->user_id)
                 ->first();
 
-            $member->balance = $member->balance + $transaction->amount;
-            $member->save();
+            $memberBalance->main_balance = $memberBalance->main_balance + $transaction->amount;
+            $memberBalance->save();
 
             $postData = [
                 'method' => 'user_deposit',

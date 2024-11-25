@@ -61,7 +61,7 @@
                         
                         <script>
                             function updateBalance() {
-                                fetch('http://localhost:5001/user/getBall')
+                                fetch('{{ route('getBall') }}')
                                     .then(response => response.json())
                                     .then(data => {
                                         if (data.status === 1) {

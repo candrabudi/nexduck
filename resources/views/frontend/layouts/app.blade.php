@@ -19,8 +19,9 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&amp;family=Roboto+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100&amp;display=swap"
         rel="stylesheet">
     <title>DUCK BET</title>
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.min.css') }}" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .swiper {
             width: 65%;
@@ -227,7 +228,8 @@
                             <div class="container mx-auto px-4">
                                 <h1 class="text-3xl font-semibold mb-6">Bitcoin Slots</h1>
                                 <p class="text-sm text-gray-200 mb-6">
-                                    Welcome to NxWhisper.io! We are one of the best platforms for playing Bitcoin slots and
+                                    Welcome to NxWhisper.io! We are one of the best platforms for playing Bitcoin slots
+                                    and
                                     other casino games. Since its inception, it has grown to become a leading platform
                                     in the online crypto casino world.
                                 </p>
@@ -247,14 +249,16 @@
                                     Bitcoin slots operate on a set of straightforward rules. The objective is to match
                                     specific combinations of symbols across the reels. Each slot game has a unique
                                     paytable, outlining the value of each symbol and the winning combinations. Players
-                                    should check out the presence of special symbols like NxWhispers and Scatters because
+                                    should check out the presence of special symbols like NxWhispers and Scatters
+                                    because
                                     they are often the key triggers behind the bonus features or free spins.
                                 </p>
 
                                 <!-- Read More / Read Less Button Section -->
                                 <div class="text-sm text-gray-200" id="moreContent">
                                     <p>
-                                        NxWhisper.io offers diverse betting options to cater to your unique preferences, even
+                                        NxWhisper.io offers diverse betting options to cater to your unique preferences,
+                                        even
                                         for Bitcoin live casino games. Before spinning the reels, you can customize your
                                         bet size. Adjust the coin denomination, number of coins per line, and the number
                                         of active paylines to tailor your bets to your gaming style.
@@ -268,7 +272,8 @@
                                         </p>
                                         <ul>
                                             <li><strong>Step 1:</strong> Sign Up - We believe in making things easy for
-                                                you. Head to NxWhisper.io's user-friendly website and click the "Sign Up"
+                                                you. Head to NxWhisper.io's user-friendly website and click the "Sign
+                                                Up"
                                                 button. Fill in your details, create a strong password, verify your
                                                 email, and voila! You're officially part of our gaming community.</li>
                                             <li><strong>Step 2:</strong> Deposit Crypto - Now that you're a member, you
@@ -277,7 +282,8 @@
                                                 method. The site will then provide you with a unique wallet address to
                                                 transfer your preferred amount of crypto. Confirm the transaction; your
                                                 account will be loaded with the funds within a few moments.</li>
-                                            <li><strong>Step 3:</strong> Explore Our Bitcoin Slots Section - NxWhisper.io has
+                                            <li><strong>Step 3:</strong> Explore Our Bitcoin Slots Section -
+                                                NxWhisper.io has
                                                 curated a collection of top-notch Bitcoin casino slots, available when
                                                 you navigate to the "Slots" section. Choose your favorite titles and get
                                                 ready to place your bets.</li>
@@ -300,8 +306,7 @@
                             <div class="container mx-auto px-4">
                                 <!-- Logo and Social Media -->
                                 <div class="flex flex-col items-center space-y-4 mb-8">
-                                    <img src="{{ $setting->web_logo }}"
-                                        alt="NxWhisper.io Logo" class="h-9">
+                                    <img src="{{ $setting->web_logo }}" alt="NxWhisper.io Logo" class="h-9">
                                     <p class="text-sm">© 2024 NxWhisper. All rights reserved.</p>
                                     <div class="flex space-x-4">
                                         <a href="https://t.me/wildcasinohq" target="_blank" rel="noreferrer"
@@ -332,7 +337,8 @@
                                 </div>
 
                                 <!-- Footer Links -->
-                                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-sm">
+                                <div
+                                    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 text-sm">
                                     <div>
                                         <h4 class="font-semibold uppercase mb-4">Slot Games</h4>
                                         <ul class="space-y-2">
@@ -395,15 +401,21 @@
                                 <!-- Awards Section -->
                                 <div class="mt-8">
                                     <p class="text-sm text-center">Awards</p>
-                                    <div class="flex justify-center mt-4 space-x-6">
-                                        <img src="images/best-new-casino.svg" alt="Best New Casino" class="h-10">
-                                        <img src="images/best-casino.svg" alt="Best Casino" class="h-10">
-                                        <img src="images/players-choice.svg" alt="Players Choice" class="h-10">
-                                        <img src="images/intercom.svg" alt="Intercom" class="h-10">
+                                    <div class="flex flex-wrap justify-center mt-4 md:mt-8 lg:mt-0">
+                                        <img src="images/best-new-casino.svg" alt="Best New Casino"
+                                            class="h-10 mx-2 mb-4 sm:mb-0">
+                                        <img src="images/best-casino.svg" alt="Best Casino"
+                                            class="h-10 mx-2 mb-4 sm:mb-0">
+                                        <img src="images/players-choice.svg" alt="Players Choice"
+                                            class="h-10 mx-2 mb-4 sm:mb-0">
+                                        <img src="images/intercom.svg" alt="Intercom" class="h-10 mx-2 mb-4 sm:mb-0">
                                     </div>
                                 </div>
+
+
                             </div>
                         </footer>
+
 
                     </div>
                     @include('frontend.layouts.components.mobilemenu')
@@ -411,9 +423,9 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/datepicker.min.js"></script>
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datepicker.min.js') }}"></script>
     <script>
         document.getElementById("readMoreBtn").addEventListener("click", function() {
             var dots = document.getElementById("dots");
