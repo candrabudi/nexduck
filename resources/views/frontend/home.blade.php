@@ -101,13 +101,20 @@
 
         <div class="absolute inset-0">
             <picture>
+                <!-- Gambar untuk resolusi desktop yang besar (1920x1080) -->
+                <source media="(min-width: 1920px)" srcset="{{ asset('images/hero-background-desktop-large.webp') }}">
+                <source media="(min-width: 1368px)" srcset="{{ asset('images/hero-background-desktop-large.webp') }}">
+                <!-- Gambar untuk desktop umum -->
                 <source media="(min-width: 1280px)" srcset="{{ asset('images/hero-background-desktop.webp') }}">
+                <!-- Gambar untuk resolusi lebih kecil (mobile) -->
                 <source media="(max-width: 640px)" srcset="{{ asset('images/hero-background-mobile.webp') }}">
+                <!-- Gambar default untuk fallback -->
                 <img src="{{ asset('images/hero-background-desktop.webp') }}" alt="Background"
                     class="absolute inset-0 object-cover w-full h-full" />
             </picture>
             <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-transparent to-gray-900 opacity-60"></div>
         </div>
+        
     </div>
 
     <div class="" style="margin-top: -50px;">
