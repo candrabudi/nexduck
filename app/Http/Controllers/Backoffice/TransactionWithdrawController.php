@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Models\MemberExt;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class TransactionWithdrawController extends Controller
 {
@@ -46,23 +48,43 @@ class TransactionWithdrawController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        $transaction = Transaction::findOrFail($id);
+        try{
 
-        if (!in_array($request->transaction_status, ['approved', 'rejected', 'process'])) {
-            return response()->json(['message' => 'Invalid status update.'], 400);
+            $transaction = Transaction::findOrFail($id);
+
+            if (!in_array($request->transaction_status, ['approved', 'rejected', 'process'])) {
+                return response()->json(['message' => 'Invalid status update.'], 400);
+            }
+    
+            if ($request->status == 'rejected' && !$request->has('reason')) {
+                return response()->json(['message' => 'Reason is required when status is rejected.'], 400);
+            }
+    
+            $transaction->update([
+                'status' => $request->transaction_status,
+                'reason' => $request->transaction_status == 'rejected' ? $request->reason : null,
+                'updated_by' => auth()->id(),
+                'updated_ip_address' => $request->ip(),
+            ]);
+    
+            if($request->transaction_status == 'rejected') {
+                $memberExt = MemberExt::where('user_id', $transaction->user_id)
+                    ->first();
+    
+                $postData = [
+                    'method' => 'user_deposit',
+                    'agent_code' => env('NEXUS_AGENT_CODE'),
+                    'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
+                    'user_code' => $memberExt->ext_name,
+                    'amount' => (int)$transaction->amount
+                ];
+    
+                Http::post(env('NEXUS_URL'), $postData);
+            }
+    
+            return response()->json(['message' => 'Transaction status updated successfully.']);
+        }catch(\Exception $e) {
+            return response()->json($e->getMessage());
         }
-
-        if ($request->status == 'rejected' && !$request->has('reason')) {
-            return response()->json(['message' => 'Reason is required when status is rejected.'], 400);
-        }
-
-        $transaction->update([
-            'status' => $request->transaction_status,
-            'reason' => $request->transaction_status == 'rejected' ? $request->reason : null,
-            'updated_by' => auth()->id(),
-            'updated_ip_address' => $request->ip(),
-        ]);
-
-        return response()->json(['message' => 'Transaction status updated successfully.']);
     }
 }

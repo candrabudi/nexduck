@@ -16,7 +16,7 @@
                     <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}">
                 </div>
                 <div class="col-md-3">
-                    <label for="end_date">Tanggil Akhir</label>
+                    <label for="end_date">Tanggal Akhir</label>
                     <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
                 </div>
                 <div class="col-md-3">
@@ -29,9 +29,9 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label for="updated_by">Diupdate ?</label>
+                    <label for="updated_by">Diupdate oleh</label>
                     <select name="updated_by" class="form-control">
-                        <option value="">-- Select Updated By --</option>
+                        <option value="">-- Pilih Pengguna --</option>
                         @foreach ($users as $user)
                             <option value="{{ $user->id }}" {{ request('updated_by') == $user->id ? 'selected' : '' }}>{{ $user->username }}</option>
                         @endforeach
@@ -54,7 +54,7 @@
                     <th>No Bank Admin</th>
                     <th>Nominal</th>
                     <th>Status</th>
-                    <th>Diupdate ?</th>
+                    <th>Diupdate oleh</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -89,7 +89,7 @@
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updateStatusForm">
+                <form id="updateStatusForm" method="POST">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="updateStatusModalLabel">Update Status</h5>
@@ -141,7 +141,7 @@
 @section('scripts')
     <script>
         function editTransaction(id) {
-            $.get('/backoffice/transactions/deposit/{{ $setting->web_token }}/' + id, function(transaction) {
+            $.get(`/backoffice/transactions/withdraw/{{ $setting->web_token }}/${id}`, function(transaction) {
                 $('#transaction_status').val(transaction.status);
                 $('#reason').val(transaction.reason);
                 if (transaction.status == 'rejected') {
@@ -150,27 +150,26 @@
                     $('#reason-group').hide();
                 }
 
-                $('#updateStatusForm').attr('action',
-                    '/backoffice/transactions/deposit/{{ $setting->web_token }}/' + id + '/update-status');
+                $('#updateStatusForm').attr('action',`/backoffice/transactions/withdraw/{{ $setting->web_token }}/${id}/update-status`);
             });
         }
 
         function viewTransactionDetails(id) {
-            $.get('/backoffice/transactions/deposit/{{ $setting->web_token }}/' + id, function(transaction) {
+            $.get(`/backoffice/transactions/withdraw/{{ $setting->web_token }}/${id}`, function(transaction) {
                 let details = `
-            <h5>Transaction ID: ${transaction.id}</h5>
-            <p><strong>Bank (Admin):</strong> ${transaction.admin_bank ? transaction.admin_bank.bank_name : 'N/A'}</p>
-            <p><strong>Bank (User):</strong> ${transaction.user_bank ? transaction.user_bank.account_name : 'N/A'} - ${transaction.user_bank ? transaction.user_bank.account_number : 'N/A'}</p>
-            <p><strong>Amount:</strong> ${transaction.amount}</p>
-            <p><strong>Status:</strong> ${transaction.status}</p>
-            <p><strong>Updated By:</strong> ${transaction.user_update ? transaction.user_update.username : 'N/A'}</p>
-            <p><strong>Reason:</strong> ${transaction.reason || 'N/A'}</p>
-            <p><strong>Proof of Transfer:</strong> ${transaction.proof_of_transfer ? '<img src="' + transaction.proof_of_transfer + '" alt="Proof of Transfer" class="img-fluid">' : 'N/A'}</p>
-            <p><strong>Created At:</strong> ${transaction.created_at}</p>
-            <p><strong>Updated At:</strong> ${transaction.updated_at}</p>
-            <p><strong>User Info:</strong> ${transaction.user ? transaction.user.username : 'N/A'} - ${transaction.user ? transaction.user.email : 'N/A'}</p>
-            <p><strong>Member Info:</strong> ${transaction.user && transaction.user.member ? transaction.user.member.full_name : 'N/A'}</p>
-        `;
+                    <h5>Transaction ID: ${transaction.id}</h5>
+                    <p><strong>Bank (Admin):</strong> ${transaction.admin_bank ? transaction.admin_bank.bank_name : 'N/A'}</p>
+                    <p><strong>Bank (User):</strong> ${transaction.user_bank ? transaction.user_bank.account_name : 'N/A'} - ${transaction.user_bank ? transaction.user_bank.account_number : 'N/A'}</p>
+                    <p><strong>Amount:</strong> ${transaction.amount}</p>
+                    <p><strong>Status:</strong> ${transaction.status}</p>
+                    <p><strong>Updated By:</strong> ${transaction.user_update ? transaction.user_update.username : 'N/A'}</p>
+                    <p><strong>Reason:</strong> ${transaction.reason || 'N/A'}</p>
+                    <p><strong>Proof of Transfer:</strong> ${transaction.proof_of_transfer ? '<img src="' + transaction.proof_of_transfer + '" alt="Proof of Transfer" class="img-fluid">' : 'N/A'}</p>
+                    <p><strong>Created At:</strong> ${transaction.created_at}</p>
+                    <p><strong>Updated At:</strong> ${transaction.updated_at}</p>
+                    <p><strong>User Info:</strong> ${transaction.user ? transaction.user.username : 'N/A'} - ${transaction.user ? transaction.user.email : 'N/A'}</p>
+                    <p><strong>Member Info:</strong> ${transaction.user && transaction.user.member ? transaction.user.member.full_name : 'N/A'}</p>
+                `;
                 $('#transactionDetailsContent').html(details);
                 $('#viewTransactionModal').modal('show');
             });

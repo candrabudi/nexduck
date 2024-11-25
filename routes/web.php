@@ -88,7 +88,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/deposit', [DepositController::class, 'index'])->name('deposit');
     Route::post('/profile/deposit/store', [DepositController::class, 'store'])->name('deposit.store');
     Route::get('/profile/withdraw', [WithdrawController::class, 'index'])->name('withdraw');
-    Route::post('/profile/withdraw', [WithdrawController::class, 'index'])->name('withdraw.store');
+    Route::post('/profile/withdraw/store', [WithdrawController::class, 'store'])->name('withdraw.store');
     Route::get('/profile/transactions', [TransactionController::class, 'index'])->name('transaction');
     Route::get('/user/getBall', [HomeController::class, 'getBall'])->name('getBall');
     Route::get('/promotion-progress/{a}', [HomeController::class, 'getPromotionProgress'])->name('getPromotionProgress');
