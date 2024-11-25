@@ -144,7 +144,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('backoffice/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
+    <script src="{{ asset('backoffice/assets/libs/@ckeditor/ckeditor5-build-classic/buildasset/ckeditor.js') }}"></script>
 
     <script>
         ClassicEditor
