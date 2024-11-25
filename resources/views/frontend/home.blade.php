@@ -189,7 +189,7 @@
             </div>
         </div>
 
-        @auth
+        @if (Auth::user())
             <div class="md:w-4/6 2xl:w-4/6 mx-auto p-4">
                 <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Promotion Progress</h2>
                 <div id="promotion-container" class="bg-gradient-to-t from-[#16a085] to-[#1abc9c] shadow-2xl rounded-lg p-6">
@@ -245,7 +245,7 @@
                     fetchPromotionProgress(userId);
                 });
             </script>
-        @endauth
+        @endif
 
 
         <div class="md:w-4/6 2xl:w-4/6 mx-auto p-4">
