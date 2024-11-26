@@ -43,7 +43,7 @@
         }
     </style>
 
-    <div class="md:w-4/6 2xl:w-4/6 mx-auto mt-20" style="margin-top: 120px;">
+    <div class="md:w-4/6 2xl:w-4/6 mx-auto mt-20 p-4 md:p-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             @include('frontend.layouts.components.menuprofile')
 
