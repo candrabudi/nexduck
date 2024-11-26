@@ -38,31 +38,51 @@
 
             <div class="relative col-span-2">
                 <div class="flex flex-col w-full">
-                    <div class="tabs mb-5 flex justify-between w-full">
-                        <button id="tab-bank" class="tab-button w-1/2 py-3 bg-gray-300 text-gray-700 rounded-l-lg"
-                            onclick="showTab('bank')">Bank</button>
-                        <button id="tab-ewallet" class="tab-button w-1/2 py-3 bg-gray-300 text-gray-700 rounded-r-lg"
-                            onclick="showTab('ewallet')">Ewallet</button>
+                    <div class="mt-5">
+                        <label for="paymentMethod" class="mb-2 text-gray-500">Select Payment Method</label>
+                        <select id="paymentMethod" name="payment_method"
+                            class="block w-full p-2 bg-white dark:bg-gray-900 border rounded-md"
+                            onchange="showPaymentDetails(this)">
+                            <option value="">Select Bank or E-wallet</option>
+                            <option value="bank" data-method="bank">Bank</option>
+                            <option value="ewallet" data-method="ewallet">Ewallet</option>
+                        </select>
                     </div>
 
-                    <div id="tab-content-bank" class="tab-content">
-                        <form action="{{ route('deposit.store') }}" method="POST">
+                    <!-- Payment Method Form -->
+                    <div id="payment-form" class="hidden mt-5">
+                        <form action="{{ route('deposit.store') }}" method="POST" id="deposit-form">
                             @csrf
-                            <div class="mt-5">
+                            <div id="bank-section" class="hidden">
                                 <label for="bankMethod" class="mb-2 text-gray-500">Bank</label>
                                 <select id="bankMethod" name="admin_bank_id"
-                                    class="block w-full p-2 bg-white dark:bg-gray-900 border rounded-md"onchange="showBankDetails(this)">
+                                    class="block w-full p-2 bg-white dark:bg-gray-900 border rounded-md"
+                                    onchange="showBankDetails(this)">
                                     <option value="">Select Bank</option>
                                     @foreach ($banks as $bank)
-                                        @if ($bank->bankAccount)    
-                                            <option value="{{ $bank->bankAccount->id }}" data-bank="{{ json_encode($bank->bankAccount) }}">
+                                        @if ($bank->bankAccount)
+                                            <option value="{{ $bank->bankAccount->id }}"
+                                                data-bank="{{ json_encode($bank->bankAccount) }}">
                                                 {{ $bank['bank_name'] }}</option>
                                         @endif
                                     @endforeach
                                 </select>
+                                <div id="bank-details" class="details-box hidden"></div>
                             </div>
 
-                            <div id="bank-details" class="details-box hidden"></div>
+                            <div id="ewallet-section" class="hidden">
+                                <label for="ewalletMethod" class="mb-2 text-gray-500">Ewallet</label>
+                                <select id="ewalletMethod" name="ewalletMethod"
+                                    class="block w-full p-2 bg-white dark:bg-gray-900 border rounded-md"
+                                    onchange="showEwalletDetails(this)">
+                                    <option value="">Select Ewallet</option>
+                                    @foreach ($ewallets as $ewallet)
+                                        <option value="{{ $ewallet['bank_code'] }}"
+                                            data-ewallet="{{ json_encode($ewallet) }}">{{ $ewallet['bank_name'] }}</option>
+                                    @endforeach
+                                </select>
+                                <div id="ewallet-details" class="details-box hidden"></div>
+                            </div>
 
                             <div class="mt-5">
                                 <label for="promotion" class="mb-2 text-gray-500">Promotions</label>
@@ -101,8 +121,7 @@
                                 <div
                                     class="w-full flex items-center justify-between bg-white dark:bg-gray-900 rounded py-1">
                                     <div class="flex w-full">
-                                        <input id="amountInputBank" name="amount" type="number" min="20.00"
-                                            max="50000.00" step="0.01"
+                                        <input id="amountInput" name="amount" type="number"
                                             class="appearance-none border border-gray-300 rounded-md bg-transparent w-full p-2"
                                             placeholder="Enter amount here" required>
                                     </div>
@@ -111,56 +130,7 @@
 
                             <div class="mt-5 w-full flex items-center justify-center">
                                 <button type="submit" class="ui-button-blue w-full">
-                                    <span class="uppercase font-semibold text-sm">Deposit via Bank</span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div id="tab-content-ewallet" class="tab-content hidden">
-                        <form action="">
-                            <div class="mt-5">
-                                <label for="ewalletMethod" class="mb-2 text-gray-500">Ewallet</label>
-                                <select id="ewalletMethod" name="ewalletMethod"
-                                    class="block w-full p-2 bg-white dark:bg-gray-900 border rounded-md"
-                                    onchange="showEwalletDetails(this)">
-                                    <option value="">Select Ewallet</option>
-                                    @foreach ($ewallets as $ewallet)
-                                        <option value="{{ $ewallet['bank_code'] }}"
-                                            data-ewallet="{{ json_encode($ewallet) }}">{{ $ewallet['bank_name'] }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div id="ewallet-details" class="details-box hidden"></div>
-
-                            <div class="mt-5">
-                                <label class="mb-2 text-gray-500">Rekomendasi Deposit</label>
-                                <div class="grid grid-cols-5 gap-4 w-full">
-                                    @foreach ([50, 100, 150, 200, 250] as $amount)
-                                        <button type="button" onclick="setAmount({{ $amount }})"
-                                            class="recommendation-button w-full py-2 text-center">{{ $amount }}</button>
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            <div class="mt-3">
-                                <p class="mb-2 text-gray-500">IDR&nbsp;20,000 - IDR&nbsp;50,000,000</p>
-                                <div
-                                    class="w-full flex items-center justify-between bg-white dark:bg-gray-900 rounded py-1">
-                                    <div class="flex w-full">
-                                        <input id="amountInputEwallet" type="number" min="20.00" max="50000.00"
-                                            step="0.01"
-                                            class="appearance-none border border-gray-300 rounded-md bg-transparent w-full p-2"
-                                            placeholder="Enter amount here" required>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mt-5 w-full flex items-center justify-center">
-                                <button type="submit" class="ui-button-blue w-full">
-                                    <span class="uppercase font-semibold text-sm">Deposit via Ewallet</span>
+                                    <span class="uppercase font-semibold text-sm">Deposit</span>
                                 </button>
                             </div>
                         </form>
@@ -170,76 +140,127 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            showTab('bank');
+        // Listen for form submission
+        document.getElementById('deposit-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission for SweetAlert
+
+            const form = this;
+
+            // Submit the form via AJAX
+            fetch(form.action, {
+                    method: form.method,
+                    body: new FormData(form),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success SweetAlert
+                        Swal.fire({
+                            title: 'Success!',
+                            text: data.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            // Optionally, redirect or perform any other actions after success
+                            window.location.reload(); // For example, reload the page
+                        });
+                    } else {
+                        // If there's a pending transaction, show a SweetAlert with the message
+                        Swal.fire({
+                            title: 'Transaction Pending!',
+                            text: data.message,
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    // Handle network or other errors
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Something went wrong, please try again later.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
         });
+    </script>
+    <script>
+        function showPaymentDetails(select) {
+            const method = select.value;
+            document.getElementById('payment-form').classList.remove('hidden');
+            document.getElementById('bank-section').classList.add('hidden');
+            document.getElementById('ewallet-section').classList.add('hidden');
 
-        function showTab(tab) {
-            document.getElementById('tab-bank').classList.remove('active', 'bg-green-500', 'text-white');
-            document.getElementById('tab-ewallet').classList.remove('active', 'bg-green-500', 'text-white');
-            document.getElementById('tab-content-bank').classList.add('hidden');
-            document.getElementById('tab-content-ewallet').classList.add('hidden');
-
-            if (tab === 'bank') {
-                document.getElementById('tab-bank').classList.add('active', 'bg-green-500', 'text-white');
-                document.getElementById('tab-content-bank').classList.remove('hidden');
-            } else if (tab === 'ewallet') {
-                document.getElementById('tab-ewallet').classList.add('active', 'bg-green-500', 'text-white');
-                document.getElementById('tab-content-ewallet').classList.remove('hidden');
+            if (method === 'bank') {
+                document.getElementById('bank-section').classList.remove('hidden');
+            } else if (method === 'ewallet') {
+                document.getElementById('ewallet-section').classList.remove('hidden');
             }
         }
 
         function showBankDetails(select) {
             const bankDetailsContainer = document.getElementById('bank-details');
             const selectedOption = select.selectedOptions[0];
-            const bankData = JSON.parse(selectedOption.getAttribute('data-bank'));
 
-            bankDetailsContainer.innerHTML = `
-                <p><strong>Account Number: </strong>${bankData.account_number}</p>
-                <p><strong>Account Holder: </strong>${bankData.account_holder}</p>
-                <button class="copy-button" onclick="copyToClipboard('${bankData.account_number}')">Copy Account Number</button>
-            `;
-            bankDetailsContainer.classList.remove('hidden');
+            if (selectedOption.value === "") {
+                bankDetailsContainer.classList.add('hidden');
+                bankDetailsContainer.innerHTML = "";
+            } else {
+                const bankData = JSON.parse(selectedOption.getAttribute('data-bank'));
+                bankDetailsContainer.innerHTML = `
+            <p style="color: #000"><strong>Nomor Rekening: </strong>${bankData.account_number}
+                <button onclick="copyToClipboard('${bankData.account_number}')" 
+                        style="margin-left: 10px; background-color: #10B981; color: white; border: none; padding: 5px 10px; cursor: pointer;">
+                    Copy
+                </button>
+            </p>
+            <p style="color: #000"><strong>Bank Name: </strong>${bankData.bank_name}</p>
+        `;
+                bankDetailsContainer.classList.remove('hidden');
+            }
         }
 
         function showEwalletDetails(select) {
             const ewalletDetailsContainer = document.getElementById('ewallet-details');
             const selectedOption = select.selectedOptions[0];
-            const ewalletData = JSON.parse(selectedOption.getAttribute('data-ewallet'));
 
-            ewalletDetailsContainer.innerHTML = `
-                <p><strong>Account Number: </strong>${ewalletData.account_number}</p>
-                <p><strong>Account Holder: </strong>${ewalletData.account_holder}</p>
-                <button class="copy-button" onclick="copyToClipboard('${ewalletData.account_number}')">Copy Account Number</button>
-            `;
-            ewalletDetailsContainer.classList.remove('hidden');
+            if (selectedOption.value === "") {
+                ewalletDetailsContainer.classList.add('hidden');
+                ewalletDetailsContainer.innerHTML = "";
+            } else {
+                const ewalletData = JSON.parse(selectedOption.getAttribute('data-ewallet'));
+                ewalletDetailsContainer.innerHTML = `
+            <p style="color: #000"><strong>Nomor Ewallet: </strong>${ewalletData.account_number}
+                <button onclick="copyToClipboard('${ewalletData.account_number}')" 
+                        style="margin-left: 10px; background-color: #10B981; color: white; border: none; padding: 5px 10px; cursor: pointer;">
+                    Copy
+                </button>
+            </p>
+            <p style="color: #000"><strong>Ewallet Name: </strong>${ewalletData.bank_name}</p>
+        `;
+                ewalletDetailsContainer.classList.remove('hidden');
+            }
         }
 
         function copyToClipboard(text) {
-            const tempTextArea = document.createElement('textarea');
-            document.body.appendChild(tempTextArea);
-            tempTextArea.value = text;
-            tempTextArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempTextArea);
-            alert('Copied to clipboard');
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Nomor rekening/ewallet berhasil disalin!');
+            }).catch(err => {
+                alert('Gagal menyalin: ', err);
+            });
         }
 
-        function showPromotionDetails(select) {
-            const promotion = JSON.parse(select.selectedOptions[0].getAttribute('data-promotion'));
-            const promotionDetail = JSON.parse(select.selectedOptions[0].getAttribute('data-promotion-detail'));
-            const promotionDetailsDiv = document.getElementById('promotion-details');
-            promotionDetailsDiv.classList.remove('hidden');
-            document.getElementById('promotion-name').innerText = promotion.title;
-            document.getElementById('min-deposit').innerText = promotionDetail.min_deposit;
-            document.getElementById('max_deposit').innerText = promotionDetail.max_deposit;
-            document.getElementById('target_promo').innerText = promotionDetail.target;
-        }
+
 
         function setAmount(amount) {
-            const input = document.querySelector('#amountInputBank, #amountInputEwallet');
-            input.value = amount;
+            const amountInput = document.getElementById('amountInput');
+            if (amountInput) {
+                amountInput.value = amount;
+            }
         }
     </script>
 @endsection

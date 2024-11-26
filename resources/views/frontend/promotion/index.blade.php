@@ -60,14 +60,14 @@
         @else
             @foreach ($promotions as $promotion)
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <a href="/promotions/{{ $promotion->slug }}"
+                    <a href="{{ route('promotion.show', $promotion->slug) }}"
                         class="relative aspect-[2/1] cursor-pointer overflow-hidden rounded-xl sm:hover:-translate-y-1.5 sm:hover:transition sm:hover:duration-500 sm:hover:ease-in-out">
                         <div
                             class="inline-flex justify-between px-1.5 py-1 items-center space-x-1 py-1 px-4 text-xs font-normal leading-none rounded-full absolute right-3 top-3 bg-bgr-lightest text-text-default">
                             <span>{{ $promotion->date }}</span> <!-- atau gunakan Carbon untuk tanggal yang diformat -->
                         </div>
                         <img alt="{{ $promotion->title }}" loading="lazy" decoding="async"
-                            class="object-cover w-full h-full" src="{{ $promotion->image }}">
+                            class="object-cover w-full h-full" src="{{ $promotion->thumbnail }}">
 
                         <!-- Title dan Description di bawah gambar -->
                         <div

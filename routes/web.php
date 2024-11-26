@@ -11,6 +11,7 @@ use App\Http\Controllers\Backoffice\DashboardController;
 use App\Http\Controllers\Backoffice\ProviderController;
 use App\Http\Controllers\Backoffice\GameController as BGameController;
 use App\Http\Controllers\Backoffice\MemberController;
+use App\Http\Controllers\Backoffice\PromotionBonusController;
 use App\Http\Controllers\Backoffice\PromotionController;
 use App\Http\Controllers\Backoffice\SettingController;
 use App\Http\Controllers\Backoffice\TransactionDepositController;
@@ -66,9 +67,12 @@ Route::get('/contact', function() {
 });
 
 Route::get('/slots', function() {
-    $games = Game::all();
+    $games = Game::limit(52)->get();
     return view('frontend.slot', compact('games'));
 });
+
+Route::get('/load-more-games', [GameController::class, 'loadMoreGames']);
+Route::get('/search-games', [GameController::class, 'searchGames']);
 
 // backoffice
 Route::get('/backoffice/{a}', [AuthController::class, 'login'])->name('backoffice.login');
@@ -159,23 +163,19 @@ Route::middleware('auth')->group(function () {
     Route::put('backoffice/banners/' . $setting->web_token . '/{id}', [BannerController::class, 'update'])->name('backoffice.banners.update');
     Route::delete('backoffice/banners/' . $setting->web_token . '/{id}', [BannerController::class, 'destroy'])->name('backoffice.banners.destroy');
 
-    // Show the promotions list
     Route::get('backoffice/promotions/' . $setting->web_token, [PromotionController::class, 'index'])->name('backoffice.promotions');
     Route::get('backoffice/promotions/create/' . $setting->web_token, [PromotionController::class, 'create'])->name('backoffice.promotions.create');
 
-    // Store a new promotion
     Route::post('backoffice/promotions/store/' . $setting->web_token, [PromotionController::class, 'store'])->name('backoffice.promotions.store');
 
-    // Show the edit form for a specific promotion
     Route::get('backoffice/promotions/' . $setting->web_token . '/edit/{id}', [PromotionController::class, 'edit'])->name('backoffice.promotions.edit');
-
-    // Update a specific promotion
     Route::put('backoffice/promotions/' . $setting->web_token . '/update/{id}', [PromotionController::class, 'update'])->name('backoffice.promotions.update');
-
-    // Delete a specific promotion
     Route::delete('backoffice/promotions/' . $setting->web_token . '/destroy/{id}', [PromotionController::class, 'destroy'])->name('backoffice.promotions.destroy');
 
 
     Route::get('/transaction/bonus', [BonusController::class, 'index'])->name('backoffice.transactions.bonus');
     Route::put('/transaction/bonus/update', [BonusController::class, 'updateStatus'])->name('backoffice.transaction.bonus.updateStatus');
+
+    Route::get('/backoffice/promotion-bonus/'.$setting->web_token, [PromotionBonusController::class, 'index'])->name('backoffice.promotionbonus');
+    Route::post('/backoffice/promotion-bonus/'.$setting->web_token, [PromotionBonusController::class, 'store'])->name('backoffice.promotionbonus.store');
 });

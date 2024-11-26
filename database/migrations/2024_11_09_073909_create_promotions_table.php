@@ -16,13 +16,14 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->text('short_desc');
-            $table->text('desc');
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
-            $table->enum('type', ['turnover', 'winover', 'post'])->default('post');
-            $table->integer('is_claim')->default(0);
-            $table->integer('status')->default(1);
-            $table->string('image');
+            $table->text('content');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->enum('promotion_type', ['winover', 'turnover', 'post'])->default('post');
+            $table->enum('provider_category', ['slot', 'casino'])->nullable();
+            $table->enum('bonus_type', ['daily', 'old', 'new'])->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->string('thumbnail');
             $table->timestamps();
         });
         

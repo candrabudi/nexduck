@@ -24,33 +24,36 @@ class PromotionController extends Controller
 
     public function store(Request $request)
     {
+        // Validating input fields
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'short_desc' => 'required|string',
+            'content' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'promotion_type' => 'required|in:winover,turnover,post',
+            'status' => 'required|in:active,inactive',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
         $promotion = new Promotion();
         $promotion->title = $request->title;
         $promotion->slug = Str::slug($request->title);
         $promotion->short_desc = $request->short_desc;
-        $promotion->desc = $request->desc;
+        $promotion->content = $request->content;
         $promotion->start_date = $request->start_date;
         $promotion->end_date = $request->end_date;
-        $promotion->type = $request->type;
-        $promotion->status = $request->promotion_status;
-        $promotion->is_claim = $request->is_claim;
+        $promotion->promotion_type = $request->promotion_type;
+        $promotion->provider_category = $request->provider_category;
+        $promotion->bonus_type = $request->bonus_type;
+        $promotion->status = $request->status;
 
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('promotions', 'public');
-            $promotion->image = asset(Storage::url($path)); // Simpan URL publik
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('promotions', 'public');
+            $promotion->thumbnail = asset(Storage::url($path));
         }
+
         $promotion->save();
-
-        if($request->is_claim == 1) {
-            $promotionDetail = new PromotionDetail();
-            $promotionDetail->promotion_id = $promotion->id;
-            $promotionDetail->min_deposit = $request->min_deposit;
-            $promotionDetail->max_deposit = $request->max_deposit;
-            $promotionDetail->max_withdraw = $request->max_withdraw;
-            $promotionDetail->target = $request->target;
-            $promotionDetail->percentage_bonus = $request->percentage_bonus;
-            $promotionDetail->save();
-        }
 
         return redirect()->route('backoffice.promotions')->with('success', 'Promotion created successfully!');
     }
@@ -63,32 +66,41 @@ class PromotionController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Validating input fields
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'short_desc' => 'required|string',
+            'content' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'promotion_type' => 'required|in:winover,turnover,post',
+            'status' => 'required|in:active,inactive',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-        // Cari promotion yang akan diperbarui
         $promotion = Promotion::findOrFail($id);
-        $promotion->title = $request->name;
-        $promotion->slug = Str::slug($request->name);
-        $promotion->short_dec = $request->description;
-        $promotion->description = $request->description;
+        $promotion->title = $request->title;
+        $promotion->slug = Str::slug($request->title);
+        $promotion->short_desc = $request->short_desc;
+        $promotion->content = $request->content; // updated to 'content'
         $promotion->start_date = $request->start_date;
         $promotion->end_date = $request->end_date;
-        $promotion->type = $request->type;
-        $promotion->status = $request->promotion_status;
+        $promotion->promotion_type = $request->promotion_type; // updated to 'promotion_type'
+        $promotion->status = $request->status;
 
-        // Proses gambar jika ada
-        if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
-            if ($promotion->image) {
-                $oldPath = str_replace('/storage/', '', $promotion->image);
+        // Handle thumbnail upload if present
+        if ($request->hasFile('thumbnail')) { // updated to 'thumbnail'
+            // Delete the old thumbnail if it exists
+            if ($promotion->thumbnail) {
+                $oldPath = str_replace('/storage/', '', $promotion->thumbnail);
                 Storage::disk('public')->delete($oldPath);
             }
 
-            // Simpan gambar baru
-            $path = $request->file('image')->store('promotions', 'public');
-            $promotion->image = asset(Storage::url($path)); // Simpan URL publik
+            // Store the new thumbnail
+            $path = $request->file('thumbnail')->store('promotions', 'public'); // updated to 'thumbnail'
+            $promotion->thumbnail = asset(Storage::url($path)); // updated to 'thumbnail'
         }
 
-        // Simpan perubahan ke database
         $promotion->save();
 
         return redirect()->route('backoffice.promotions')->with('success', 'Promotion updated successfully!');
@@ -98,13 +110,14 @@ class PromotionController extends Controller
     {
         $promotion = Promotion::findOrFail($id);
 
-        // Hapus gambar dari storage jika ada
-        if ($promotion->image) {
-            $oldPath = str_replace('/storage/', '', $promotion->image);
+        // Delete the thumbnail if it exists
+        if ($promotion->thumbnail) { // updated to 'thumbnail'
+            $oldPath = str_replace('/storage/', '', $promotion->thumbnail);
             Storage::disk('public')->delete($oldPath);
         }
 
         $promotion->delete();
         return redirect()->route('backoffice.promotions')->with('success', 'Promotion deleted successfully!');
     }
+
 }

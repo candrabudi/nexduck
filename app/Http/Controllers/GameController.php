@@ -15,6 +15,25 @@ use Illuminate\Support\Facades\Http;
 
 class GameController extends Controller
 {
+   
+    // Load more games for infinite scroll
+    public function loadMoreGames(Request $request)
+    {
+        $offset = $request->offset;
+        $games = Game::skip($offset)->take(50)->get();
+
+        return response()->json(['games' => $games]);
+    }
+
+    // Search games based on a query
+    public function searchGames(Request $request)
+    {
+        $query = $request->query('query');
+        $games = Game::where('game_name', 'like', '%' . $query . '%')->get();
+
+        return response()->json(['games' => $games]);
+    }
+
     public function detail($a)
     {
         if(!Auth::user()) {

@@ -20,11 +20,11 @@ class DepositController extends Controller
         $banks = Bank::where('bank_type', 'bank')
             ->with('bankAccount')
             ->get();
-    
+
         $ewallets = Bank::where('bank_type', 'ewallet')
             ->with('bankAccount')
             ->get();
-        
+
         // Fetch promotions
         $promotions = Promotion::with('promotionDetail')->get();  // Assuming the model is named 'Promotion'
         return view('frontend.deposit.index', compact('banks', 'ewallets', 'promotions'));
@@ -34,10 +34,22 @@ class DepositController extends Controller
     public function store(Request $request)
     {
         DB::beginTransaction();
-        try{
+        try {
+            // Check if the user already has a pending transaction
+            $pendingTransaction = Transaction::where('user_id', Auth::user()->id)
+                ->where('status', 'pending')
+                ->first();
+
+            if ($pendingTransaction) {
+                // If there's a pending transaction, return a message saying they can't deposit again
+                return response()->json(['success' => false, 'message' => 'You have a pending transaction. Please wait until it is processed.']);
+            }
+
+            // Retrieve the bank member
             $bankMember = MemberBank::where('user_id', Auth::user()->id)
                 ->first();
 
+            // Create a new transaction record
             $store = new Transaction();
             $store->user_id = Auth::user()->id;
             $store->promotion_id = 0;
@@ -49,7 +61,8 @@ class DepositController extends Controller
             $store->created_ip_address = $request->ip();
             $store->save();
 
-            if($request->promotion_id != 0 || !empty($request->promotion_id)) {
+            // If there's a promotion, handle it
+            if ($request->promotion_id != 0 && !empty($request->promotion_id)) {
                 $promotion = PromotionDetail::where('promotion_id', $request->promotion_id)
                     ->first();
 
@@ -60,20 +73,22 @@ class DepositController extends Controller
                 $claimPromotion->user_id = Auth::user()->id;
                 $claimPromotion->promotion_id = $request->promotion_id;
                 $claimPromotion->nominal_deposit = $request->amount;
-                $claimPromotion->nominal_bonus = ($request->amount * $promotion->percentage_bonus) / 100;
+                $claimPromotion->nominal_bonus = $bonus;
                 $claimPromotion->current_target = 0;
                 $claimPromotion->target = ($amount + $bonus) * $promotion->target;
                 $claimPromotion->status = 0;
                 $claimPromotion->save();
             }
-            
-            DB::commit();
-            return redirect()->back();
 
-        }catch(\Exception $e) {
-            return response()->json($e->getMessage());
+            // Commit the transaction if everything goes well
+            DB::commit();
+            return response()->json(['success' => true, 'message' => 'Deposit successfully processed.']);
+
+        } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back();
+            // Return a JSON response with error message
+            return response()->json(['success' => false, 'message' => 'Something went wrong. Please try again.']);
         }
     }
+
 }

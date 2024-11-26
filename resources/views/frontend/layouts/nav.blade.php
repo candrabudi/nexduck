@@ -21,7 +21,8 @@
                         left: -100%;
                         width: 100%;
                         height: 100%;
-                        background-color: rgba(51, 51, 51, 0.95);
+                        /* background-color: rgba(51, 51, 51, 0.95); */
+                        background: #191A1E;
                         color: white;
                         transition: left 0.3s ease;
                         z-index: 999;

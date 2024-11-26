@@ -21,11 +21,16 @@
                 
     
                 <!-- Gambar -->
-                <img src="{{ $promotion->image }}" alt="{{ $promotion->title }}" class="w-full h-64 object-cover rounded-lg mb-4">
+                <img src="{{ $promotion->thumbnail }}" alt="{{ $promotion->title }}" class="w-full h-64 object-cover rounded-lg mb-4">
 
                 <!-- Deskripsi -->
-                <p class="text-gray-800 text-lg leading-relaxed mb-4" style="color: #333;">
-                    {!! $promotion->desc !!}
+                <style>
+                    p{
+                        color: #000;
+                    }
+                </style>
+                <p class="text-gray-800 text-lg leading-relaxed mb-4" style="color: #000;">
+                    {!! $promotion->content !!}
                 </p>
 
                 <!-- Tombol Kembali -->

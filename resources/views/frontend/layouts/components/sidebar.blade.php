@@ -1,109 +1,137 @@
+<style>
+    .close-btn {
+        background-color: transparent;
+        color: #fff;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 10px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+
+    /* Efek hover pada tombol close */
+    .close-btn:hover {
+        background-color: #555;
+        color: #ddd;
+    }
+
+</style>
 <div class="sidebar" id="sidebar">
-    <span class="close-btn" id="close-btn">&times;</span>
+    <span id="close-btn" class="bg-red-600 text-white font-bold py-1 px-2 rounded-full text-sm cursor-pointer" style="right: 15px; top: 10px; position: absolute;">Tutup Menu</span>
     <div class="sidebar-content">
-        <aside style="margin-top: 30px">
-            <div class="h-full pb-4 overflow-y-auto sidebar-color p-4">
-                <ul class="font-medium mt-5 mb-[200px]">
-                    <li class="px-3">
-                        <a href="/"
-                            class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
-                            <img src="/assets/images/icons/home.svg" alt="" width="16">
-                            <span class="ml-3">Home</span>
+        <aside style="margin-top: 30px; padding: 10px;">
+            <div class="h-full pb-4 overflow-y-auto sidebar-color mt-2">
+
+                <div class="bg-gradient-to-r from-gray-800 to-gray-900 p-4 text-white">
+                    <div class="grid grid-cols-2 gap-2">
+                        <!-- Item 1 -->
+                        <a href="/" tabindex="0"
+                            class="flex items-center space-x-2 p-2 rounded-md bg-gradient-to-r from-pink-200 to-pink-400 transition-transform hover:scale-105">
+                            <div class="text-left">
+                                <span class="block text-[9px] font-bold uppercase text-pink-800">Spin Bonus</span>
+                                <span class="block text-[8px] text-gray-700">Mainkan dan Menang!</span>
+                            </div>
                         </a>
-                        <a href="#"
-                            class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M15.2 13.6V14.024C15.1937 14.3381 15.0645 14.6372 14.8402 14.857C14.6158 15.0769 14.3141 15.2001 14 15.2H10V16H14C14.5304 16 15.0391 15.7893 15.4142 15.4142C15.7893 15.0391 16 14.5304 16 14V12.8C15.7748 13.1052 15.5052 13.3748 15.2 13.6Z"
-                                    fill="#414952"></path>
-                                <path
-                                    d="M0 10.5839C0.049109 9.80103 0.327312 9.04988 0.8 8.42389V8.30389C0.289133 8.88313 0.00499042 9.62758 0 10.3999C0 10.4639 0 10.5199 0 10.5839Z"
-                                    fill="#414952"></path>
-                                <path
-                                    d="M8 0C5.87827 0 3.84344 0.842855 2.34315 2.34315C0.842855 3.84344 0 5.87827 0 8H0C0.244633 7.6957 0.529976 7.42651 0.848 7.2C1.05156 5.44594 1.89262 3.82784 3.21126 2.65338C4.5299 1.47892 6.23417 0.829998 8 0.829998C9.76583 0.829998 11.4701 1.47892 12.7887 2.65338C14.1074 3.82784 14.9484 5.44594 15.152 7.2C15.47 7.42651 15.7554 7.6957 16 8C16 5.87827 15.1571 3.84344 13.6569 2.34315C12.1566 0.842855 10.1217 0 8 0V0Z"
-                                    fill="#414952"></path>
-                                <path
-                                    d="M3.2 7.20001C2.35131 7.20001 1.53737 7.53715 0.937258 8.13727C0.337142 8.73739 0 9.55132 0 10.4C0 11.2487 0.337142 12.0626 0.937258 12.6628C1.53737 13.2629 2.35131 13.6 3.2 13.6V7.20001Z"
-                                    fill="#8C9099"></path>
-                                <path
-                                    d="M12.8 13.6C13.6487 13.6 14.4626 13.2629 15.0627 12.6628C15.6628 12.0626 16 11.2487 16 10.4C16 9.55132 15.6628 8.73739 15.0627 8.13727C14.4626 7.53715 13.6487 7.20001 12.8 7.20001V13.6Z"
-                                    fill="#8C9099"></path>
-                                <path
-                                    d="M3.20001 7.20001H4.00001C4.21219 7.20001 4.41567 7.2843 4.5657 7.43433C4.71573 7.58436 4.80001 7.78784 4.80001 8.00001V12.8C4.80001 13.0122 4.71573 13.2157 4.5657 13.3657C4.41567 13.5157 4.21219 13.6 4.00001 13.6H3.20001V7.20001Z"
-                                    fill="#414952"></path>
-                                <path
-                                    d="M12 7.20001H12.8V13.6H12C11.7878 13.6 11.5844 13.5157 11.4343 13.3657C11.2843 13.2157 11.2 13.0122 11.2 12.8V8.00001C11.2 7.78784 11.2843 7.58436 11.4343 7.43433C11.5844 7.2843 11.7878 7.20001 12 7.20001Z"
-                                    fill="#414952"></path>
-                                <path
-                                    d="M6.8 14H9.2C9.41217 14 9.61566 14.0843 9.76569 14.2343C9.91571 14.3843 10 14.5878 10 14.8V16H6.8C6.58783 16 6.38434 15.9157 6.23431 15.7657C6.08429 15.6157 6 15.4122 6 15.2V14.8C6 14.5878 6.08429 14.3843 6.23431 14.2343C6.38434 14.0843 6.58783 14 6.8 14Z"
-                                    fill="#8C9099"></path>
-                            </svg>
-                            <span class="ml-3">Support</span>
+
+                        <!-- Item 2 -->
+                        <a href="/" tabindex="0"
+                            class="flex items-center space-x-2 p-2 rounded-md bg-gradient-to-r from-green-200 to-green-400 transition-transform hover:scale-105">
+                            <div class="text-left">
+                                <span class="block text-[9px] font-bold uppercase text-green-800">Ajak Teman</span>
+                                <span class="block text-[8px] text-gray-700">Dapatkan Bonus</span>
+                            </div>
                         </a>
-                    </li>
-                    <li class="px-3">
-                        <a href="#"
-                            class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M8 10C10.7614 10 13 7.76142 13 5C13 2.23858 10.7614 0 8 0C5.23858 0 3 2.23858 3 5C3 7.76142 5.23858 10 8 10Z"
-                                    fill="#8C9099"></path>
-                                <path d="M13.8 8.89999C12.7 10.6 10.8 11.8 8.60001 12L10.5 16L12.4 12.9L16 13.4L13.8 8.89999Z"
-                                    fill="#414952"></path>
-                                <path d="M2.2 8.89999L0 13.4L3.6 12.9L5.4 16L7.3 12C5.2 11.8 3.3 10.6 2.2 8.89999Z"
-                                    fill="#414952"></path>
-                            </svg>
-                            <span class="ml-3">Promotions</span>
+
+                        <!-- Item 3 -->
+                        <a href="/" tabindex="0"
+                            class="flex items-center space-x-2 p-2 rounded-md bg-gradient-to-r from-blue-200 to-blue-400 transition-transform hover:scale-105">
+                            <div class="text-left">
+                                <span class="block text-[9px] font-bold uppercase text-blue-800">Undian</span>
+                                <span class="block text-[8px] text-gray-700">Hadiah Menanti</span>
+                            </div>
                         </a>
-                    </li>
-                    <li class="px-3">
-                        <a href="#"
-                            class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
-                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M10.1787 9.63885L10.0651 10.062L9.64343 10.1738L7.47002 10.7646L6.30222 16.6091C6.43671 16.7378 6.59606 16.8387 6.77085 16.9058C6.94564 16.9728 7.1323 17.0047 7.31982 16.9995C7.50733 16.9942 7.69187 16.9521 7.86254 16.8754C8.03321 16.7988 8.18652 16.6892 8.31343 16.5532L16.561 8.30548C16.8332 8.04213 16.9905 7.68478 16.9996 7.30918C17.0087 6.93358 16.8688 6.56926 16.6097 6.29346L10.7707 7.45915L10.1787 9.63885Z"
-                                    fill="#414952"></path>
-                                <path
-                                    d="M9.7004 1.43115L1.43658 9.67885C1.16573 9.94455 1.00948 10.3029 1.00042 10.6792C0.991353 11.0556 1.13017 11.4208 1.38792 11.6989L9.49765 9.48723L11.6954 1.38324C11.5612 1.25742 11.4032 1.15886 11.2303 1.09317C11.0574 1.02748 10.8731 0.995965 10.6878 1.00041C10.5026 1.00486 10.32 1.04519 10.1506 1.1191C9.98117 1.193 9.82819 1.29904 9.7004 1.43115Z"
-                                    fill="#8C9099"></path>
-                                <path d="M1.18518 1.39122L6.26187 1.38324" stroke="#8C9099" stroke-miterlimit="10"
-                                    stroke-linecap="round"></path>
-                                <path d="M1.18518 3.7865H4.42907" stroke="#8C9099" stroke-miterlimit="10"
-                                    stroke-linecap="round"></path>
-                                <path d="M1.18518 6.18176H1.99615" stroke="#8C9099" stroke-miterlimit="10"
-                                    stroke-linecap="round"></path>
-                                <path d="M6.52948 11.1639L2.07724 12.3775L5.58065 15.8906L6.52948 11.1639Z" fill="#8C9099">
-                                </path>
-                                <path d="M15.8879 5.57496L12.3845 2.06989L11.1681 6.52508L15.8879 5.57496Z" fill="#8C9099">
-                                </path>
-                            </svg>
-                            <span class="ml-3">Refer a friend</span>
+
+                        <!-- Item 4 -->
+                        <a href="/" tabindex="0"
+                            class="flex items-center space-x-2 p-2 rounded-md bg-gradient-to-r from-orange-200 to-orange-400 transition-transform hover:scale-105">
+                            <div class="text-left">
+                                <span class="block text-[9px] font-bold uppercase text-orange-800">Toko Bonus</span>
+                                <span class="block text-[8px] text-gray-700">Temukan Penawaran</span>
+                            </div>
                         </a>
-                    </li>
-                    <li class="px-3">
-                        <a href="#"
-                            class="transition duration-700 bg-gray-100 dark:bg-transparent hover:bg-gray-200 dark:hover:bg-transparent flex items-center p-2 text-gray-700 font-normal rounded-lg dark:text-gray-400 dark:hover:text-white group">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_31_225)">
-                                    <path d="M4 8H0V12.9C0 13.9 0.7 14.8 1.7 15C2.9 15.2 4 14.2 4 13V8Z" fill="#414952"></path>
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M15 1H6.99999C6.39999 1 5.99999 1.4 5.99999 2V13C5.99999 13.7 5.79999 14.4 5.39999 15H13C14.7 15 16 13.7 16 12V2C16 1.4 15.6 1 15 1ZM13.6 5H8.79999V7H13.6V5ZM8.79999 9H13.6V11H8.79999V9Z"
-                                        fill="#8C9099"></path>
-                                </g>
-                                <defs>
-                                    <clipPath id="clip0_31_225">
-                                        <rect width="16" height="16" fill="white"></rect>
-                                    </clipPath>
-                                </defs>
-                            </svg>
-                            <span class="flex-1 ml-3 whitespace-nowrap">Support Center</span>
+
+                        <!-- Item 5 -->
+                        <a href="/" tabindex="0"
+                            class="flex items-center space-x-2 p-2 rounded-md bg-gradient-to-r from-cyan-200 to-cyan-400 transition-transform hover:scale-105">
+                            <div class="text-left">
+                                <span class="block text-[9px] font-bold uppercase text-cyan-800">Bonus Telegram</span>
+                                <span class="block text-[8px] text-gray-700">Langganan Sekarang</span>
+                            </div>
                         </a>
-                    </li>
-                </ul>
+
+                        <!-- Item 6 -->
+                        <a href="/" tabindex="0"
+                            class="flex items-center space-x-2 p-2 rounded-md bg-gradient-to-r from-indigo-200 to-indigo-400 transition-transform hover:scale-105">
+                            <div class="text-left">
+                                <span class="block text-[9px] font-bold uppercase text-indigo-800">Aplikasi
+                                    Mobile</span>
+                                <span class="block text-[8px] text-gray-700">Unduh Sekarang</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="p-2 mt-2">
+
+                    <ul class="font-medium" style="background: rgba(25, 44, 61, 0.3); border-radius: 4px;">
+                        <li class="px-3">
+                            <a href="/"
+                                class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
+                                <img src="{{ asset('images/sidemenu_lobby.svg') }}" alt="" width="16">
+                                <span class="ml-3">Home</span>
+                            </a>
+                            <a href="/slots"
+                                class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
+                                <img src="{{ asset('images/sidemenu_slots.svg') }}" alt="" width="16">
+                                <span class="ml-3">Slot</span>
+                            </a>
+                            <a href="/live-casino"
+                                class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
+                                <img src="{{ asset('images/sidemenu_casino.svg') }}" alt="" width="16">
+                                <span class="ml-3">Live Casino</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="font-medium mt-2" style="background: rgba(25, 44, 61, 0.3); border-radius: 4px;">
+                        <li class="px-3">
+                            <a href="/promotion"
+                                class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
+                                <img src="{{ asset('images/sidemenu_promotions.svg') }}" alt="" width="16">
+                                <span class="ml-3">Promosi</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="font-medium mt-2" style="background: rgba(25, 44, 61, 0.3); border-radius: 4px;">
+                        <li class="px-3">
+                            <a href="/support"
+                                class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
+                                <img src="{{ asset('images/sidemenu_aboutme.svg') }}" alt="" width="16">
+                                <span class="ml-3">Tentang Kami</span>
+                            </a>
+                        </li>
+                        <li class="px-3">
+                            <a href="/contact"
+                                class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
+                                <img src="{{ asset('images/sidemenu_support.svg') }}" alt="" width="16">
+                                <span class="ml-3">Kontak Kami</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </aside>
     </div>

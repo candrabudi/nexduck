@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('promotion_details', function (Blueprint $table) {
             $table->id();
             $table->integer('promotion_id');
-            $table->integer('min_deposit')->default(0);
-            $table->integer('max_deposit')->default(0);
-            $table->integer('max_withdraw')->default(0);
-            $table->integer('target')->default(0);
+            $table->integer('min_deposit');
+            $table->integer('max_deposit');
+            $table->integer('max_withdraw');
+            $table->integer('turn_over');
             $table->integer('percentage_bonus');
             $table->timestamps();
         });

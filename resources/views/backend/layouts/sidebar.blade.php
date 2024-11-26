@@ -11,26 +11,22 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('backoffice.banners') }}">
-                    <i class="fas fa-images"></i>
-                    <span>Banner</span>
+                <a href="{{ route('backoffice.dashboard') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Event</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('backoffice.promotions') }}">
-                    <i class="fab fa-slack"></i>
+                    <i class="fas fa-clipboard"></i>
                     <span>Promotion</span>
                 </a>
             </li>
             <li>
-                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                <a href="{{ route('backoffice.bankaccounts') }} class="has-arrow waves-effect">
                     <i class="fas fa-wallet"></i>
-                    <span>Bank</span>
+                    <span>Rekening</span>
                 </a>
-                <ul class="sub-menu mm-collapse" aria-expanded="false">
-                    {{-- <li><a href="{{ route('backoffice.banks') }}">Kode Bank</a></li> --}}
-                    <li><a href="{{ route('backoffice.bankaccounts') }}">Akun Bank</a></li>
-                </ul>
             </li>
             <li>
                 <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -38,44 +34,45 @@
                     <span>Transaksi</span>
                 </a>
                 <ul class="sub-menu mm-collapse" aria-expanded="false">
-                    <li><a href="{{ route('backoffice.transactions.deposit') }}">Deposit</a></li>
-                    <li><a href="{{ route('backoffice.transactions.withdraw') }}">Withdraw</a></li>
+                    <li><a href="{{ route('backoffice.transactions.deposit') }}">Deposit Pending</a></li>
+                    <li><a href="{{ route('backoffice.transactions.withdraw') }}">Withdraw Pending</a></li>
+                    <li><a href="{{ route('backoffice.transactions.bonus') }}">Bonus Pending</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                    <i class="fas fa-coins"></i>
+                    <span>Riwayat Transaksi</span>
+                </a>
+                <ul class="sub-menu mm-collapse" aria-expanded="false">
+                    <li><a href="{{ route('backoffice.transactions.deposit') }}">Semua Transaksi</a></li>
+                    <li><a href="{{ route('backoffice.transactions.withdraw') }}">Deposit</a></li>
+                    <li><a href="{{ route('backoffice.transactions.bonus') }}">Withdraw</a></li>
                     <li><a href="{{ route('backoffice.transactions.bonus') }}">Bonus</a></li>
                 </ul>
             </li>
             <li>
-                <a href="{{ route('backoffice.members') }}">
-                    <i class="fas fa-users"></i>
-                    <span>Member</span>
-                </a>
-            </li>
-            <li>
                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                    <i class="fab fa-fantasy-flight-games"></i>
-                    <span>Struktur Game</span>
+                    <i class="fas fa-users"></i>
+                    <span>Riwayat Transaksi</span>
                 </a>
                 <ul class="sub-menu mm-collapse" aria-expanded="false">
-                    <li><a href="{{ route('backoffice.provider') }}">Provider</a></li>
-                    <li><a href="{{ route('backoffice.games') }}">Game</a></li>
+                    <li><a href="{{ route('backoffice.members') }}">List</a></li>
+                    <li><a href="{{ route('backoffice.transactions.withdraw') }}">Saldo</a></li>
                 </ul>
             </li>
             <li>
-                <a href="#">
-                    <i class="fas fa-baseball-ball"></i>
-                    <span>Togel</span>
+                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                    <i class="fas fa-cog"></i>
+                    <span>Pengaturan</span>
                 </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fab fa-google"></i>
-                    <span>Seo Website</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('backoffice.settings.index') }}">
-                    <i class="fas fa-cogs"></i>
-                    <span>Pengaturan Website</span>
-                </a>
+                <ul class="sub-menu mm-collapse" aria-expanded="false">
+                    <li><a href="{{ route('backoffice.members') }}">Website</a></li>
+                    <li><a href="{{ route('backoffice.members') }}">Banner</a></li>
+                    <li><a href="{{ route('backoffice.members') }}">SEO</a></li>
+                    <li><a href="{{ route('backoffice.transactions.withdraw') }}">Live Chat</a></li>
+                    <li><a href="{{ route('backoffice.transactions.withdraw') }}">Sosial Media</a></li>
+                </ul>
             </li>
         </ul>
     </div>

@@ -2,27 +2,13 @@
 
 @section('content')
     <style>
-        .tab-button {
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .tab-button.active {
-            background-color: #10B981; /* bg-green-500 */
-            color: white;
-        }
-
-        .tab-button:not(.active) {
-            background-color: #E5E7EB; /* bg-gray-300 */
-            color: #4B5563; /* text-gray-700 */
-        }
-
         .details-box {
             margin-top: 15px;
             padding: 15px;
             background-color: #f0f4f8;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            color: #333; /* Black text */
+            color: #333;
         }
 
         .recommendation-button {
@@ -34,23 +20,6 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s;
-        }
-
-        .recommendation-button:hover {
-            background-color: #555;
-        }
-
-        .copy-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .copy-button:hover {
-            background-color: #45a049;
         }
 
         .loading-spinner {
@@ -67,6 +36,7 @@
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
@@ -83,10 +53,13 @@
                         @csrf
                         <div class="mt-5">
                             <label for="bankMethod" class="mb-2 text-gray-500">Pilih Bank</label>
-                            <select id="bankMethod" name="bankMethod" class="block w-full p-2 bg-white dark:bg-gray-900 border rounded-md" required>
+                            <select id="bankMethod" name="bankMethod"
+                                class="block w-full p-2 bg-white dark:bg-gray-900 border rounded-md" required>
                                 <option value="">Pilih Bank</option>
                                 @foreach ($memberbanks as $ma)
-                                    <option value="{{ e($ma->id) }}">{{ e($ma->bank->bank_name . ' - ' . $ma->account_name . ' - ' . $ma->account_number) }}</option>
+                                    <option value="{{ e($ma->id) }}">
+                                        {{ e($ma->bank->bank_name . ' - ' . $ma->account_name . ' - ' . $ma->account_number) }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -99,7 +72,10 @@
 
                         <div class="mt-3">
                             <p class="mb-2 text-gray-500">Jumlah Penarikan (IDR 20.000 - IDR 50.000.000)</p>
-                            <input id="amountInput" type="number" name="amount" min="20000" max="50000000" step="1000" class="appearance-none border border-gray-300 rounded-md bg-transparent w-full p-2" placeholder="Masukkan jumlah penarikan" required>
+                            <input id="amountInput" type="number" name="amount" min="20000" max="50000000"
+                                step="1000"
+                                class="appearance-none border border-gray-300 rounded-md bg-transparent w-full p-2"
+                                placeholder="Masukkan jumlah penarikan" required>
                         </div>
 
                         <div class="mt-5 w-full flex items-center justify-center">
@@ -114,10 +90,31 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const bankMethod = document.getElementById('bankMethod');
             bankMethod.addEventListener('change', showBankDetails);
+
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '{{ session('success') }}',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            @endif
+
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '{{ session('error') }}',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            @endif
         });
 
         function showBankDetails() {
@@ -142,7 +139,7 @@
 
         function showLoading() {
             const spinner = document.getElementById('loading-spinner');
-            spinner.style.display = 'inline-block';
+            spinner.style.display = 'block';
         }
     </script>
 @endsection
