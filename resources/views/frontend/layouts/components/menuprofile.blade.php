@@ -35,12 +35,31 @@
             </li>
 
             <!-- Transactions menu -->
-            <li class="w-full">
+            <li class="w-full mb-3">
                 <a href="/profile/transactions"
                     class="flex w-full bg-gray-200 hover:bg-gray-300/20 dark:bg-gray-800/50 px-4 py-3 rounded hover:dark:bg-gray-900 transition duration-700 
                     {{ Request::is('profile/transactions') ? 'wallet-active bg-gray-300 dark:bg-gray-800/70' : '' }}">
                     <span class="w-8"><i class="fa-solid fa-chart-mixed"></i></span>
                     <span>Transactions</span>
+                </a>
+            </li>
+
+            <!-- Referral menu -->
+            <li class="w-full mb-3">
+                <a href="/profile/referral"
+                    class="flex w-full bg-gray-200 hover:bg-gray-300/20 dark:bg-gray-800/50 px-4 py-3 rounded hover:dark:bg-gray-900 transition duration-700 
+                    {{ Request::is('profile/referral') ? 'wallet-active bg-gray-300 dark:bg-gray-800/70' : '' }}">
+                    <span class="w-8"><i class="fa-light fa-user-friends"></i></span>
+                    <span>Referral</span>
+                </a>
+            </li>
+
+            <li class="w-full">
+                <a href="{{ route('setting.profile') }}"
+                    class="flex w-full bg-gray-200 hover:bg-gray-300/20 dark:bg-gray-800/50 px-4 py-3 rounded hover:dark:bg-gray-900 transition duration-700 
+                    {{ Request::is('profile/setting') ? 'wallet-active bg-gray-300 dark:bg-gray-800/70' : '' }}">
+                    <span class="w-8"><i class="fa-solid fa-chart-mixed"></i></span>
+                    <span>Profile</span>
                 </a>
             </li>
         </ul>
@@ -88,6 +107,16 @@
                     {{ Request::is('profile/transactions') ? 'wallet-active bg-gray-300 dark:bg-gray-800/70' : '' }}">
                     <span class="w-8"><i class="fa-solid fa-chart-mixed"></i></span>
                     <span>Transactions</span>
+                </a>
+            </li>
+
+            <!-- Referral menu -->
+            <li class="flex-shrink-0">
+                <a href="/profile/referral"
+                    class="flex items-center bg-gray-200 hover:bg-gray-300/20 dark:bg-gray-800/50 px-4 py-3 rounded hover:dark:bg-gray-900 transition duration-700 
+                    {{ Request::is('profile/referral') ? 'wallet-active bg-gray-300 dark:bg-gray-800/70' : '' }}">
+                    <span class="w-8"><i class="fa-light fa-user-friends"></i></span>
+                    <span>Referral</span>
                 </a>
             </li>
         </ul>

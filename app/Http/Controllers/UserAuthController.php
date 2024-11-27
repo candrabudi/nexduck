@@ -7,7 +7,9 @@ use App\Models\Member;
 use App\Models\MemberBalance;
 use App\Models\MemberBank;
 use App\Models\MemberExt;
+use App\Models\Network;
 use App\Models\User;
+use App\Models\UserNetwork;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -63,8 +65,6 @@ class UserAuthController extends Controller
             'account_number' => 'required|string',
         ]);
         if ($validator->fails()) {
-            return response()
-                ->json($validator->errors());
             return back()->withErrors($validator)->withInput();
         }
 
@@ -105,6 +105,17 @@ class UserAuthController extends Controller
                 'main_balance' => 0,
                 'referral_balance' => 0,
             ]);
+
+            if($request->referral_code != "") {
+                $network = Network::where('referral', $request->referral_code)
+                    ->first();
+
+                $userNetwork = new UserNetwork();
+                $userNetwork->network_id = $network->id;
+                $userNetwork->user_id = $newUser->id;
+                $userNetwork->save();
+
+            }
             $this->createNexusMember($externalUsername);
 
             DB::commit();

@@ -8,25 +8,25 @@
                 <div
                     class="flex flex-col w-full bg-gray-200 hover:bg-gray-300/20 dark:bg-gray-800/50 p-4 rounded hover:dark:bg-gray-900">
                     <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-                        <a href=""
+                        <a href="{{ route('deposit') }}"
                             class="flex bg-white dark:bg-gray-900 p-4 border border-gray-300 dark:border-gray-600 rounded-lg">
                             <div class="text-5xl mr-3"><i class="fa-light fa-money-simple-from-bracket"></i></div>
                             <div class="flex flex-col">
                                 <h1 class="text-lg">Deposit</h1>
-                                <p class="text-sm dark:text-gray-500">Click to deposit</p>
+                                <p class="text-sm dark:text-gray-500">Klik untuk melakukan deposit</p>
                             </div>
                         </a>
-                        <a href=""
+                        <a href="{{ route('withdraw') }}"
                             class="flex bg-white dark:bg-gray-900 p-4 border border-gray-300 dark:border-gray-600 rounded-lg">
                             <div class="text-5xl mr-3"><i class="fa-sharp fa-light fa-money-bill-transfer"></i></div>
                             <div class="flex flex-col">
-                                <h1 class="text-lg">Withdraw</h1>
-                                <p class="text-sm dark:text-gray-500">Click here to withdraw</p>
+                                <h1 class="text-lg">Penarikan</h1>
+                                <p class="text-sm dark:text-gray-500">Klik di sini untuk menarik dana</p>
                             </div>
                         </a>
                     </div>
                     <div class="mt-5 flex flex-col">
-                        <h1 class="mb-3 text-2xl">My Portfolios</h1>
+                        <h1 class="mb-3 text-2xl">Portofolio Saya</h1>
                         <div
                             class="w-48 text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white w-full">
                             <button type="button"
@@ -39,7 +39,7 @@
                                     </div>
                                 </div>
                                 <span
-                                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Active</span>
+                                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Aktif</span>
                             </button>
                         </div>
                     </div>

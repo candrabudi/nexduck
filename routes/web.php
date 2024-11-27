@@ -21,6 +21,7 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromotionController as ControllersPromotionController;
+use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\WithdrawController;
@@ -88,12 +89,18 @@ Route::middleware('auth')->group(function () {
 
     // USER
     Route::get('/games/play-game/{a}', [GameController::class, 'playGame'])->name('game.playGame');
+    
     Route::get('/profile/wallet', [ProfileController::class, 'wallet'])->name('wallet');
     Route::get('/profile/deposit', [DepositController::class, 'index'])->name('deposit');
+    Route::get('/profile/setting', [ProfileController::class, 'profile'])->name('setting.profile');
+    Route::put('/profile', [ProfileController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/profile/referral', [ReferralController::class, 'index'])->name('profile.referral');
     Route::post('/profile/deposit/store', [DepositController::class, 'store'])->name('deposit.store');
     Route::get('/profile/withdraw', [WithdrawController::class, 'index'])->name('withdraw');
     Route::post('/profile/withdraw/store', [WithdrawController::class, 'store'])->name('withdraw.store');
     Route::get('/profile/transactions', [TransactionController::class, 'index'])->name('transaction');
+
+
     Route::get('/user/getBall', [HomeController::class, 'getBall'])->name('getBall');
     Route::get('/promotion-progress/{a}', [HomeController::class, 'getPromotionProgress'])->name('getPromotionProgress');
     Route::get('/history-game', [HomeController::class, 'getHistoryGame'])->name('getHistoryGame');

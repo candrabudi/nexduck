@@ -36,12 +36,12 @@ class AuthController extends Controller
             return response()->json(['error' => 'Your device is temporarily blocked due to multiple failed login attempts.'], 403);
         }
     
-        $key = 'login.' . $ip;
-        if (RateLimiter::tooManyAttempts($key, 3)) {
-            RateLimiter::clear($key);
-            Cache::put($blockedKey, true, now()->addMinutes(60));
-            abort(429, 'Too many login attempts. Please try again in 1 hour.');
-        }
+        // $key = 'login.' . $ip;
+        // if (RateLimiter::tooManyAttempts($key, 3)) {
+        //     RateLimiter::clear($key);
+        //     Cache::put($blockedKey, true, now()->addMinutes(60));
+        //     abort(429, 'Too many login attempts. Please try again in 1 hour.');
+        // }
     
         $request->validate([
             'username' => 'required|string',
@@ -49,11 +49,11 @@ class AuthController extends Controller
         ]);
     
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            RateLimiter::clear($key);
+            // RateLimiter::clear($key);
             return redirect()->route('backoffice.dashboard');
         }
     
-        RateLimiter::hit($key, 60);
+        // RateLimiter::hit($key, 60);
     
         return back()->withErrors(['username' => 'Invalid credentials.']);
     }
