@@ -14,6 +14,7 @@ use App\Http\Controllers\Backoffice\MemberController;
 use App\Http\Controllers\Backoffice\PromotionBonusController;
 use App\Http\Controllers\Backoffice\PromotionController;
 use App\Http\Controllers\Backoffice\SettingController;
+use App\Http\Controllers\Backoffice\SocialMediaController;
 use App\Http\Controllers\Backoffice\TransactionDepositController;
 use App\Http\Controllers\Backoffice\TransactionWithdrawController;
 use App\Http\Controllers\DepositController;
@@ -111,6 +112,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/backoffice/dashboard/get-transaction-data/' . $setting->web_token, [DashboardController::class, 'getTransactionData'])->name('backoffice.getTransactionData');
     Route::get('/backoffice/dashboard/transaction-summary/' . $setting->web_token, [DashboardController::class, 'getTransactionSummary'])->name('backoffice.getTransactionSummary');
 
+
+    // Route::resource('social-media', SocialMediaController::class);
+    Route::get('/backoffice/social-media/'.$setting->web_token, [SocialMediaController::class, 'index'])->name('social-media.index');
+    Route::post('/backoffice/social-media/'.$setting->web_token, [SocialMediaController::class, 'store'])->name('social-media.store');
+    Route::get('/backoffice/social-media/{a}/'.$setting->web_token.'/edit', [SocialMediaController::class, 'edit'])->name('social-media.show');
+    Route::put('/backoffice/social-media/{a}/'.$setting->web_token, [SocialMediaController::class, 'update'])->name('social-media.update');
+    Route::delete('/backoffice/social-media/'.$setting->web_token, [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
 
     Route::get('/backoffice/categories/' . $setting->web_token, [CategoryController::class, 'index'])->name('backoffice.category');
 
