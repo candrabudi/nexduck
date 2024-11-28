@@ -120,7 +120,7 @@
                         <img src="{{ asset('images/sidemenu_casino.svg') }}" alt="" width="16">
                         <span class="ml-3">Live Casino</span>
                     </a>
-                    <a href="/live-casino"
+                    <a href="#" onclick="comingSoon('Table Games')"
                         class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
                         <img src="{{ asset('images/icon_table_games.svg') }}" alt="" width="16">
                         <span class="ml-3">Table Games</span>
@@ -130,22 +130,40 @@
 
             <ul class="font-medium mt-2" style="background: rgba(25, 44, 61, 0.3); border-radius: 4px;">
                 <li class="px-3">
-
                     <a href="/promotion"
                         class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
                         <img src="{{ asset('images/sidemenu_promotions.svg') }}" alt="" width="16">
                         <span class="ml-3">Promosi</span>
                     </a>
-                    <a href="/live-casino"
+                    <a href="#" onclick="comingSoon('Tournaments')"
                         class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
                         <img src="{{ asset('images/icon_tournaments.svg') }}" alt="" width="16">
                         <span class="ml-3">Tournaments</span>
                     </a>
-                    <a href="/live-casino"
+
+                    <a href="#" onclick="comingSoon('VIP Club')"
                         class="l-5 flex items-center w-full p-2 text-gray-700 font-normal transition duration-700 rounded-lg group dark:text-gray-400 dark:hover:text-white">
                         <img src="{{ asset('images/icon_vip.svg') }}" alt="" width="16">
                         <span class="ml-3">VIP Club</span>
                     </a>
+
+                    <script>
+                        function comingSoon(feature) {
+                            Swal.fire({
+                                title: feature + ' Coming Soon!',
+                                text: 'This feature is not available yet.',
+                                icon: 'info',
+                                confirmButtonText: 'OK',
+                                customClass: {
+                                    popup: 'bg-white dark:bg-gray-800 rounded-lg shadow-lg',
+                                    title: 'text-gray-900 dark:text-white',
+                                    confirmButton: 'bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded',
+                                    cancelButton: 'bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded',
+                                }
+                            });
+                        }
+                    </script>
+
 
                 </li>
             </ul>
