@@ -15,31 +15,46 @@ use Illuminate\Support\Facades\Http;
 
 class GameController extends Controller
 {
-   
-    // Load more games for infinite scroll
+    public function index()
+    {
+        $games = Game::limit(52)->get();
+        $slots = Provider::get();
+        return view('frontend.slot', compact('games', 'slots'));
+    }
+
     public function loadMoreGames(Request $request)
     {
         $offset = $request->offset;
-        $games = Game::skip($offset)->take(50)->get();
+        $provider_id = $request->provider_id;
+
+        $games = Game::when($provider_id, function ($query) use ($provider_id) {
+            return $query->where('provider_id', $provider_id);
+        })->skip($offset)->take(50)->get();
 
         return response()->json(['games' => $games]);
     }
 
-    // Search games based on a query
     public function searchGames(Request $request)
     {
         $query = $request->query('query');
-        $games = Game::where('game_name', 'like', '%' . $query . '%')->get();
+        $provider_id = $request->provider_id;
+
+        $games = Game::when($query, function ($q) use ($query) {
+            return $q->where('game_name', 'like', '%' . $query . '%');
+        })->when($provider_id, function ($q) use ($provider_id) {
+            return $q->where('provider_id', $provider_id);
+        })->get();
 
         return response()->json(['games' => $games]);
     }
 
+
     public function detail($a)
     {
-        if(!Auth::user()) {
+        if (!Auth::user()) {
             return redirect()->route('member');
         }
-        
+
         $provider = Provider::where('provider_slug', $a)
             ->first();
 
@@ -49,7 +64,7 @@ class GameController extends Controller
 
         $games = Game::where('provider_id', $provider->id)
             ->get();
-        
+
         $slots = Provider::where('provider_type', 'SLOT')
             ->where('provider_status', 1)
             ->get();
@@ -60,7 +75,7 @@ class GameController extends Controller
 
     public function playGame($gameId)
     {
-        if(!Auth::user()) {
+        if (!Auth::user()) {
             return redirect()->route('member');
         }
         try {
@@ -72,24 +87,24 @@ class GameController extends Controller
             $memberExt = MemberExt::where('user_id', Auth::user()->id)
                 ->first();
 
-                $postData = [
-                    'method' => 'game_launch',
-                    'agent_code' => env('NEXUS_AGENT_CODE'),
-                    'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
-                    'user_code' => $memberExt->ext_name,
-                    'game_code' => $game->game_code,
-                    'provider_code' => $game->game_provider_code,
-                    'lang' => 'en',
-                ];
+            $postData = [
+                'method' => 'game_launch',
+                'agent_code' => env('NEXUS_AGENT_CODE'),
+                'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
+                'user_code' => $memberExt->ext_name,
+                'game_code' => $game->game_code,
+                'provider_code' => $game->game_provider_code,
+                'lang' => 'en',
+            ];
 
-                $response = Http::post(env('NEXUS_URL'), $postData);
-                $responseData = $response->json();
+            $response = Http::post(env('NEXUS_URL'), $postData);
+            $responseData = $response->json();
 
-                if (isset($responseData['launch_url'])) {
-                    return redirect()->away($responseData['launch_url']);
-                }
+            if (isset($responseData['launch_url'])) {
+                return redirect()->away($responseData['launch_url']);
+            }
 
-                return redirect()->route('member')->with('error', 'Game URL not found');
+            return redirect()->route('member')->with('error', 'Game URL not found');
 
         } catch (\Exception $e) {
             return redirect()->route('member')->with('error', $e->getMessage());

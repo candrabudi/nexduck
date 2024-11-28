@@ -68,13 +68,10 @@ Route::get('/contact', function() {
     return view('frontend.contact');
 });
 
-Route::get('/slots', function() {
-    $games = Game::limit(52)->get();
-    return view('frontend.slot', compact('games'));
-});
+Route::get('/slots', [GameController::class, 'index'])->name('game.slots');
 
-Route::get('/load-more-games', [GameController::class, 'loadMoreGames']);
-Route::get('/search-games', [GameController::class, 'searchGames']);
+Route::get('/load-more-games', [GameController::class, 'loadMoreGames'])->name('games.loadMore');
+Route::get('/search-games', [GameController::class, 'searchGames'])->name('games.search');
 
 // backoffice
 Route::get('/backoffice/{a}', [AuthController::class, 'login'])->name('backoffice.login');

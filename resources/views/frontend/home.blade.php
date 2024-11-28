@@ -274,7 +274,7 @@
                         <div class="w-full flex justify-between mb-2">
                             <h2 class="text-xl font-bold">{{ $pv['provider_name'] }}</h2>
                             <div class="flex">
-                                <a href="{{ route('game', $pv['provider_slug']) }}"
+                               <a href="/slots"
                                     class="item-game px-3 py-2 mr-2 rounded">See all</a>
                                 <button class="item-game px-3 py-2 rounded mr-2 custom-prev"
                                     data-target="#carousel-{{ $index }}">
