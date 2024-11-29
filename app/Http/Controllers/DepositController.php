@@ -37,6 +37,7 @@ class DepositController extends Controller
         try {
             // Check if the user already has a pending transaction
             $pendingTransaction = Transaction::where('user_id', Auth::user()->id)
+                ->where('type', 'deposit')
                 ->where('status', 'pending')
                 ->first();
 

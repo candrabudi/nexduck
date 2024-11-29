@@ -3,7 +3,7 @@
         class="fixed z-40 w-full h-16 max-w-lg -translate-x-1/2 bg-white border border-gray-200 bottom-0 left-1/2 dark:bg-gray-800 dark:border-gray-800">
         <div class="grid h-full max-w-lg grid-cols-5 mx-auto">
             <!-- Tombol Home -->
-            <button data-tooltip-target="tooltip-home" type="button" aria-label="Home"
+            <button onclick="window.location.href='/'" data-tooltip-target="tooltip-home" type="button" aria-label="Home"
                 class="inline-flex flex-col items-center justify-center px-5 rounded-l-full hover:bg-gray-50 dark:hover:bg-gray-800 group">
                 <i class="fa-duotone fa-house-chimney mb-1 text-xl" aria-hidden="true"></i>
                 <span class="text-[12px]">Beranda</span>
@@ -15,7 +15,8 @@
             </div>
 
             <!-- Tombol Kasino -->
-            <button data-tooltip-target="tooltip-casino" type="button" aria-label="Kasino"
+            <button onclick="window.location.href='/casino'" data-tooltip-target="tooltip-casino" type="button"
+                aria-label="Kasino"
                 class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
                 <i class="fa-duotone fa-dice mb-1 text-xl" aria-hidden="true"></i>
                 <span class="text-[12px]">Kasino</span>
@@ -26,9 +27,13 @@
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
 
+            <!-- Pastikan sudah menambahkan sweetalert library -->
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
             <!-- Tombol Deposit -->
             <div class="flex items-center justify-center">
-                <button data-tooltip-target="tooltip-new" type="button" aria-label="Deposit Baru"
+                <button onclick="handleDepositClick()" data-tooltip-target="tooltip-new" type="button"
+                    aria-label="Deposit Baru"
                     class="inline-flex items-center justify-center w-10 h-10 font-medium bg-[#ff0000] rounded-full hover:bg-[#ff0000] group focus:ring-4 focus:bg-[#ff0000] focus:outline-none dark:focus:bg-[#ff0000]">
                     <i class="fa-solid fa-dollar-sign" aria-hidden="true"></i>
                     <span class="sr-only">Deposit</span>
@@ -40,8 +45,9 @@
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
 
-            <!-- Tombol Undang Teman -->
-            <button data-tooltip-target="tooltip-sport" type="button" aria-label="Undang Teman"
+
+            <button onclick="handleInviteClick()" data-tooltip-target="tooltip-sport" type="button"
+                aria-label="Undang Teman"
                 class="inline-flex flex-col items-center justify-center px-5 rounded-r-full hover:bg-gray-50 dark:hover:bg-gray-800 group">
                 <i class="fa-solid fa-users mb-1 text-xl" aria-hidden="true"></i>
                 <span class="text-[12px]">Undang</span>
@@ -53,7 +59,8 @@
             </div>
 
             <!-- Tombol Portofolio -->
-            <button data-tooltip-target="tooltip-wallet" type="button" aria-label="Portofolio"
+            <button onclick="handlePortfolioClick()" data-tooltip-target="tooltip-wallet" type="button"
+                aria-label="Portofolio"
                 class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
                 <i class="fa-duotone fa-wallet mb-1 text-xl" aria-hidden="true"></i>
                 <span class="text-[12px]">Portofolio</span>
@@ -66,3 +73,72 @@
         </div>
     </div>
 </div>
+
+<script>
+    function handleDepositClick() {
+        // Ganti ini dengan variabel server-side untuk memeriksa apakah pengguna login
+        var isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
+
+        if (isLoggedIn) {
+            window.location.href = '/deposit';
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda harus login terlebih dahulu!',
+                confirmButtonText: 'Login',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/login';
+                }
+            });
+        }
+    }
+
+
+    // Cek login untuk tombol "Undang Teman"
+    function handleInviteClick() {
+        var isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
+
+        if (isLoggedIn) {
+            window.location.href = '/invite';
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda harus login terlebih dahulu!',
+                confirmButtonText: 'Login',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/login';
+                }
+            });
+        }
+    }
+
+    // Cek login untuk tombol "Portofolio"
+    function handlePortfolioClick() {
+        var isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
+
+        if (isLoggedIn) {
+            window.location.href = '/portfolio';
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Anda harus login terlebih dahulu!',
+                confirmButtonText: 'Login',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/login';
+                }
+            });
+        }
+    }
+</script>

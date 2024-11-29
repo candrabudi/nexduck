@@ -15,12 +15,30 @@ use Illuminate\Support\Facades\Http;
 
 class GameController extends Controller
 {
-    public function index()
+    public function slot()
     {
         $games = Game::limit(52)->get();
         $slots = Provider::get();
         return view('frontend.slot', compact('games', 'slots'));
     }
+
+    public function casino()
+    {
+        // Ambil game yang berhubungan dengan provider yang tipe providernya adalah 'live'
+        $games = Game::join('providers as pv', 'pv.id', '=', 'games.provider_id')
+            ->where('pv.provider_type', 'live')
+            ->limit(52)
+            ->orderBy('games.id', 'desc') // Tambahkan orderBy agar hasil lebih konsisten
+            ->get();
+    
+        // Ambil semua provider dengan tipe 'live'
+        $slots = Provider::where('provider_type', 'live')
+            ->get();
+    
+        // Mengirim data ke view
+        return view('frontend.slot', compact('games', 'slots'));
+    }
+    
 
     public function loadMoreGames(Request $request)
     {

@@ -69,6 +69,7 @@ Route::get('/contact', function() {
 });
 
 Route::get('/slots', [GameController::class, 'index'])->name('game.slots');
+Route::get('/casino', [GameController::class, 'casino'])->name('game.casino');
 
 Route::get('/load-more-games', [GameController::class, 'loadMoreGames'])->name('games.loadMore');
 Route::get('/search-games', [GameController::class, 'searchGames'])->name('games.search');
