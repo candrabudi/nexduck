@@ -68,7 +68,7 @@ Route::get('/contact', function() {
     return view('frontend.contact');
 });
 
-Route::get('/slots', [GameController::class, 'index'])->name('game.slots');
+Route::get('/slots', [GameController::class, 'slot'])->name('game.slots');
 Route::get('/casino', [GameController::class, 'casino'])->name('game.casino');
 
 Route::get('/load-more-games', [GameController::class, 'loadMoreGames'])->name('games.loadMore');
