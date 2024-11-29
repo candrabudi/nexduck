@@ -75,8 +75,8 @@ Route::get('/load-more-games', [GameController::class, 'loadMoreGames'])->name('
 Route::get('/search-games', [GameController::class, 'searchGames'])->name('games.search');
 
 // backoffice
-Route::get('/backoffice/{a}', [AuthController::class, 'login'])->name('backoffice.login');
-Route::post('/backoffice/{a}', [AuthController::class, 'authenticate'])->name('backoffice.authenticate');
+Route::get('/backoffice/login', [AuthController::class, 'login'])->name('backoffice.login');
+Route::post('/backoffice/login', [AuthController::class, 'authenticate'])->name('backoffice.authenticate');
 
 Route::get('/promotion', [ControllersPromotionController::class, 'index'])->name('promotion.index');
 Route::get('/promotion/{a}', [ControllersPromotionController::class, 'show'])->name('promotion.show');
@@ -106,89 +106,100 @@ Route::middleware('auth')->group(function () {
 
     // BACKOFFICE
     $setting = Setting::first();
-    Route::get('/backoffice/dashboard/' . $setting->web_token, [DashboardController::class, 'index'])->name('backoffice.dashboard');
-    Route::get('/backoffice/dashboard/get-transaction-data/' . $setting->web_token, [DashboardController::class, 'getTransactionData'])->name('backoffice.getTransactionData');
-    Route::get('/backoffice/dashboard/transaction-summary/' . $setting->web_token, [DashboardController::class, 'getTransactionSummary'])->name('backoffice.getTransactionSummary');
-
-
-    // Route::resource('social-media', SocialMediaController::class);
-    Route::get('/backoffice/social-media/'.$setting->web_token, [SocialMediaController::class, 'index'])->name('social-media.index');
-    Route::post('/backoffice/social-media/'.$setting->web_token, [SocialMediaController::class, 'store'])->name('social-media.store');
-    Route::get('/backoffice/social-media/{a}/'.$setting->web_token.'/edit', [SocialMediaController::class, 'edit'])->name('social-media.show');
-    Route::put('/backoffice/social-media/{a}/'.$setting->web_token, [SocialMediaController::class, 'update'])->name('social-media.update');
-    Route::delete('/backoffice/social-media/'.$setting->web_token, [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
-
-    Route::get('/backoffice/categories/' . $setting->web_token, [CategoryController::class, 'index'])->name('backoffice.category');
-
-    Route::get('/backoffice/providers/createOrUpdateProviderApiNexus', [ProviderController::class, 'createOrUpdateProviderApiNexus'])->name('backoffice.createOrUpdateProviderApiNexus');
-    Route::get('/backoffice/providers/createOrUpdateGameApiNexus', [ProviderController::class, 'createOrUpdateGameApiNexus'])->name('backoffice.createOrUpdateGameApiNexus');
-    Route::get('/backoffice/providers/createOrUpdateGameApiSG', [ProviderController::class, 'createOrUpdateGameApiSG'])->name('backoffice.createOrUpdateGameApiSG');
-    Route::get('/backoffice/providers/getProviderListSG', [ProviderController::class, 'getProviderListSG'])->name('backoffice.getProviderListSG');
-    Route::get('/backoffice/providers/' . $setting->web_token, [ProviderController::class, 'index'])->name('backoffice.provider');
-    Route::get('/backoffice/providers/update/' . $setting->web_token, [ProviderController::class, 'updateProvider'])->name('backoffice.updateProvider');
-    Route::get('/backoffice/providers/update-game/' . $setting->web_token, [ProviderController::class, 'updateGame'])->name('backoffice.updateGame');
-    Route::post('/backoffice/providers/update/data/' . $setting->web_token, [ProviderController::class, 'update'])->name('backoffice.provider.update');
-
-    Route::get('/backoffice/games/' . $setting->web_token, [BGameController::class, 'index'])->name('backoffice.games');
-    Route::get('/backoffice/games/update/' . $setting->web_token, [BGameController::class, 'updateGame'])->name('backoffice.updateGames');
-    Route::post('backoffice/update-game-status/' . $setting->web_token, [BGameController::class, 'updateGameStatus'])->name('backoffice.updateGameStatus');
-
-
-    Route::get('/backoffice/api-credentials/' . $setting->web_token, [ApiCredentialController::class, 'index'])->name('backoffice.apicredentials');
-    Route::post('/backoffice/api-credentials/store/' . $setting->web_token, [ApiCredentialController::class, 'store'])->name('backoffice.apicredentials.store');
-    Route::get('/backoffice/api-credentials/edit/' . $setting->web_token . '/{a}', [ApiCredentialController::class, 'edit'])->name('backoffice.apicredentials.edit');
-    Route::put('/backoffice/api-credentials/update/' . $setting->web_token . '/{a}', [ApiCredentialController::class, 'update'])->name('backoffice.apicredential.update');
-    Route::delete('/backoffice/api-credentials/destroy' . $setting->web_token . '/{a}', [ApiCredentialController::class, 'destroy'])->name('backoffice.apicredential.destroy');
-
-    Route::get('/backoffice/banks/' . $setting->web_token, [BankController::class, 'index'])->name('backoffice.banks');
-    Route::post('/backoffice/banks/store/' . $setting->web_token, [BankController::class, 'store'])->name('backoffice.banks.store');
-    Route::get('/backoffice/banks/edit/' . $setting->web_token . '/{a}', [BankController::class, 'edit'])->name('backoffice.banks.edit');
-    Route::put('/backoffice/banks/update/' . $setting->web_token . '/{b}', [BankController::class, 'update'])->name('backoffice.banks.update');
-    Route::delete('/backoffice/banks/destroy/' . $setting->web_token . '/{a}', [BankController::class, 'destroy'])->name('backoffice.banks.destroy');
-
-    Route::get('/backoffice/bankaccounts/' . $setting->web_token, [BankAccountController::class, 'index'])->name('backoffice.bankaccounts');
-    Route::post('/backoffice/bankaccounts/store' . $setting->web_token, [BankAccountController::class, 'store'])->name('backoffice.bankaccounts.store');
-    Route::get('/backoffice/bankaccounts/edit/' . $setting->web_token . '/{a}', [BankAccountController::class, 'edit'])->name('backoffice.bankaccounts.edit');
-    Route::put('/backoffice/bankaccounts/update/' . $setting->web_token . '/{a}', [BankAccountController::class, 'update'])->name('backoffice.bankaccounts.update');
-    Route::delete('/backoffice/bankaccounts/destroy/' . $setting->web_token . '/{a}', [BankAccountController::class, 'destroy'])->name('backoffice.bankaccounts.destroy');
-
-    Route::get('/backoffice/members/' . $setting->web_token, [MemberController::class, 'index'])->name('backoffice.members');
-    Route::post('/backoffice/members/store/' . $setting->web_token, [MemberController::class, 'store'])->name('backoffice.members.store');
-    Route::get('/backoffice/members/edit/' . $setting->web_token . '/{b}', [MemberController::class, 'edit'])->name('backoffice.members.edit');
-    Route::post('/backoffice/members/update/' . $setting->web_token . '/{b}', [MemberController::class, 'update'])->name('backoffice.members.update');
-    Route::delete('/backoffice/members/delete/' . $setting->web_token . '/{b}', [MemberController::class, 'destroy'])->name('backoffice.members.destroy');
-
-    Route::get('backoffice/settings/' . $setting->web_token, [SettingController::class, 'index'])->name('backoffice.settings.index');
-    Route::post('backoffice/settings/' . $setting->web_token, [SettingController::class, 'storeOrUpdate'])->name('backoffice.settings.storeOrUpdate');
-
-
-    Route::get('backoffice/transactions/deposit/' . $setting->web_token, [TransactionDepositController::class, 'index'])->name('backoffice.transactions.deposit');
-    Route::get('backoffice/transactions/deposit/' . $setting->web_token . '/{id}', [TransactionDepositController::class, 'show'])->name('backoffice.transactions.deposit.detail');
-    Route::post('backoffice/transactions/deposit/' . $setting->web_token . '/{id}/update-status', [TransactionDepositController::class, 'updateStatus'])->name('backoffice.transactions.deposit.updateStatus');
-
-    Route::get('backoffice/transactions/withdraw/' . $setting->web_token, [TransactionWithdrawController::class, 'index'])->name('backoffice.transactions.withdraw');
-    Route::get('backoffice/transactions/withdraw/' . $setting->web_token . '/{id}', [TransactionWithdrawController::class, 'show'])->name('backoffice.transactions.withdraw.detail');
-    Route::post('backoffice/transactions/withdraw/' . $setting->web_token . '/{id}/update-status', [TransactionWithdrawController::class, 'updateStatus'])->name('backoffice.transactions.withdraw.updateStatus');
-
-
-    Route::get('backoffice/banners/' . $setting->web_token . '/{id?}', [BannerController::class, 'index'])->name('backoffice.banners');
-    Route::post('backoffice/banners/' . $setting->web_token, [BannerController::class, 'store'])->name('backoffice.banners.store');
-    Route::put('backoffice/banners/' . $setting->web_token . '/{id}', [BannerController::class, 'update'])->name('backoffice.banners.update');
-    Route::delete('backoffice/banners/' . $setting->web_token . '/{id}', [BannerController::class, 'destroy'])->name('backoffice.banners.destroy');
-
-    Route::get('backoffice/promotions/' . $setting->web_token, [PromotionController::class, 'index'])->name('backoffice.promotions');
-    Route::get('backoffice/promotions/create/' . $setting->web_token, [PromotionController::class, 'create'])->name('backoffice.promotions.create');
-
-    Route::post('backoffice/promotions/store/' . $setting->web_token, [PromotionController::class, 'store'])->name('backoffice.promotions.store');
-
-    Route::get('backoffice/promotions/' . $setting->web_token . '/edit/{id}', [PromotionController::class, 'edit'])->name('backoffice.promotions.edit');
-    Route::put('backoffice/promotions/' . $setting->web_token . '/update/{id}', [PromotionController::class, 'update'])->name('backoffice.promotions.update');
-    Route::delete('backoffice/promotions/' . $setting->web_token . '/destroy/{id}', [PromotionController::class, 'destroy'])->name('backoffice.promotions.destroy');
-
-
-    Route::get('/transaction/bonus', [BonusController::class, 'index'])->name('backoffice.transactions.bonus');
-    Route::put('/transaction/bonus/update', [BonusController::class, 'updateStatus'])->name('backoffice.transaction.bonus.updateStatus');
-
-    Route::get('/backoffice/promotion-bonus/'.$setting->web_token, [PromotionBonusController::class, 'index'])->name('backoffice.promotionbonus');
-    Route::post('/backoffice/promotion-bonus/'.$setting->web_token, [PromotionBonusController::class, 'store'])->name('backoffice.promotionbonus.store');
+    Route::group(['prefix' => 'backoffice', 'as' => 'backoffice.'], function () {
+        // Dashboard Routes
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard/get-transaction-data', [DashboardController::class, 'getTransactionData'])->name('getTransactionData');
+        Route::get('/dashboard/transaction-summary', [DashboardController::class, 'getTransactionSummary'])->name('getTransactionSummary');
+    
+        // Social Media Routes
+        Route::get('/social-media', [SocialMediaController::class, 'index'])->name('social-media.index');
+        Route::post('/social-media', [SocialMediaController::class, 'store'])->name('social-media.store');
+        Route::get('/social-media/{a}/edit', [SocialMediaController::class, 'edit'])->name('social-media.show');
+        Route::put('/social-media/{a}', [SocialMediaController::class, 'update'])->name('social-media.update');
+        Route::delete('/social-media', [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
+    
+        // Category Routes
+        Route::get('/categories', [CategoryController::class, 'index'])->name('category');
+    
+        // Provider Routes
+        Route::get('/providers/createOrUpdateProviderApiNexus', [ProviderController::class, 'createOrUpdateProviderApiNexus'])->name('createOrUpdateProviderApiNexus');
+        Route::get('/providers/createOrUpdateGameApiNexus', [ProviderController::class, 'createOrUpdateGameApiNexus'])->name('createOrUpdateGameApiNexus');
+        Route::get('/providers/createOrUpdateGameApiSG', [ProviderController::class, 'createOrUpdateGameApiSG'])->name('createOrUpdateGameApiSG');
+        Route::get('/providers/getProviderListSG', [ProviderController::class, 'getProviderListSG'])->name('getProviderListSG');
+        Route::get('/providers', [ProviderController::class, 'index'])->name('provider');
+        Route::get('/providers/update', [ProviderController::class, 'updateProvider'])->name('updateProvider');
+        Route::get('/providers/update-game', [ProviderController::class, 'updateGame'])->name('updateGame');
+        Route::post('/providers/update/data', [ProviderController::class, 'update'])->name('provider.update');
+    
+        // Game Routes
+        Route::get('/games', [BGameController::class, 'index'])->name('games');
+        Route::get('/games/update', [BGameController::class, 'updateGame'])->name('updateGames');
+        Route::post('/update-game-status', [BGameController::class, 'updateGameStatus'])->name('updateGameStatus');
+    
+        // API Credentials Routes
+        Route::get('/api-credentials', [ApiCredentialController::class, 'index'])->name('apicredentials');
+        Route::post('/api-credentials/store', [ApiCredentialController::class, 'store'])->name('apicredentials.store');
+        Route::get('/api-credentials/edit/{a}', [ApiCredentialController::class, 'edit'])->name('apicredentials.edit');
+        Route::put('/api-credentials/update/{a}', [ApiCredentialController::class, 'update'])->name('apicredential.update');
+        Route::delete('/api-credentials/destro/{a}', [ApiCredentialController::class, 'destroy'])->name('apicredential.destroy');
+    
+        // Bank Routes
+        Route::get('/banks', [BankController::class, 'index'])->name('banks');
+        Route::post('/banks/store', [BankController::class, 'store'])->name('banks.store');
+        Route::get('/banks/edit/{a}', [BankController::class, 'edit'])->name('banks.edit');
+        Route::put('/banks/update/{b}', [BankController::class, 'update'])->name('banks.update');
+        Route::delete('/banks/destroy/{a}', [BankController::class, 'destroy'])->name('banks.destroy');
+    
+        // Bank Account Routes
+        Route::get('/bankaccounts', [BankAccountController::class, 'index'])->name('bankaccounts');
+        Route::post('/bankaccounts/store', [BankAccountController::class, 'store'])->name('bankaccounts.store');
+        Route::get('/bankaccounts/edit/{a}', [BankAccountController::class, 'edit'])->name('bankaccounts.edit');
+        Route::put('/bankaccounts/update/{a}', [BankAccountController::class, 'update'])->name('bankaccounts.update');
+        Route::delete('/bankaccounts/destroy/{a}', [BankAccountController::class, 'destroy'])->name('bankaccounts.destroy');
+    
+        // Member Routes
+        Route::get('/members', [MemberController::class, 'index'])->name('members');
+        Route::post('/members/store', [MemberController::class, 'store'])->name('members.store');
+        Route::get('/members/edit/{b}', [MemberController::class, 'edit'])->name('members.edit');
+        Route::post('/members/update/{b}', [MemberController::class, 'update'])->name('members.update');
+        Route::delete('/members/delete/{b}', [MemberController::class, 'destroy'])->name('members.destroy');
+    
+        // Setting Routes
+        Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+        Route::post('/settings', [SettingController::class, 'storeOrUpdate'])->name('settings.storeOrUpdate');
+    
+        // Transaction Deposit Routes
+        Route::get('/transactions/deposit', [TransactionDepositController::class, 'index'])->name('transactions.deposit');
+        Route::get('/transactions/deposit/{id}', [TransactionDepositController::class, 'show'])->name('transactions.deposit.detail');
+        Route::post('/transactions/deposit/{id}/update-status', [TransactionDepositController::class, 'updateStatus'])->name('transactions.deposit.updateStatus');
+    
+        // Transaction Withdraw Routes
+        Route::get('/transactions/withdraw', [TransactionWithdrawController::class, 'index'])->name('transactions.withdraw');
+        Route::get('/transactions/withdraw/{id}', [TransactionWithdrawController::class, 'show'])->name('transactions.withdraw.detail');
+        Route::post('/transactions/withdraw/{id}/update-status', [TransactionWithdrawController::class, 'updateStatus'])->name('transactions.withdraw.updateStatus');
+    
+        // Banner Routes
+        Route::get('/banners/{id?}', [BannerController::class, 'index'])->name('banners');
+        Route::post('/banners', [BannerController::class, 'store'])->name('banners.store');
+        Route::put('/banners/{id}', [BannerController::class, 'update'])->name('banners.update');
+        Route::delete('/banners/{id}', [BannerController::class, 'destroy'])->name('banners.destroy');
+    
+        // Promotion Routes
+        Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions');
+        Route::get('/promotions-create', [PromotionController::class, 'create'])->name('promotions.create');
+        Route::post('/promotions-store', [PromotionController::class, 'store'])->name('promotions.store');
+        Route::get('/promotions-edit', [PromotionController::class, 'edit'])->name('promotions.edit');
+        Route::post('/promotions-update', [PromotionController::class, 'update'])->name('promotions.update');
+        Route::delete('/promotions-destroy', [PromotionController::class, 'destroy'])->name('promotions.destroy');
+    
+        // Bonus Routes
+        Route::get('/transaction/bonus', [BonusController::class, 'index'])->name('transactions.bonus');
+        Route::put('/transaction/bonus/update', [BonusController::class, 'updateStatus'])->name('transaction.bonus.updateStatus');
+    
+        // Promotion Bonus Routes
+        Route::get('/promotion-bonus', [PromotionBonusController::class, 'index'])->name('promotionbonus');
+        Route::post('/promotion-bonus', [PromotionBonusController::class, 'store'])->name('promotionbonus.store');
+    });
+    
 });

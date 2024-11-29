@@ -1,99 +1,200 @@
-@php
-    use App\Models\User;
-    use App\Models\Setting;
-    $setting = Setting::first();
-@endphp
 @extends('backend.layouts.app')
+@section('titleHeader', 'Dashboard')
 @section('content')
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <h4 class="mb-0">Dashboard</h4>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="float-end mt-2">
-                            <div id="total-revenue-chart" data-colors='["--bs-primary"]'></div>
-                        </div>
-                        <div>
-                            <h4 class="mb-1 mt-1">{{ $totalMembers }}</h4>
-                            <p class="text-muted mb-0">Total Member</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card overflow-hidden">
+                <div class="card-body">
+                    <div class="any-card">
+                        <div class="c-con">
+                            <h4 class="heading mb-0">Selamat <strong>Hanu!!</strong><img src="images/crm/party-popper.png"
+                                    alt=""></h4>
+                            <span>Penjual Terbaik Minggu Ini</span>
+                            <p class="mt-3">Lorem Ipsum adalah teks dummy yang biasa digunakan dalam industri percetakan
+                                dan penyusunan tata letak. 😎</p>
 
-            <div class="col-md-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="float-end mt-2">
-                            <div id="orders-chart" data-colors='["--bs-success"]'></div>
+                            <a href="app-profile-1.html" class="btn btn-primary btn-sm">Lihat Profil</a>
                         </div>
-                        <div>
-                            <h4 class="mb-1 mt-1">Rp {{ number_format($totalTransactions, 0, ',', '.') }}</h4>
-                            <p class="text-muted mb-0">Total Transaksi Sukses</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="float-end mt-2">
-                            <div id="customers-chart" data-colors='["--bs-primary"]'></div>
-                        </div>
-                        <div>
-                            <h4 class="mb-1 mt-1">Rp {{ number_format($totalDeposit, 0, ',', '.') }}</h4>
-                            <p class="text-muted mb-0">Deposit Sukses</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="float-end mt-2">
-                            <div id="growth-chart" data-colors='["--bs-warning"]'></div>
-                        </div>
-                        <div>
-                            <h4 class="mb-1 mt-1">Rp {{ number_format($totalWithdraw, 0, ',', '.') }}</h4>
-                            <p class="text-muted mb-0">Withdraw Sukses</p>
-                        </div>
+                        <img src="images/analytics/developer_male.png" class="harry-img" alt="">
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xl-8">
-                <div class="card">
-                    <div class="card-body">
 
-                        <div class="row mb-4">
-                            <div class="col-md-4">
-                                <select id="period-select" class="form-select">
-                                    <option value="month">Bulan Ini</option>
-                                    <option value="week">Minggu Ini</option>
-                                    <option value="day">Hari Ini</option>
-                                </select>
+        <div class="col-xl-6 col-md-6">
+            <div class="card bg-primary">
+                <div class="card-header border-0">
+                    <h4 class="heading mb-0 text-white">Transaksi Hari Ini 😎</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <!-- Box untuk User -->
+                        <div class="col-xl-4 col-sm-4 col-6">
+                            <div class="card ov-card">
+                                <div class="card-body">
+                                    <div class="ana-box">
+                                        <div class="anta-data">
+                                            <h5>Total Withdraw</h5>
+                                            <span>@totalUser</span>
+                                            <h3>+120</h3>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-    
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div id="chart" class="chart-container">
-                                            <div id="loading" class="loading-spinner" style="display: none;">
-                                                <i class="fa fa-spinner fa-spin"></i> Loading...
+        
+                        <div class="col-xl-4 col-sm-4 col-6">
+                            <div class="card ov-card">
+                                <div class="card-body">
+                                    <div class="ana-box">
+                                        <div class="anta-data">
+                                            <h5>Total Deposit</h5>
+                                            <span>@totalDeposit</span>
+                                            <h3>Rp 1,200,000</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-sm-4 col-6">
+                            <div class="card ov-card">
+                                <div class="card-body">
+                                    <div class="ana-box">
+                                        <div class="anta-data">
+                                            <h5>Total Coin</h5>
+                                            <span>@totalWithdraw</span>
+                                            <h3>Rp 800,000</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="card bg-primary-light analytics-card">
+                <div class="card-body mt-xl-4 mt-0 pb-1">
+                    <div class="row align-items-center">
+                        <div class="col-xl-2">
+                            <h3 class="mb-3">Analisis Transaksi</h3>
+                            <p class="mb-0 text-primary pb-4">Statistik transaksi untuk<br> periode 1 bulan terakhir.</p>
+                        </div>
+                        <div class="col-xl-10">
+                            <div class="row">
+                                <div class="col-xl-2 col-sm-4 col-6">
+                                    <div class="card ov-card">
+                                        <div class="card-body">
+                                            <div class="ana-box">
+                                                <div class="ic-n-bx">
+                                                    <div class="icon-box bg-primary rounded-circle">
+                                                        <i class="fa-solid fa-users text-white"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="anta-data">
+                                                    <h5>User</h5>
+                                                    <span>@totalUser</span>
+                                                    <h3>+120</h3> <!-- Tambahkan data sesuai dengan total user -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Box untuk Deposit -->
+                                <div class="col-xl-2 col-sm-4 col-6">
+                                    <div class="card ov-card">
+                                        <div class="card-body">
+                                            <div class="ana-box">
+                                                <div class="ic-n-bx">
+                                                    <div class="icon-box bg-primary rounded-circle">
+                                                        <i class="fa-solid fa-arrow-down text-white"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="anta-data">
+                                                    <h5>Deposit</h5>
+                                                    <span>@totalDeposit</span>
+                                                    <h3>Rp 1,200,000</h3>
+                                                    <!-- Tambahkan data sesuai dengan total deposit -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Box untuk Withdraw -->
+                                <div class="col-xl-2 col-sm-4 col-6">
+                                    <div class="card ov-card">
+                                        <div class="card-body">
+                                            <div class="ana-box">
+                                                <div class="ic-n-bx">
+                                                    <div class="icon-box bg-primary rounded-circle">
+                                                        <i class="fa-solid fa-arrow-up text-white"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="anta-data">
+                                                    <h5>Withdraw</h5>
+                                                    <span>@totalWithdraw</span>
+                                                    <h3>Rp 800,000</h3> <!-- Tambahkan data sesuai dengan total withdraw -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Box untuk Total Transaksi -->
+                                <div class="col-xl-2 col-sm-4 col-6">
+                                    <div class="card ov-card">
+                                        <div class="card-body">
+                                            <div class="ana-box">
+                                                <div class="ic-n-bx">
+                                                    <div class="icon-box bg-primary rounded-circle">
+                                                        <i class="fa-solid fa-credit-card text-white"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="anta-data">
+                                                    <h5>Total Transaksi</h5>
+                                                    <span>@totalTransaction</span>
+                                                    <h3>Rp 2,000,000</h3>
+                                                    <!-- Tambahkan data sesuai dengan total transaksi -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Box untuk Total Claim Promosi -->
+                                <div class="col-xl-2 col-sm-4 col-6">
+                                    <div class="card ov-card">
+                                        <div class="card-body">
+                                            <div class="ana-box">
+                                                <div class="ic-n-bx">
+                                                    <div class="icon-box bg-primary rounded-circle">
+                                                        <i class="fa-solid fa-gift text-white"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="anta-data">
+                                                    <h5>Claim Promosi</h5>
+                                                    <span>@totalClaim</span>
+                                                    <h3>+150</h3> <!-- Tambahkan data sesuai dengan total claim promosi -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Box untuk Total User Banned -->
+                                <div class="col-xl-2 col-sm-4 col-6">
+                                    <div class="card ov-card">
+                                        <div class="card-body">
+                                            <div class="ana-box">
+                                                <div class="ic-n-bx">
+                                                    <div class="icon-box bg-primary rounded-circle">
+                                                        <i class="fa-solid fa-ban text-white"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="anta-data">
+                                                    <h5>User Banned</h5>
+                                                    <span>@totalBanned</span>
+                                                    <h3>+12</h3> <!-- Tambahkan data sesuai dengan total user banned -->
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -103,187 +204,293 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-xl-4">
-                <div class="card">
-                    <div class="card-body">
-                        <select id="period-select" class="form-control">
-                            <option value="month">Bulan Ini</option>
-                            <option value="last_month">Bulan Lalu</option>
-                            <option value="today">Hari Ini</option>
-                            <option value="yesterday">Kemarin</option>
-                            <option value="last_week">1 Minggu Terakhir</option>
-                            <option value="this_week">Minggu Ini</option>
-                        </select>
-
-                        <div id="pie-chart">
-                            <div id="loading-pie" class="loading-spinner" style="display: none;">
-                                <i class="fa fa-spinner fa-spin"></i> Loading...
-                            </div>
+        </div>
+        <div class="col-xl-6 col-xxl-12">
+            <div class="card">
+                <div class="card-header border-0">
+                    <h4 class="heading mb-0">Reports Of Earning</h4>
+                </div>
+                <div class="card-body py-0">
+                    <div class="row align-items-center">
+                        <!-- Chart for Deposit and Withdraw Comparison in Last 7 Days -->
+                        <div class="col-xl-12 custome-tooltip">
+                            <div id="comparisonChart" class="chartBar"></div>
+                            <!-- Chart Bar for Deposit and Withdraw per day -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="col-xl-3 col-xxl-6 col-md-6">
+            <div class="card">
+                <div class="card-header border-0">
+                    <div>
+                        <h4 class="heading mb-0">Data Login Pemain</h4>
+                        <span>25 Terakhir login</span>
+                    </div>	
+                </div>
+                <div class="card-body p-0 pb-3">
+                    <ul class="country-sale dz-scroll">
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>Jakarta, Indonesia</small>
+                              </div>
+                                <span class="badge badge-primary  border-0 ms-2">192.1.1.0</span>
+                            </div>
+                        </li>
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>Jakarta, Indonesia</small>
+                              </div>
+                                <span class="badge badge-primary  border-0 ms-2">192.1.1.0</span>
+                            </div>
+                        </li>
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>Jakarta, Indonesia</small>
+                              </div>
+                                <span class="badge badge-primary  border-0 ms-2">192.1.1.0</span>
+                            </div>
+                        </li>
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>Jakarta, Indonesia</small>
+                              </div>
+                                <span class="badge badge-primary  border-0 ms-2">192.1.1.0</span>
+                            </div>
+                        </li>
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>Jakarta, Indonesia</small>
+                              </div>
+                                <span class="badge badge-primary  border-0 ms-2">192.1.1.0</span>
+                            </div>
+                        </li>
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>Jakarta, Indonesia</small>
+                              </div>
+                                <span class="badge badge-primary  border-0 ms-2">192.1.1.0</span>
+                            </div>
+                        </li>
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>Jakarta, Indonesia</small>
+                              </div>
+                                <span class="badge badge-primary  border-0 ms-2">192.1.1.0</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="col-xl-3 col-xxl-6 col-md-6">
+            <div class="card">
+                <div class="card-header border-0">
+                    <div>
+                        <h4 class="heading mb-0">Terakhir Game yang Dimainkan</h4>
+                        <span>25 Permain Terakhir</span>
+                    </div>	
+                </div>
+                <div class="card-body p-0 pb-3">
+                    <ul class="country-sale dz-scroll">
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>PGSOFT</small>
+                              </div>
+                                <span class="badge badge-success  border-0 ms-2">Mahjong Ways</span>
+                            </div>
+                        </li>
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>PGSOFT</small>
+                              </div>
+                                <span class="badge badge-success  border-0 ms-2">Mahjong Ways</span>
+                            </div>
+                        </li>
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>PGSOFT</small>
+                              </div>
+                                <span class="badge badge-success  border-0 ms-2">Mahjong Ways</span>
+                            </div>
+                        </li>
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>PGSOFT</small>
+                              </div>
+                                <span class="badge badge-success  border-0 ms-2">Mahjong Ways</span>
+                            </div>
+                        </li>
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>PGSOFT</small>
+                              </div>
+                                <span class="badge badge-success  border-0 ms-2">Mahjong Ways</span>
+                            </div>
+                        </li>
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>PGSOFT</small>
+                              </div>
+                                <span class="badge badge-success  border-0 ms-2">Mahjong Ways</span>
+                            </div>
+                        </li>
+                        <li class="d-flex">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                              <div class="ms-2">
+                                <h6 class="mb-0">Username 01</h6>
+                                <small>PGSOFT</small>
+                              </div>
+                                <span class="badge badge-success  border-0 ms-2">Mahjong Ways</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
-
+@section('styles')
+    <link href="{{ asset('backoffice/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('backoffice/vendor/swiper/css/swiper-bundle.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('backoffice/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('backoffice/vendor/datatables/css/buttons.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('backoffice/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}"
+        rel="stylesheet">
+    <!-- Style css -->
+    <link class="main-css" href="{{ asset('backoffice/css/style.css') }}" rel="stylesheet">
+@endsection
 @section('scripts')
-    <script src="{{ asset('backoffice/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
-    <script>
-        // Fetch the transaction data for the chart
-        function fetchChartData(period) {
-            document.getElementById('loading').style.display = 'block'; // Show loading spinner
-            fetch(`/backoffice/dashboard/get-transaction-data/{{ $setting->web_token }}?period=${period}`)
-                .then(response => response.json())
-                .then(data => {
-                    renderChart(data);
-                    document.getElementById('loading').style.display = 'none'; // Hide loading spinner
-                })
-                .catch(() => {
-                    document.getElementById('loading').style.display = 'none'; // Hide loading spinner in case of error
-                });
-        }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/4.1.0/apexcharts.min.js"
+        integrity="sha512-pX8wly6uaNHjO2Idm8xpq7Fu52iU/F3IK2rS8vTUlw7138ZsDCgfljwotyOpQxycTqK4MryB4Pv7ArDmzx7sPQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        // Render the spline chart with transaction data
-        function renderChart(data) {
-            var options = {
-                series: [{
-                    name: 'Deposit',
-                    data: data.deposit
-                }, {
-                    name: 'Withdraw',
-                    data: data.withdraw
-                }, {
-                    name: 'Bonus',
-                    data: data.bonus
-                }, {
-                    name: 'Rolling',
-                    data: data.rolling
-                }, {
-                    name: 'Cashback',
-                    data: data.cashback
-                }],
-                chart: {
-                    height: 350,
-                    type: 'line', // Set chart type to 'line' for spline chart
-                    toolbar: {
-                        show: false
+    <script src="{{ asset('backoffice/vendor/global/global.min.js') }}"></script>
+    <script src="{{ asset('backoffice/vendor/chart-js/chart.bundle.min.js') }}"></script>
+    <script src="{{ asset('backoffice/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('backoffice/vendor/bootstrap-datetimepicker/js/moment.js') }}"></script>
+    <script src="{{ asset('backoffice/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+
+    <!-- Vectormap -->
+    <script src="{{ asset('backoffice/js/custom.min.js') }}"></script>
+    <script src="{{ asset('backoffice/js/deznav-init.js') }}"></script>
+    <script src="{{ asset('backoffice/js/demo.js') }}"></script>
+    <script src="{{ asset('backoffice/js/styleSwitcher.js') }}"></script>
+
+
+    <script>
+        // Example data for 7 days (replace with real data as needed)
+        let depositData = [1000, 2000, 1500, 1200, 1300, 1100, 1400];  // Deposit amounts for the last 7 days
+        let withdrawData = [500, 700, 600, 400, 650, 500, 550];       // Withdrawal amounts for the same period
+    
+        let labels = ['2024-11-22', '2024-11-23', '2024-11-24', '2024-11-25', '2024-11-26', '2024-11-27', '2024-11-28']; // Labels for the days
+    
+        // Chart options
+        var options = {
+            chart: {
+                type: 'bar', // Bar chart
+                height: 350,
+                stacked: true, // Stack bars on top of each other
+                toolbar: {
+                    show: false // Hide toolbar
+                }
+            },
+            series: [
+                {
+                    name: 'Deposit (Rp)',
+                    data: depositData, // Deposit data
+                    color: '#007bff' // Blue color for Deposit
+                },
+                {
+                    name: 'Withdraw (Rp)',
+                    data: withdrawData, // Withdraw data
+                    color: '#dc3545' // Red color for Withdraw
+                }
+            ],
+            xaxis: {
+                categories: labels, // Date labels
+                labels: {
+                    rotate: -45, // Rotate labels for better readability
+                    style: {
+                        colors: '#6c757d',
+                        fontSize: '12px'
                     }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    width: 3, // Increase stroke width for better visibility
-                    curve: 'smooth', // Ensure the smooth curve for spline
-                },
+                }
+            },
+            yaxis: {
                 title: {
-                    text: 'Pertumbuhan Transaksi',
-                    align: 'left'
-                },
-                xaxis: {
-                    categories: data.labels, // x-axis categories based on labels from API
-                    title: {
-                        text: 'Tanggal' // Title for the x-axis
+                    text: 'Amount (Rp)',
+                    style: {
+                        fontSize: '14px',
+                        fontWeight: 'bold'
                     }
                 },
-                yaxis: {
-                    title: {
-                        text: 'Jumlah (Rupiah)' // Title for the y-axis
-                    },
-                    labels: {
-                        formatter: function(value) {
-                            return 'Rp ' + value.toLocaleString(); // Format currency labels
+                labels: {
+                    formatter: function(value) {
+                        return 'Rp ' + value.toLocaleString(); // Format Y-axis values
+                    }
+                },
+                min: 0, // Start from 0
+            },
+            tooltip: {
+                shared: true, // Shared tooltip
+                intersect: false, // Avoid intersect issue
+                y: {
+                    formatter: function(value) {
+                        return 'Rp ' + value.toLocaleString(); // Format tooltip values
+                    }
+                }
+            },
+            responsive: [
+                {
+                    breakpoint: 768, // When screen width is less than 768px
+                    options: {
+                        chart: {
+                            height: 350
+                        },
+                        xaxis: {
+                            labels: {
+                                rotate: 0 // No rotation on smaller screens
+                            }
                         }
                     }
-                },
-                grid: {
-                    borderColor: '#f1f1f1',
-                    strokeDashArray: 5,
-                    position: 'back'
-                },
-                legend: {
-                    position: 'top',
-                    horizontalAlign: 'right',
-                    floating: true,
-                    offsetY: -25
                 }
-            };
-
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
-            chart.render();
-        }
-
-        // Initialize the chart with default period (e.g., month)
-        fetchChartData('month'); // Fetch data for the current month
-    </script>
-
-    <script>
-        // Fetch data for the pie chart
-        function fetchTransactionData(period) {
-            document.getElementById('loading-pie').style.display = 'block'; // Show loading spinner for pie chart
-            fetch(`/backoffice/dashboard/transaction-summary/{{ $setting->web_token }}?period=${period}`)
-                .then(response => response.json())
-                .then(data => {
-                    renderPieChart(data);
-                    document.getElementById('loading-pie').style.display = 'none'; // Hide loading spinner
-                })
-                .catch(() => {
-                    document.getElementById('loading-pie').style.display =
-                        'none'; // Hide loading spinner in case of error
-                });
-        }
-
-        // Render the pie chart with transaction data
-        function renderPieChart(transactionData) {
-            var options = {
-                series: transactionData.data,
-                chart: {
-                    height: 350,
-                    type: 'pie' // Set chart type to pie
-                },
-                labels: transactionData.labels,
-                title: {
-                    text: 'Perbandingan Jumlah Transaksi Berdasarkan Tipe',
-                    align: 'center',
-                    style: {
-                        fontSize: '14px',
-                        fontWeight: 'bold',
-                        color: '#333'
-                    }
-                },
-                colors: ['#00E396', '#FF4560', '#FEB019', '#775DD0', '#28C76F'],
-                dataLabels: {
-                    enabled: true,
-                    style: {
-                        fontSize: '14px',
-                        fontWeight: '500',
-                        colors: ['#fff'],
-                    },
-                    dropShadow: {
-                        enabled: true,
-                        top: 1,
-                        left: 1,
-                        blur: 1,
-                        opacity: 0.8
-                    }
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            };
-
-            var chart = new ApexCharts(document.querySelector("#pie-chart"), options);
-            chart.render();
-        }
-
-        // Event listener for period select dropdown to change period
-        document.getElementById('period-select').addEventListener('change', function(event) {
-            var selectedPeriod = event.target.value;
-            fetchChartData(selectedPeriod);
-            fetchTransactionData(selectedPeriod);
-        });
-        fetchTransactionData('month'); // Load initial data for the current month for pie chart
+            ]
+        };
+    
+        // Render the chart
+        var chart = new ApexCharts(document.querySelector("#comparisonChart"), options);
+        chart.render();
     </script>
 @endsection

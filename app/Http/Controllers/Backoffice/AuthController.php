@@ -11,58 +11,30 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 class AuthController extends Controller
 {
-    public function login($a)
+    public function login()
     {
-        $setting = Setting::first();
-        if (!$setting || $a !== $setting->web_token) {
-           abort(403);
-        }
-
-        $token = $a;
-        return view('backend.auth.login', compact('token'));
+        return view('backend.auth.login');
     }
 
-    public function authenticate(Request $request, $token)
-    {
-        $setting = Setting::first();
-        if (!$setting || $token !== $setting->web_token) {
-            return back()->withErrors(['token' => 'Invalid token.']);
-        }
-    
-        $ip = $request->ip();
-        $blockedKey = 'blocked.' . $ip;
-        
-        if (Cache::has($blockedKey)) {
-            return response()->json(['error' => 'Your device is temporarily blocked due to multiple failed login attempts.'], 403);
-        }
-    
-        // $key = 'login.' . $ip;
-        // if (RateLimiter::tooManyAttempts($key, 3)) {
-        //     RateLimiter::clear($key);
-        //     Cache::put($blockedKey, true, now()->addMinutes(60));
-        //     abort(429, 'Too many login attempts. Please try again in 1 hour.');
-        // }
-    
+    public function authenticate(Request $request)
+    {    
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
     
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            // RateLimiter::clear($key);
             return redirect()->route('backoffice.dashboard');
         }
-    
-        // RateLimiter::hit($key, 60);
     
         return back()->withErrors(['username' => 'Invalid credentials.']);
     }
 
     public function logout(Request $request)
     {
-        Auth::logout(); // Logout pengguna
+        Auth::logout();
 
-        $request->session()->invalidate(); // Invalidasi sesi saat ini
+        $request->session()->invalidate();
 
         $request->session()->regenerateToken(); // Regenerasi CSRF token
 

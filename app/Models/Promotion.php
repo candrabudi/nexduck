@@ -9,22 +9,27 @@ class Promotion extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'description',
+        'title',
+        'slug',
+        'short_desc',
+        'content',
         'start_date',
         'end_date',
-        'type',
-        'claim_deposit',
-        'min_deposit',
-        'max_deposit',
-        'max_withdraw',
-        'target',
+        'promotion_type',
+        'provider_category',
+        'bonus_type',
         'status',
-        'image',
+        'thumbnail',
     ];
+
 
     public function promotionDetail()
     {
         return $this->hasOne(PromotionDetail::class, 'promotion_id', 'id');
+    }
+
+    public function details()
+    {
+        return $this->hasOne(PromotionDetail::class, 'promotion_id');
     }
 }
