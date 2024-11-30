@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\ClaimPromotion;
 use App\Models\MemberBalance;
 use App\Models\MemberBank;
 use App\Models\Transaction;
@@ -31,6 +32,15 @@ class WithdrawController extends Controller
     
             if ($pendingTransaction) {
                 session()->flash('error', 'Anda memiliki transaksi penarikan yang masih pending. Harap tunggu hingga transaksi tersebut diproses.');
+                return redirect()->back();
+            }
+
+            $claimPromotion = ClaimPromotion::where('user_id', Auth::user()->id)
+                ->where('status', 0)
+                ->first();
+
+            if($claimPromotion) {
+                session()->flash('error', 'Promosi anda masih berjalan, mohon selesaikan promosi terlebih dahulu');
                 return redirect()->back();
             }
     
