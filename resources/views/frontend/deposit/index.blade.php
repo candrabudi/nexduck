@@ -78,7 +78,7 @@
                                 </select>
                             </div>
 
-                            <div id="promotion-details" class="promotion-details hidden mt-3 text-white">
+                            <div id="promotion-details" class="promotion-details hidden mt-3 text-black">
                                 <p><strong>Promosi: </strong><span id="promotion-name"></span></p>
                                 <p><strong>Min. Deposit: </strong><span id="min-deposit"></span></p>
                                 <p><strong>Max. Deposit: </strong><span id="max_deposit"></span></p>
