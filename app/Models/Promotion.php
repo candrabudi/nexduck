@@ -22,6 +22,11 @@ class Promotion extends Model
         'thumbnail',
     ];
 
+    public function claimPromotions()
+    {
+        return $this->hasMany(ClaimPromotion::class);
+    }
+    
 
     public function promotionDetail()
     {

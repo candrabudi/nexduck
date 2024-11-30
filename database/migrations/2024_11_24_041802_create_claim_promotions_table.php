@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('nominal_deposit');
             $table->integer('current_target');
             $table->integer('target');
-            $table->integer('status', 1);
+            $table->integer('status', 0);
             $table->timestamps();
         });
     }

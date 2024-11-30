@@ -230,7 +230,7 @@
                 var formData = $('#edit-status-form').serialize();
 
                 $.ajax({
-                    url: '{{ route('backoffice.transactions.deposit.updateStatus') }}',
+                    url: '{{ route('backoffice.transactions.bonus.updateStatus') }}',
                     method: 'POST',
                     data: formData,
                     headers: {

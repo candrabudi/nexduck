@@ -206,7 +206,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/promotions-store', [PromotionController::class, 'store'])->name('promotions.store');
         Route::get('/promotions-edit', [PromotionController::class, 'edit'])->name('promotions.edit');
         Route::post('/promotions-update', [PromotionController::class, 'update'])->name('promotions.update');
-        Route::delete('/promotions-destroy', [PromotionController::class, 'destroy'])->name('promotions.destroy');
+        Route::delete('/promotions-destroy/{a}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
 
         // Bonus Routes
         Route::get('/transaction/bonus', [BonusController::class, 'index'])->name('transactions.bonus');

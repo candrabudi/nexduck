@@ -1,5 +1,5 @@
 @php
-    $isLoggedIn  = Auth::user() ?  true : false;
+    $isLoggedIn = Auth::user() ? true : false;
 @endphp
 @extends('frontend.layouts.app')
 
@@ -104,19 +104,21 @@
                 <!-- Gambar untuk resolusi besar (1920px dan lebih) -->
                 <source media="(min-width: 1920px)" srcset="{{ asset('images/hero-background-desktop.webp') }}">
                 <!-- Gambar untuk resolusi desktop menengah (1368px - 1919px) -->
-                <source media="(min-width: 1368px) and (max-width: 1919px)" srcset="{{ asset('images/hero-background-desktop.webp') }}">
+                <source media="(min-width: 1368px) and (max-width: 1919px)"
+                    srcset="{{ asset('images/hero-background-desktop.webp') }}">
                 <!-- Gambar untuk resolusi desktop umum (1280px - 1367px) -->
-                <source media="(min-width: 1280px) and (max-width: 1367px)" srcset="{{ asset('images/hero-background-desktop.webp') }}">
+                <source media="(min-width: 1280px) and (max-width: 1367px)"
+                    srcset="{{ asset('images/hero-background-desktop.webp') }}">
                 <!-- Gambar untuk resolusi lebih kecil (mobile) -->
                 <source media="(max-width: 640px)" srcset="{{ asset('images/hero-background-mobile.webp') }}">
                 <!-- Gambar default untuk fallback -->
                 <img src="{{ asset('images/hero-background-desktop.webp') }}" alt="Background Desktop"
                     class="absolute inset-0 object-cover w-full h-full" />
             </picture>
-            
+
             <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-transparent to-gray-900 opacity-60"></div>
         </div>
-        
+
     </div>
 
     <div class="" style="margin-top: -50px;">
@@ -192,7 +194,8 @@
         @if (Auth::user())
             <div class="md:w-4/6 2xl:w-4/6 mx-auto p-4">
                 <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Promotion Progress</h2>
-                <div id="promotion-container" class="bg-gradient-to-t from-[#16a085] to-[#1abc9c] shadow-2xl rounded-lg p-6">
+                <div id="promotion-container"
+                    class="bg-gradient-to-t from-[#1d1f2f] to-[#292b42] shadow-2xl rounded-lg p-8">
                 </div>
             </div>
 
@@ -218,26 +221,30 @@
                 function updatePromotionUI(promotion, progress) {
                     const container = document.getElementById('promotion-container');
                     container.innerHTML = `
-                    <div class="mb-6 text-black">
-                        <p class="text-xl font-bold text-gray-800"><strong>Nominal Deposit:</strong> 
-                            <span class="text-gray-900 font-semibold">${new Intl.NumberFormat('id-ID').format(promotion.nominal_deposit)} IDR</span>
+                    <div class="mb-6 text-white">
+                        <p class="text-xl font-bold mb-2"><strong>Nominal Deposit:</strong> 
+                            <span class="text-green-400 font-semibold">${new Intl.NumberFormat('id-ID').format(promotion.nominal_deposit)} IDR</span>
                         </p>
-                        <p class="text-xl font-bold text-gray-800"><strong>Target:</strong> 
-                            <span class="text-gray-900 font-semibold">${new Intl.NumberFormat('id-ID').format(promotion.target)} IDR</span>
+                        <p class="text-xl font-bold mb-2"><strong>Target:</strong> 
+                            <span class="text-green-400 font-semibold">${new Intl.NumberFormat('id-ID').format(promotion.target)} IDR</span>
                         </p>
-                        <p class="text-xl font-bold text-gray-800"><strong>Current Progress:</strong> 
-                            <span class="text-gray-900 font-semibold">${new Intl.NumberFormat('id-ID').format(promotion.current_target)} IDR</span>
+                        <p class="text-xl font-bold mb-2"><strong>Current Progress:</strong> 
+                            <span class="text-green-400 font-semibold">${new Intl.NumberFormat('id-ID').format(promotion.current_target)} IDR</span>
                         </p>
                     </div>
-        
+
                     <!-- Elegant Progress Bar -->
-                    <div class="w-full bg-gray-300 rounded-full h-5 mb-4 shadow-inner">
-                        <div class="h-5 rounded-full text-center font-bold text-white bg-green-600 shadow-md"
-                            style="width: ${progress}%; transition: width 0.3s ease-in-out;">
-                            ${progress.toFixed(2)}%
+                    <div class="w-full bg-gray-700 rounded-full h-6 mb-4 shadow-inner">
+                        <div id="progress-bar" class="h-6 rounded-full text-center font-bold text-white bg-gradient-to-r from-[#1abc9c] to-[#16a085] shadow-lg"
+                            style="width: 0%; transition: width 1s ease-in-out;">
+                            <span id="progress-text" class="absolute inset-0 flex items-center justify-center font-semibold text-xl">${progress.toFixed(2)}%</span>
                         </div>
                     </div>
-                `;
+                    `;
+                    const progressBar = document.getElementById('progress-bar');
+                    const progressText = document.getElementById('progress-text');
+                    progressBar.style.width = `${progress}%`;
+                    progressText.textContent = `${progress.toFixed(2)}%`;
                 }
 
                 document.addEventListener('DOMContentLoaded', () => {
@@ -246,6 +253,7 @@
                 });
             </script>
         @endif
+
 
 
         <div class="md:w-4/6 2xl:w-4/6 mx-auto p-4">
@@ -274,8 +282,7 @@
                         <div class="w-full flex justify-between mb-2">
                             <h2 class="text-xl font-bold">{{ $pv['provider_name'] }}</h2>
                             <div class="flex">
-                               <a href="/slots"
-                                    class="item-game px-3 py-2 mr-2 rounded">See all</a>
+                                <a href="/slots" class="item-game px-3 py-2 mr-2 rounded">See all</a>
                                 <button class="item-game px-3 py-2 rounded mr-2 custom-prev"
                                     data-target="#carousel-{{ $index }}">
                                     <i class="fa-solid fa-angle-left"></i>

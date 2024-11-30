@@ -9,6 +9,8 @@ use App\Models\Game;
 use App\Models\Member;
 use App\Models\MemberBalance;
 use App\Models\MemberExt;
+use App\Models\Promotion;
+use App\Models\PromotionDetail;
 use App\Models\Provider;
 use App\Models\SeoSetting;
 use Carbon\Carbon;
@@ -73,19 +75,117 @@ class HomeController extends Controller
 
     public function getPromotionProgress($userId)
     {
-        $promotion = ClaimPromotion::where('user_id', $userId)
-            ->where('status', 1)
+        $claimPromotion = ClaimPromotion::where('user_id', $userId)
+            ->where('status', 0)
             ->first();
 
-        if (!$promotion) {
+        if (!$claimPromotion) {
             return response()->json([
                 'message' => 'No active promotion found for this user.',
             ], 404);
         }
 
+        $promotion = Promotion::where('id', $claimPromotion->promotion_id)
+            ->first();
+
+        if ($promotion->promotion_type == "winover") {
+
+            $user = Auth::user();
+
+            $postData = [
+                'method' => 'money_info',
+                'agent_code' => env('NEXUS_AGENT_CODE'),
+                'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
+                'user_code' => $user->memberExt->ext_name,
+            ];
+            $response = Http::post(env('NEXUS_URL'), $postData);
+            if ($response->successful()) {
+                $data = json_decode($response->body(), true);
+
+                if (isset($data['status']) && $data['status'] == 1 && isset($data['user']['balance'])) {
+                    MemberBalance::where('user_id', $user->id)
+                        ->update([
+                            'main_balance' => $data['user']['balance'],
+                        ]);
+
+                    $claimPromotion->current_target = $data['user']['balance'];
+                    $claimPromotion->save();
+                }
+            }
+
+
+        } else {
+
+            $nowIndonesia = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
+
+            $totalBetMoney = 0;
+            $page = 0;
+            $allGameData = [];
+
+            do {
+                $postData = [
+                    'method' => 'get_game_log',
+                    'agent_code' => env('NEXUS_AGENT_CODE'),
+                    'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
+                    'user_code' => Auth::user()->memberExt->ext_name,
+                    'game_type' => 'slot',
+                    'start' => $claimPromotion->updated_at,
+                    'end' => $nowIndonesia,
+                    'page' => $page,
+                    'perPage' => 1000
+                ];
+                $response = Http::post(env('NEXUS_URL'), $postData);
+                if ($response->successful()) {
+                    $data = $response->json();
+
+                    if (isset($data['slot']) && is_array($data['slot']) && !empty($data['slot'])) {
+                        $allGameData = array_merge($allGameData, $data['slot']);
+
+                        foreach ($data['slot'] as $game) {
+                            $totalBetMoney += $game['bet_money'];
+
+                            $existingHistory = DB::table('game_histories')->where('history_id', $game['history_id'])->first();
+
+                            if (!$existingHistory) {
+                                DB::table('game_histories')->insert([
+                                    'history_id' => $game['history_id'],
+                                    'agent_code' => $game['agent_code'],
+                                    'user_code' => $game['user_code'],
+                                    'provider_code' => $game['provider_code'],
+                                    'game_code' => $game['game_code'],
+                                    'type' => $game['type'],
+                                    'bet_money' => $game['bet_money'],
+                                    'win_money' => $game['win_money'],
+                                    'txn_id' => $game['txn_id'],
+                                    'txn_type' => $game['txn_type'],
+                                    'user_start_balance' => $game['user_start_balance'],
+                                    'user_end_balance' => $game['user_end_balance'],
+                                    'agent_start_balance' => $game['agent_start_balance'],
+                                    'agent_end_balance' => $game['agent_end_balance'],
+                                    'created_at' => Carbon::parse($game['created_at']),
+                                    'updated_at' => Carbon::now(),
+                                ]);
+                            }
+                        }
+                        $page++;
+                    } else {
+                        break;
+                    }
+                } else {
+                    return response()->json([
+                        'error' => 'Failed to retrieve game history',
+                        'details' => $response->body()
+                    ], $response->status());
+                }
+
+            } while (!empty($data['slot']));
+            $claimPromotion->current_target = $totalBetMoney;
+            $claimPromotion->save();
+        }
+
         return response()->json([
-            'promotion' => $promotion,
-            'progress' => $promotion->current_target > 0 ? min(($promotion->current_target / $promotion->target) * 100, 100) : 0
+            'promotion' => $claimPromotion,
+            'progress' => $claimPromotion->current_target > 0 ? min(($claimPromotion->current_target / $claimPromotion->target) * 100, 100) : 0
         ]);
     }
 
@@ -95,80 +195,140 @@ class HomeController extends Controller
             ->where('status', 1)
             ->first();
 
-        $nowIndonesia = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
+        if (!$claimPromotion) {
+            return response()->json([
+                'status' => 'success',
+                'code' => 200,
+                'message' => 'Tidak ada promosi berjalan'
+            ]);
+        }
 
-        $totalBetMoney = 0;
-        $page = 0;
-        $allGameData = [];
+        $promotion = Promotion::where('id', $claimPromotion->promotion_id)
+            ->first();
 
-        do {
+        if ($promotion->promotion_type == "winover") {
+
+            $user = Auth::user();
+
             $postData = [
-                'method' => 'get_game_log',
+                'method' => 'money_info',
                 'agent_code' => env('NEXUS_AGENT_CODE'),
                 'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
-                'user_code' => Auth::user()->memberExt->ext_name,
-                'game_type' => 'slot',
-                'start' => $claimPromotion->updated_at,
-                'end' => $nowIndonesia,
-                'page' => $page,
-                'perPage' => 1000
+                'user_code' => $user->memberExt->ext_name,
             ];
-            $response = Http::post(env('NEXUS_URL'), $postData);
-            if ($response->successful()) {
-                $data = $response->json();
 
-                if (isset($data['slot']) && is_array($data['slot']) && !empty($data['slot'])) {
-                    $allGameData = array_merge($allGameData, $data['slot']);
+            try {
+                $response = Http::post(env('NEXUS_URL'), $postData);
+                if ($response->successful()) {
+                    $data = json_decode($response->body(), true);
 
-                    foreach ($data['slot'] as $game) {
-                        $totalBetMoney += $game['bet_money'];
-
-                        $existingHistory = DB::table('game_histories')->where('history_id', $game['history_id'])->first();
-
-                        if (!$existingHistory) {
-                            DB::table('game_histories')->insert([
-                                'history_id' => $game['history_id'],
-                                'agent_code' => $game['agent_code'],
-                                'user_code' => $game['user_code'],
-                                'provider_code' => $game['provider_code'],
-                                'game_code' => $game['game_code'],
-                                'type' => $game['type'],
-                                'bet_money' => $game['bet_money'],
-                                'win_money' => $game['win_money'],
-                                'txn_id' => $game['txn_id'],
-                                'txn_type' => $game['txn_type'],
-                                'user_start_balance' => $game['user_start_balance'],
-                                'user_end_balance' => $game['user_end_balance'],
-                                'agent_start_balance' => $game['agent_start_balance'],
-                                'agent_end_balance' => $game['agent_end_balance'],
-                                'created_at' => Carbon::parse($game['created_at']),
-                                'updated_at' => Carbon::now(),
+                    if (isset($data['status']) && $data['status'] == 1 && isset($data['user']['balance'])) {
+                        MemberBalance::where('user_id', $user->id)
+                            ->update([
+                                'main_balance' => $data['user']['balance'],
                             ]);
-                        }
+
+                        return response()->json([
+                            'status' => 'success',
+                            'code' => 200,
+                            'message' => 'Ada promosi berjalan berjenis winover',
+                            'data' => $claimPromotion
+                        ]);
+                    } else {
+                        return response()->json([
+                            'status' => 0,
+                            'msg' => 'Balance not available or invalid response from API.',
+                        ]);
                     }
-                    $page++;
                 } else {
-                    break;
+                    return response()->json([
+                        'status' => 0,
+                        'msg' => 'Failed to fetch data from API.',
+                    ]);
                 }
-            } else {
+            } catch (\Exception $e) {
                 return response()->json([
-                    'error' => 'Failed to retrieve game history',
-                    'details' => $response->body()
-                ], $response->status());
+                    'status' => 0,
+                    'msg' => 'An error occurred: ' . $e->getMessage(),
+                ]);
             }
 
-        } while (!empty($data['slot']));
-        $claimPromotion->current_target = $totalBetMoney;
-        $claimPromotion->save();
+        } else {
 
-        return response()->json([
-            'status' => $data['status'],
-            'total_count' => $data['total_count'],
-            'page' => $data['page'],
-            'perPage' => $data['perPage'],
-            'slot' => $allGameData,
-            'total_bet_money' => $totalBetMoney
-        ]);
+            $nowIndonesia = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
+
+            $totalBetMoney = 0;
+            $page = 0;
+            $allGameData = [];
+
+            do {
+                $postData = [
+                    'method' => 'get_game_log',
+                    'agent_code' => env('NEXUS_AGENT_CODE'),
+                    'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
+                    'user_code' => Auth::user()->memberExt->ext_name,
+                    'game_type' => 'slot',
+                    'start' => $claimPromotion->updated_at,
+                    'end' => $nowIndonesia,
+                    'page' => $page,
+                    'perPage' => 1000
+                ];
+                $response = Http::post(env('NEXUS_URL'), $postData);
+                if ($response->successful()) {
+                    $data = $response->json();
+
+                    if (isset($data['slot']) && is_array($data['slot']) && !empty($data['slot'])) {
+                        $allGameData = array_merge($allGameData, $data['slot']);
+
+                        foreach ($data['slot'] as $game) {
+                            $totalBetMoney += $game['bet_money'];
+
+                            $existingHistory = DB::table('game_histories')->where('history_id', $game['history_id'])->first();
+
+                            if (!$existingHistory) {
+                                DB::table('game_histories')->insert([
+                                    'history_id' => $game['history_id'],
+                                    'agent_code' => $game['agent_code'],
+                                    'user_code' => $game['user_code'],
+                                    'provider_code' => $game['provider_code'],
+                                    'game_code' => $game['game_code'],
+                                    'type' => $game['type'],
+                                    'bet_money' => $game['bet_money'],
+                                    'win_money' => $game['win_money'],
+                                    'txn_id' => $game['txn_id'],
+                                    'txn_type' => $game['txn_type'],
+                                    'user_start_balance' => $game['user_start_balance'],
+                                    'user_end_balance' => $game['user_end_balance'],
+                                    'agent_start_balance' => $game['agent_start_balance'],
+                                    'agent_end_balance' => $game['agent_end_balance'],
+                                    'created_at' => Carbon::parse($game['created_at']),
+                                    'updated_at' => Carbon::now(),
+                                ]);
+                            }
+                        }
+                        $page++;
+                    } else {
+                        break;
+                    }
+                } else {
+                    return response()->json([
+                        'error' => 'Failed to retrieve game history',
+                        'details' => $response->body()
+                    ], $response->status());
+                }
+
+            } while (!empty($data['slot']));
+            $claimPromotion->current_target = $totalBetMoney;
+            $claimPromotion->save();
+
+            return response()->json([
+                'status' => 'success',
+                'code' => 200,
+                'message' => 'Ada promosi berjalan berjenis turnover',
+                'data' => $claimPromotion
+            ]);
+        }
+
     }
 
     public function updateHistoryGame()
@@ -300,10 +460,6 @@ class HomeController extends Controller
                 'msg' => 'An error occurred: ' . $e->getMessage(),
             ]);
         }
-
-
-
-
     }
 
     public function getSeoSetting()

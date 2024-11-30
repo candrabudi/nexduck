@@ -4,8 +4,7 @@
     <div class="md:w-4/6 2xl:w-4/6 mx-auto my-16 p-4">
         <div class="relative mb-3 mt-5 flex flex-col items-start justify-start lg:mb-7 lg:items-center lg:justify-center">
             <div class="flex items-center mb-1 z-50 lg:mb-3">
-                <h2
-                    class="min-w-max text-text-default text-xl font-semibold leading-7 lg:text-3xl lg:font-bold lg:leading-8">
+                <h2 class="min-w-max text-text-default text-xl font-semibold leading-7 lg:text-3xl lg:font-bold lg:leading-8">
                     Promosi
                 </h2>
             </div>
@@ -58,26 +57,24 @@
                 <h3>Tidak ada data untuk ditampilkan</h3>
             </div>
         @else
-            @foreach ($promotions as $promotion)
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach ($promotions as $promotion)
                     <a href="{{ route('promotion.show', $promotion->slug) }}"
                         class="relative aspect-[2/1] cursor-pointer overflow-hidden rounded-xl sm:hover:-translate-y-1.5 sm:hover:transition sm:hover:duration-500 sm:hover:ease-in-out">
                         <div
                             class="inline-flex justify-between px-1.5 py-1 items-center space-x-1 py-1 px-4 text-xs font-normal leading-none rounded-full absolute right-3 top-3 bg-bgr-lightest text-text-default">
-                            <span>{{ $promotion->date }}</span> <!-- atau gunakan Carbon untuk tanggal yang diformat -->
+                            <span>{{ $promotion->date }}</span>
                         </div>
                         <img alt="{{ $promotion->title }}" loading="lazy" decoding="async"
                             class="object-cover w-full h-full" src="{{ $promotion->thumbnail }}">
 
-                        <!-- Title dan Description di bawah gambar -->
-                        <div
-                            class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent text-white">
+                        <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent text-white">
                             <h3 class="text-lg font-semibold">{{ $promotion->title }}</h3>
                             <p class="text-sm mt-1">{{ Str::limit($promotion->short_desc, 100) }}</p>
                         </div>
                     </a>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         @endif
     </div>
 @endsection

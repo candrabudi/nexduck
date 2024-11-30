@@ -8,13 +8,12 @@
                     <div class="tbl-caption">
                         <h4 class="heading mb-0">Promosi</h4>
                         <div>
-                            <a class="btn btn-primary btn-sm me-2" href="{{ route('backoffice.promotions.create') }}">+ Add
-                                Promotion</a>
+                            <a class="btn btn-primary btn-sm me-2" href="{{ route('backoffice.promotions.create') }}">+ Tambah Promosi</a>
                         </div>
                     </div>
                     @if ($promotions->isEmpty())
                         <div class="p-4">
-                            <p class="text-center">No promotions available at the moment.</p>
+                            <p class="text-center">Tidak ada promosi.</p>
                         </div>
                     @else
                         <table id="promotions-tbl" class="table">

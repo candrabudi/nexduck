@@ -25,70 +25,81 @@ class DepositController extends Controller
             ->with('bankAccount')
             ->get();
 
-        // Fetch promotions
-        $promotions = Promotion::with('promotionDetail')->get();  // Assuming the model is named 'Promotion'
+        $user = auth()->user();
+
+        $claimPromotion = ClaimPromotion::where('user_id', Auth::user()->id)
+            ->where('status', 0)
+            ->first();
+
+        $promotions = array();
+        if(!$claimPromotion) {
+            $promotions = Promotion::with('promotionDetail')
+                ->where('status', 'active')
+                ->whereDoesntHave('claimPromotions', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->get();
+        }
+
         return view('frontend.deposit.index', compact('banks', 'ewallets', 'promotions'));
     }
+
 
 
     public function store(Request $request)
     {
         DB::beginTransaction();
         try {
-            // Check if the user already has a pending transaction
             $pendingTransaction = Transaction::where('user_id', Auth::user()->id)
                 ->where('type', 'deposit')
                 ->where('status', 'pending')
                 ->first();
 
             if ($pendingTransaction) {
-                // If there's a pending transaction, return a message saying they can't deposit again
-                return response()->json(['success' => false, 'message' => 'You have a pending transaction. Please wait until it is processed.']);
+                return redirect()->back();
             }
 
-            // Retrieve the bank member
             $bankMember = MemberBank::where('user_id', Auth::user()->id)
                 ->first();
 
-            // Create a new transaction record
-            $store = new Transaction();
-            $store->user_id = Auth::user()->id;
-            $store->promotion_id = 0;
-            $store->admin_bank_id = $request->admin_bank_id;
-            $store->user_bank_id = $bankMember->id;
-            $store->amount = $request->amount;
-            $store->type = "deposit";
-            $store->status = "pending";
-            $store->created_ip_address = $request->ip();
-            $store->save();
+            $storeTransaction = new Transaction();
+            $storeTransaction->user_id = Auth::user()->id;
+            $storeTransaction->promotion_id = 0;
+            $storeTransaction->admin_bank_id = $request->admin_bank_id;
+            $storeTransaction->user_bank_id = $bankMember->id;
+            $storeTransaction->amount = $request->amount;
+            $storeTransaction->type = "deposit";
+            $storeTransaction->status = "pending";
+            $storeTransaction->created_ip_address = $request->ip();
+            $storeTransaction->save();
+            $storeTransaction->fresh();
 
-            // If there's a promotion, handle it
             if ($request->promotion_id != 0 && !empty($request->promotion_id)) {
+
                 $promotion = PromotionDetail::where('promotion_id', $request->promotion_id)
                     ->first();
 
-                $amount = $request->amount;
                 $bonus = ($request->amount * $promotion->percentage_bonus) / 100;
 
-                $claimPromotion = new ClaimPromotion();
-                $claimPromotion->user_id = Auth::user()->id;
-                $claimPromotion->promotion_id = $request->promotion_id;
-                $claimPromotion->nominal_deposit = $request->amount;
-                $claimPromotion->nominal_bonus = $bonus;
-                $claimPromotion->current_target = 0;
-                $claimPromotion->target = ($amount + $bonus) * $promotion->target;
-                $claimPromotion->status = 0;
-                $claimPromotion->save();
+                $store = new Transaction();
+                $store->user_id = Auth::user()->id;
+                $store->transaction_id = $storeTransaction->id;
+                $store->promotion_id = $request->promotion_id;
+                $store->admin_bank_id = 0;
+                $store->user_bank_id = $bankMember->id;
+                $store->amount = $bonus;
+                $store->type = "bonus";
+                $store->status = "pending";
+                $store->created_ip_address = $request->ip();
+                $store->save();
             }
 
-            // Commit the transaction if everything goes well
             DB::commit();
-            return response()->json(['success' => true, 'message' => 'Deposit successfully processed.']);
+            return redirect()->back();
 
         } catch (\Exception $e) {
             DB::rollBack();
-            // Return a JSON response with error message
-            return response()->json(['success' => false, 'message' => 'Something went wrong. Please try again.']);
+            return redirect()->back();
         }
     }
 

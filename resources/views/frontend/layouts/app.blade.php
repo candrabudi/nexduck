@@ -256,6 +256,7 @@
     </style>
     <link rel="preload" as="style" href="{{ asset('/buildassets/assets/app-a5287762.css') }}">
     <link rel="stylesheet" href="{{ asset('/buildassets/assets/app-a5287762.css') }}" data-navigate-track="reload">
+    @yield('styles')
 </head>
 
 <body color-theme="dark" class="bg-base text-gray-800 dark:text-gray-300 ">
