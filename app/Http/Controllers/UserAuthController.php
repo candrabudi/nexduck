@@ -42,8 +42,15 @@ class UserAuthController extends Controller
         ];
 
         if (Auth::attempt($credentials)) {
-            RateLimiter::clear('login.' . $request->ip());
-            return redirect()->intended('/');
+            if(Auth::user()->role != "admin") {
+                RateLimiter::clear('login.' . $request->ip());
+                return redirect()->intended('/');
+            }else{
+                RateLimiter::hit('login.' . $request->ip(), 60);
+                return back()->withErrors([
+                    'username' => 'These credentials do not match our records.',
+                ]);
+            }
         }
 
         RateLimiter::hit('login.' . $request->ip(), 60);
