@@ -69,15 +69,12 @@
             <li>
                 <a href="{{ route('backoffice.members.index') }}" aria-expanded="false">
                     <div class="menu-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                            width="24px" height="25px" viewBox="0 0 24 24" version="1.1" class="svg-main-icon">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <rect x="0" y="0" width="25" height="25"></rect>
-                                <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"></circle>
-                                <path
-                                    d="M12,11 C10.8954305,11 10,10.1045695 10,9 C10,7.8954305 10.8954305,7 12,7 C13.1045695,7 14,7.8954305 14,9 C14,10.1045695 13.1045695,11 12,11 Z M7.00036205,16.4995035 C7.21569918,13.5165724 9.36772908,12 11.9907452,12 C14.6506758,12 16.8360465,13.4332455 16.9988413,16.5 C17.0053266,16.6221713 16.9988413,17 16.5815,17 L7.4041679,17 C7.26484009,17 6.98863236,16.6619875 7.00036205,16.4995035 Z"
-                                    fill="#000000" opacity="0.3"></path>
-                            </g>
+                        <svg width="800px" height="800px" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="6" r="4" fill="#1C274C" />
+                            <path opacity="0.5"
+                                d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
+                                fill="#1C274C" />
                         </svg>
                     </div>
                     <span class="nav-text">Member</span>
@@ -205,7 +202,7 @@
             </li>
 
             <li>
-                <a href="{{ route('backoffice.activity_logs.index') }}"  aria-expanded="false">
+                <a href="{{ route('backoffice.activity_logs.index') }}" aria-expanded="false">
                     <div class="menu-icon">
 
                         <svg width="800px" height="800px" viewBox="0 0 48 48" id="a"
