@@ -6,91 +6,96 @@ use App\Http\Controllers\Controller;
 use App\Models\SocialMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class SocialMediaController extends Controller
 {
-    // Menampilkan data social media
+    // Show all social media data with pagination
     public function index()
     {
-        $socialMedia = SocialMedia::all();
-        return view('backend.socialmedia.index', compact('socialMedia'));
+        $socialMediaList = SocialMedia::paginate(10); // Paginate 10 per page
+        return view('backend.social_media.index', compact('socialMediaList'));
     }
 
-    // Menambah data baru
+    // Store or update the social media record based on the type
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
+        $request->validate([
+            'name' => 'required|string',
             'link_social_media' => 'required|url',
-            'type' => 'required|in:instagram,youtube,twitter,telegram,facebook,tiktok',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'type' => 'required|string',
+            'image' => 'nullable|image|max:2048',
         ]);
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('social_media_images', 'public');
+        // Check if the type already exists in the database
+        $existingSocialMedia = SocialMedia::where('type', $request->type)->first();
+
+        if ($existingSocialMedia) {
+            // If the type already exists, update the existing record
+            return $this->update($request, $existingSocialMedia->id);
         } else {
-            $imagePath = null;
+            // If the type doesn't exist, create a new record
+            $socialMedia = new SocialMedia();
+            $socialMedia->name = $request->name;
+            $socialMedia->link_social_media = $request->link_social_media;
+            $socialMedia->type = $request->type;
+
+            if ($request->hasFile('image')) {
+                // Store the image in the 'public/social_media_images' folder
+                $path = $request->file('image')->store('social_media_images', 'public');
+                $socialMedia->image = asset(Storage::url($path));
+            }
+
+            $socialMedia->save();
+
+            return response()->json(['success' => true]);
         }
-
-        SocialMedia::create([
-            'name' => $validated['name'],
-            'link_social_media' => $validated['link_social_media'],
-            'type' => $validated['type'],
-            'image' => $imagePath,
-        ]);
-
-        return redirect()->route('social-media.index')->with('success', 'Social media created successfully.');
     }
 
-    // Menampilkan data yang akan diedit berdasarkan ID
-    public function edit($id)
-    {
-        $socialMedia = SocialMedia::where('id', $id)->firstOrFail();
-        return response()->json($socialMedia); // Mengembalikan data dalam bentuk JSON
-    }
-
-    // Mengupdate data social media berdasarkan ID
+    // Update an existing social media record
     public function update(Request $request, $id)
     {
-        $socialMedia = SocialMedia::where('id', $id)->firstOrFail();
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
+        $request->validate([
+            'name' => 'required|string',
             'link_social_media' => 'required|url',
-            'type' => 'required|in:instagram,youtube,twitter,telegram,facebook,tiktok',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'type' => 'required|string',
+            'image' => 'nullable|image|max:2048',
         ]);
+
+        $socialMedia = SocialMedia::findOrFail($id);
+        $socialMedia->name = $request->name;
+        $socialMedia->link_social_media = $request->link_social_media;
+        $socialMedia->type = $request->type;
 
         if ($request->hasFile('image')) {
             if ($socialMedia->image) {
-                Storage::disk('public')->delete($socialMedia->image);
+                // Delete the old image if it exists
+                $oldImage = str_replace('storage/', 'public/', $socialMedia->image);
+                Storage::delete($oldImage);
             }
-            $imagePath = $request->file('image')->store('social_media_images', 'public');
-        } else {
-            $imagePath = $socialMedia->image;
+            // Store the new image in the 'public/social_media_images' folder
+            $path = $request->file('image')->store('social_media_images', 'public');
+            $socialMedia->image = asset(Storage::url($path));  // This will generate the URL
         }
 
-        $socialMedia->update([
-            'name' => $validated['name'],
-            'link_social_media' => $validated['link_social_media'],
-            'type' => $validated['type'],
-            'image' => $imagePath,
-        ]);
+        $socialMedia->save();
 
-        return redirect()->route('social-media.index')->with('success', 'Social media updated successfully.');
+        return response()->json(['success' => true]);
     }
 
-    // Menghapus data berdasarkan ID
+    // Delete a social media record
     public function destroy($id)
     {
-        $socialMedia = SocialMedia::where('id', $id)->firstOrFail();
+        $socialMedia = SocialMedia::findOrFail($id);
 
         if ($socialMedia->image) {
-            Storage::disk('public')->delete($socialMedia->image);
+            // Delete the image from storage
+            $oldImage = str_replace('storage/', 'public/', $socialMedia->image);
+            Storage::delete($oldImage);
         }
 
         $socialMedia->delete();
 
-        return redirect()->route('social-media.index')->with('success', 'Social media deleted successfully.');
+        return response()->json(['success' => true]);
     }
 }

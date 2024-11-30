@@ -11,62 +11,70 @@ use Illuminate\Support\Facades\Http;
 
 class TransactionWithdrawController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $query = Transaction::where('type', 'withdraw')
-            ->with(['adminBank', 'userBank', 'userUpdate', 'user']);
-
-        if ($request->has('start_date') && $request->has('end_date')) {
-            $query->whereDate('created_at', '>=', $request->start_date)
-                ->whereDate('created_at', '<=', $request->end_date);
-        }
-
-        if ($request->status) {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->updated_by) {
-            $query->where('updated_by', $request->updated_by);
-        }
-
-        $transactions = $query->get();
-
-        $users = User::whereIn('role', ['admin', 'cs', 'promotor'])
-            ->get();
-
-        return view('backend.withdraws.index', compact('transactions', 'users'));
+        return view('backend.withdraw.index');
     }
 
-
-    public function show($id)
+    public function loadData(Request $request)
     {
-        $transaction = Transaction::with(['adminBank', 'userBank', 'userUpdate', 'user'])
-            ->findOrFail($id);
+        $query = Transaction::with('user', 'adminBank', 'userBank', 'userUpdate')
+            ->select('transactions.*')
+            ->where('transactions.type', 'withdraw')
+            ->join('users', 'transactions.user_id', '=', 'users.id');
 
-        return response()->json($transaction);
+        if ($request->has('search') && $request->search) {
+            $query->where('users.username', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->has('status') && $request->status && $request->status != "Semua Status") {
+            $query->where('transactions.status', $request->status);
+        }
+
+        $transactions = $query->orderBy('transactions.created_at', 'desc')->paginate(10);
+
+        $response = [
+            'transactions' => $transactions->items(),
+            'pagination' => [
+                'current_page' => $transactions->currentPage(),
+                'last_page' => $transactions->lastPage(),
+                'per_page' => $transactions->perPage(),
+                'total' => $transactions->total(),
+            ]
+        ];
+
+        return response()->json($response);
     }
 
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(Request $request)
     {
         try {
-            $transaction = Transaction::findOrFail($id);
+            $transaction = Transaction::findOrFail($request->transaction_id);
 
-            if (!in_array($request->transaction_status, ['approved', 'rejected', 'process'])) {
-                return redirect()->back()->with('error', 'Gagal melakukan update status transasksi withdraw.');
+            if (!in_array($request->status, ['approved', 'rejected', 'process'])) {
+                return response()->json([
+                    'status' => 'failed', 
+                    'code' => 400, 
+                    'message' => 'Gagal melakukan update status transasksi withdraw.'
+                ], 400);
             }
 
-            if ($request->transaction_status == 'rejected' && !$request->has('reason')) {
-                return redirect()->back()->with('error', 'Jika status di tolak, maka isi alasannya');
+            if ($request->status == 'rejected' && !$request->has('reason')) {
+                return response()->json([
+                    'status' => 'failed', 
+                    'code' => 422, 
+                    'message' => 'Jika status di tolak, maka isi alasannya'
+                ], 422);
             }
 
             $transaction->update([
-                'status' => $request->transaction_status,
-                'reason' => $request->transaction_status == 'rejected' ? $request->reason : null,
+                'status' => $request->status,
+                'reason' => $request->status == 'rejected' ? $request->reason : null,
                 'updated_by' => auth()->id(),
                 'updated_ip_address' => $request->ip(),
             ]);
 
-            if ($request->transaction_status == 'rejected') {
+            if ($request->status == 'rejected') {
                 $memberExt = MemberExt::where('user_id', $transaction->user_id)->first();
                 $postData = [
                     'method' => 'user_deposit',
@@ -78,9 +86,16 @@ class TransactionWithdrawController extends Controller
                 Http::post(env('NEXUS_URL'), $postData);
             }
 
-            return redirect()->back()->with('success', 'Status Withdraw Berhasil Di Rubah.');
+            return response()->json([
+                'success' => true,
+                'message' => 'Transaction status updated successfully!',
+            ]);
         } catch (\Exception $e) {
-            return redirect()->back()->with('Maaf ada kesalahan sistem, silahkan hubungi developer.');
+            return response()->json([
+                'status' => 'failed', 
+                'code' => 500, 
+                'message' => 'Internal server error. '.$e->getMessage()
+            ], 500);
         }
     }
 

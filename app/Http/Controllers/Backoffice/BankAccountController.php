@@ -2,132 +2,112 @@
 
 namespace App\Http\Controllers\Backoffice;
 
-use App\Helpers\AesEncryptionHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Bank;
 use App\Models\BankAccount;
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BankAccountController extends Controller
 {
+    // Menampilkan daftar bank account
     public function index()
     {
-        try {
-            $accounts = BankAccount::all();
-            $banks = Bank::all();
-            return view('backend.bankaccount.index', compact('accounts', 'banks'));
-        } catch (\Exception $e) {
-            // Return a better error message for debugging
-            return abort(413, 'Failed to load bank accounts.');
-        }
+        $bankAccounts = BankAccount::with('bank')->get(); // Mengambil semua bank account beserta bank terkait
+        $banks = Bank::all(); // Mengambil semua bank untuk dropdown
+        return view('backend.bank_accounts.index', compact('bankAccounts', 'banks'));
     }
 
+    // Menampilkan form untuk menambah bank account baru
+    public function create()
+    {
+        $banks = Bank::all(); // Mengambil semua bank untuk dropdown
+        return view('backend.bank_accounts.create', compact('banks'));
+    }
+
+    // Menyimpan bank account baru
     public function store(Request $request)
     {
         $request->validate([
+            'account_name' => 'required|string|max:255',
+            'account_number' => 'required|string|max:255',
             'bank_id' => 'required|exists:banks,id',
             'account_status' => 'required|in:0,1',
-            'account_name' => 'required|string|max:255',
-            'account_number' => 'required|string|max:255|unique:bank_accounts,account_number',
-            'account_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // Validasi gambar
+            'account_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Cek jika ada akun lain dengan nama atau nomor yang sama
-        $existingAccount = BankAccount::where('account_name', $request->account_name)
-            ->orWhere('account_number', $request->account_number)
-            ->first();
-
-        if ($existingAccount) {
-            return response()->json(['success' => false, 'message' => 'Account with the same name or number already exists.'], 400);
-        }
-
-        // Simpan data akun
-        $bankAccount = BankAccount::create($request->all());
-
-        // Jika ada gambar yang diupload
+        // Menyimpan file gambar jika ada
         if ($request->hasFile('account_image')) {
-            // Simpan gambar
-            $imagePath = $request->file('account_image')->store('account_images', 'public');
-            $imageUrl = asset('storage/' . $imagePath);
-
-            // Update gambar di bankAccount
-            $bankAccount->account_image = $imageUrl;
-            $bankAccount->save();
+            $imagePath = $request->file('account_image')->store('bank_account_images', 'public');
+        } else {
+            $imagePath = null;
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'BankAccount created successfully',
-            'account_image' => $bankAccount->account_image // Kembalikan URL gambar
+        // Menyimpan data bank account ke database
+        BankAccount::create([
+            'account_name' => $request->account_name,
+            'account_number' => $request->account_number,
+            'bank_id' => $request->bank_id,
+            'account_status' => $request->account_status,
+            'account_image' => $imagePath,
         ]);
+
+        return redirect()->route('backoffice.bank-accounts.index')->with('success', 'Bank Account created successfully');
     }
 
-
-    public function edit($accountId)
+    // Menampilkan form untuk mengedit bank account
+    public function edit(BankAccount $bankAccount)
     {
-        try {
-            $bankAccount = BankAccount::findOrFail($accountId);
-            return response()->json(['apiCredential' => $bankAccount]);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Account not found.'], 404);
-        }
+        $banks = Bank::all(); // Mengambil semua bank untuk dropdown
+        return view('backend.bank_accounts.edit', compact('bankAccount', 'banks'));
     }
 
-    public function update(Request $request, $id)
+    // Memperbarui bank account yang sudah ada
+    public function update(Request $request, BankAccount $bankAccount)
     {
         $request->validate([
+            'account_name' => 'required|string|max:255',
+            'account_number' => 'required|string|max:255',
             'bank_id' => 'required|exists:banks,id',
             'account_status' => 'required|in:0,1',
-            'account_name' => 'required|string|max:255',
-            'account_number' => 'required|string|max:255|unique:bank_accounts,account_number,' . $id,
-            'account_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // Validasi gambar
+            'account_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Cek jika ada akun lain dengan nama atau nomor yang sama
-        $existingAccount = BankAccount::where('id', '!=', $id)
-            ->where(function ($query) use ($request) {
-                $query->where('account_name', $request->account_name)
-                    ->orWhere('account_number', $request->account_number);
-            })
-            ->first();
-
-        if ($existingAccount) {
-            return response()->json(['success' => false, 'message' => 'Account with the same name or number already exists.'], 400);
-        }
-
-        $bankAccount = BankAccount::findOrFail($id);
-
-        // Update field yang diperlukan
-        $bankAccount->update($request->only(['bank_id', 'account_name', 'account_number', 'account_status']));
-
-        // Jika ada gambar yang diupload
+        // Menyimpan gambar baru jika ada
         if ($request->hasFile('account_image')) {
-            // Simpan gambar
-            $imagePath = $request->file('account_image')->store('account_images', 'public');
-            $imageUrl = asset('storage/' . $imagePath);
-
-            // Update gambar di bankAccount
-            $bankAccount->account_image = $imageUrl;
-            $bankAccount->save();
+            // Menghapus gambar lama jika ada
+            if ($bankAccount->account_image && Storage::exists('public/' . $bankAccount->account_image)) {
+                Storage::delete('public/' . $bankAccount->account_image);
+            }
+            // Menyimpan gambar baru
+            $imagePath = $request->file('account_image')->store('bank_account_images', 'public');
+        } else {
+            $imagePath = $bankAccount->account_image; // Jika tidak ada gambar baru, gunakan gambar lama
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'BankAccount updated successfully',
-            'account_image' => $bankAccount->account_image // Kembalikan URL gambar
+        // Memperbarui data bank account
+        $bankAccount->update([
+            'account_name' => $request->account_name,
+            'account_number' => $request->account_number,
+            'bank_id' => $request->bank_id,
+            'account_status' => $request->account_status,
+            'account_image' => $imagePath,
         ]);
+
+        return redirect()->route('backoffice.bank-accounts.index')->with('success', 'Bank Account updated successfully');
     }
 
-
-    public function destroy($id)
+    // Menghapus bank account
+    public function destroy(BankAccount $bankAccount)
     {
-        try {
-            $bankAccount = BankAccount::findOrFail($id);
-            $bankAccount->delete();
-            return response()->json(['success' => true, 'message' => 'BankAccount deleted successfully']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Failed to delete BankAccount.'], 400);
+        // Menghapus gambar terkait jika ada
+        if ($bankAccount->account_image && Storage::exists('public/' . $bankAccount->account_image)) {
+            Storage::delete('public/' . $bankAccount->account_image);
         }
+
+        // Menghapus data bank account
+        $bankAccount->delete();
+
+        return redirect()->route('backoffice.bank-accounts.index')->with('success', 'Bank Account deleted successfully');
     }
 }

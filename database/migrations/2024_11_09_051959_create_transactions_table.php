@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('promotion_id')->default(0);
             $table->integer('amount');
             $table->enum('status', ['pending', 'process', 'approved', 'rejected'])->default('pending');
-            $table->enum('type', ['deposit', 'withdraw', 'bonus', 'rolling', 'cashback'])->default('deposit');
+            $table->enum('type', ['deposit', 'withdraw', 'bonus', 'rolling', 'cashback', 'manual_deposit', 'manual_withdraw'])->default('deposit');
             $table->text('reason')->nullable();
             $table->string('proof_of_transfer')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

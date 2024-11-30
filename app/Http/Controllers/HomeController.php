@@ -10,6 +10,7 @@ use App\Models\Member;
 use App\Models\MemberBalance;
 use App\Models\MemberExt;
 use App\Models\Provider;
+use App\Models\SeoSetting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
@@ -95,11 +96,11 @@ class HomeController extends Controller
             ->first();
 
         $nowIndonesia = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
-    
+
         $totalBetMoney = 0;
         $page = 0;
         $allGameData = [];
-    
+
         do {
             $postData = [
                 'method' => 'get_game_log',
@@ -115,7 +116,7 @@ class HomeController extends Controller
             $response = Http::post(env('NEXUS_URL'), $postData);
             if ($response->successful()) {
                 $data = $response->json();
-    
+
                 if (isset($data['slot']) && is_array($data['slot']) && !empty($data['slot'])) {
                     $allGameData = array_merge($allGameData, $data['slot']);
 
@@ -123,7 +124,7 @@ class HomeController extends Controller
                         $totalBetMoney += $game['bet_money'];
 
                         $existingHistory = DB::table('game_histories')->where('history_id', $game['history_id'])->first();
-    
+
                         if (!$existingHistory) {
                             DB::table('game_histories')->insert([
                                 'history_id' => $game['history_id'],
@@ -155,11 +156,11 @@ class HomeController extends Controller
                     'details' => $response->body()
                 ], $response->status());
             }
-    
+
         } while (!empty($data['slot']));
         $claimPromotion->current_target = $totalBetMoney;
         $claimPromotion->save();
-    
+
         return response()->json([
             'status' => $data['status'],
             'total_count' => $data['total_count'],
@@ -174,18 +175,18 @@ class HomeController extends Controller
     {
         $memberExts = MemberExt::all();
 
-        foreach($memberExts as $memberExt) {
+        foreach ($memberExts as $memberExt) {
 
             $claimPromotion = ClaimPromotion::where('user_id', Auth::user()->id)
                 ->where('status', 1)
                 ->first();
-    
+
             $nowIndonesia = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
-        
+
             $totalBetMoney = 0;
             $page = 0;
             $allGameData = [];
-        
+
             do {
                 $postData = [
                     'method' => 'get_game_log',
@@ -201,15 +202,15 @@ class HomeController extends Controller
                 $response = Http::post(env('NEXUS_URL'), $postData);
                 if ($response->successful()) {
                     $data = $response->json();
-        
+
                     if (isset($data['slot']) && is_array($data['slot']) && !empty($data['slot'])) {
                         $allGameData = array_merge($allGameData, $data['slot']);
-    
+
                         foreach ($data['slot'] as $game) {
                             $totalBetMoney += $game['bet_money'];
-    
+
                             $existingHistory = DB::table('game_histories')->where('history_id', $game['history_id'])->first();
-        
+
                             if (!$existingHistory) {
                                 DB::table('game_histories')->insert([
                                     'history_id' => $game['history_id'],
@@ -241,9 +242,9 @@ class HomeController extends Controller
                         'details' => $response->body()
                     ], $response->status());
                 }
-        
+
             } while (!empty($data['slot']));
-            if($claimPromotion->promotion->provider_category == "slot" && $claimPromotion->promotion->type == "slot") {
+            if ($claimPromotion->promotion->provider_category == "slot" && $claimPromotion->promotion->type == "slot") {
                 $claimPromotion->current_target = $totalBetMoney;
                 $claimPromotion->save();
             }
@@ -301,24 +302,25 @@ class HomeController extends Controller
         }
 
 
-        // $response = Http::get('https://cdn.databerjalan.com/games/pragmatic-slots');
 
-        // if ($response->successful()) {
-        //     // Akses body responsenya
-        //     $data = json_decode($response->body(), true);
-        //     foreach($data as $d) {
 
-        //         Game::where('game_code', $d['brandUid'])
-        //             ->update([
-        //                 'game_image' => $d['logo']
-        //             ]);
-        //         }
-        //         return $data;
-        // } else {
-        //     // Jika request gagal
-        //     dd('Request failed: ' . $response->status());
-        // }
+    }
 
+    public function getSeoSetting()
+    {
+        $seoSettings = SeoSetting::first(); // Ambil data SEO pertama
+
+        if ($seoSettings) {
+            return response()->json([
+                'success' => true,
+                'data' => $seoSettings
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'SEO settings not found.'
+            ]);
+        }
     }
 
 }

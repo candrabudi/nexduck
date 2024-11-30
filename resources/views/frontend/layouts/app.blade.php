@@ -1,7 +1,11 @@
 @php
     use App\Models\Setting;
-    use App\Models\Bank;
+    use App\Models\SeoSetting;
     use App\Models\Category;
+    use App\Models\Bank;
+
+    // Ambil data pengaturan SEO dari model SeoSetting
+    $seoSettings = SeoSetting::first(); // Sesuaikan dengan cara pengambilan data yang benar
     $categories = Category::where('category_status', 1)->get();
     $setting = Setting::first();
     $banks = Bank::where('bank_status', 1)->get();
@@ -9,16 +13,59 @@
 <html lang="pt-BR" class="dark">
 
 <head>
-    <style id="react-native-stylesheet"></style>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" id="meta-description" content="{{ $seoSettings->seo_description ?? 'Default description' }}">
+    <meta name="keywords" id="meta-keywords" content="{{ $seoSettings->seo_keywords ?? 'default, keywords' }}">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" id="og-title" content="{{ $seoSettings->og_title ?? 'Default Web Name' }}">
+    <meta property="og:description" id="og-description"
+        content="{{ $seoSettings->og_description ?? 'Default description' }}">
+    <meta property="og:image" id="og-image"
+        content="{{ asset('storage/' . ($seoSettings->og_image ?? 'default-image.jpg')) }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="twitter-title" content="{{ $seoSettings->twitter_title ?? 'Default Web Name' }}">
+    <meta name="twitter:description" id="twitter-description"
+        content="{{ $seoSettings->twitter_description ?? 'Default description' }}">
+    <meta name="twitter:image" id="twitter-image"
+        content="{{ asset('storage/' . ($seoSettings->twitter_image ?? 'default-image.jpg')) }}">
+
+    <!-- Google Analytics -->
+    @if ($seoSettings->google_analytics)
+        <meta name="google-site-verification" content="{{ $seoSettings->google_analytics }}">
+    @endif
+
+    <!-- Facebook Pixel -->
+    @if ($seoSettings->facebook_pixel)
+        <script>
+            fbq('init', '{{ $seoSettings->facebook_pixel }}');
+            fbq('track', 'PageView');
+        </script>
+    @endif
+
+    <!-- Google Search Console -->
+    @if ($seoSettings->google_search_console)
+        <meta name="google-site-verification" content="{{ $seoSettings->google_search_console }}">
+    @endif
+
+    <!-- Facebook App ID -->
+    @if ($seoSettings->facebook_app_id)
+        <meta property="fb:app_id" content="{{ $seoSettings->facebook_app_id }}">
+    @endif
+
+
     <link rel="stylesheet" href="{{ asset('assets/css/fontawesome.min.css') }}">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&amp;family=Roboto+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100&amp;display=swap"
         rel="stylesheet">
-    <title>DUCK BET</title>
+    <title>{{ $setting->web_name }}</title>
     <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.min.css') }}" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -209,15 +256,12 @@
     </style>
     <link rel="preload" as="style" href="{{ asset('/buildassets/assets/app-a5287762.css') }}">
     <link rel="stylesheet" href="{{ asset('/buildassets/assets/app-a5287762.css') }}" data-navigate-track="reload">
-    <style></style>
-    <style></style>
 </head>
 
 <body color-theme="dark" class="bg-base text-gray-800 dark:text-gray-300 ">
     <a href="javascript::void()" target="_blank" class="fixed right-4 z-50" style="bottom: 85px;">
         <div class="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition">
-            <svg width="24"
-                height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
                     d="M20 11C20 8.19108 20 6.78661 19.3259 5.77772C19.034 5.34096 18.659 4.96596 18.2223 4.67412C17.2134 4 15.8089 4 13 4H11C8.19108 4 6.78661 4 5.77772 4.67412C5.34096 4.96596 4.96596 5.34096 4.67412 5.77772C4 6.78661 4 8.19108 4 11C4 13.8089 4 15.2134 4.67412 16.2223C4.96596 16.659 5.34096 17.034 5.77772 17.3259C6.65907 17.9148 7.8423 17.9892 10 17.9986V18L11.1056 20.2111C11.4741 20.9482 12.5259 20.9482 12.8944 20.2111L14 18V17.9986C16.1577 17.9892 17.3409 17.9148 18.2223 17.3259C18.659 17.034 19.034 16.659 19.3259 16.2223C20 15.2134 20 13.8089 20 11ZM8 12C8.55228 12 9 11.5523 9 11C9 10.4477 8.55228 10 8 10C7.44772 10 7 10.4477 7 11C7 11.5523 7.44772 12 8 12ZM13 11C13 11.5523 12.5523 12 12 12C11.4477 12 11 11.5523 11 11C11 10.4477 11.4477 10 12 10C12.5523 10 13 10.4477 13 11ZM17 11C17 11.5523 16.5523 12 16 12C15.4477 12 15 11.5523 15 11C15 10.4477 15.4477 10 16 10C16.5523 10 17 10.4477 17 11Z"
                     fill="white"></path>

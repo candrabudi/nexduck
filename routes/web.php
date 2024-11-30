@@ -10,13 +10,19 @@ use App\Http\Controllers\Backoffice\CategoryController;
 use App\Http\Controllers\Backoffice\DashboardController;
 use App\Http\Controllers\Backoffice\ProviderController;
 use App\Http\Controllers\Backoffice\GameController as BGameController;
+use App\Http\Controllers\Backoffice\GamePlayController;
+use App\Http\Controllers\Backoffice\LiveChatController;
+use App\Http\Controllers\Backoffice\LogActivityController;
 use App\Http\Controllers\Backoffice\MemberController;
 use App\Http\Controllers\Backoffice\PromotionBonusController;
 use App\Http\Controllers\Backoffice\PromotionController;
+use App\Http\Controllers\Backoffice\SeoController;
 use App\Http\Controllers\Backoffice\SettingController;
 use App\Http\Controllers\Backoffice\SocialMediaController;
+use App\Http\Controllers\Backoffice\TransactionBonusController;
 use App\Http\Controllers\Backoffice\TransactionDepositController;
 use App\Http\Controllers\Backoffice\TransactionWithdrawController;
+use App\Http\Controllers\Backoffice\UserNetworkController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\HomeController;
@@ -51,20 +57,20 @@ Route::post('/login', [UserAuthController::class, 'login'])->name('login');
 Route::post('/register', [UserAuthController::class, 'register'])->name('register');
 
 
-Route::get('/login', function() {
+Route::get('/login', function () {
     return view('frontend.auth.login');
 });
 
-Route::get('/register', function() {
+Route::get('/register', function () {
     $banks = Bank::get();
     return view('frontend.auth.register', compact('banks'));
 });
 
-Route::get('/support', function() {
+Route::get('/support', function () {
     return view('frontend.support');
 });
 
-Route::get('/contact', function() {
+Route::get('/contact', function () {
     return view('frontend.contact');
 });
 
@@ -81,14 +87,14 @@ Route::post('/backoffice/login', [AuthController::class, 'authenticate'])->name(
 Route::get('/promotion', [ControllersPromotionController::class, 'index'])->name('promotion.index');
 Route::get('/promotion/{a}', [ControllersPromotionController::class, 'show'])->name('promotion.show');
 
-
+Route::get('/user/getBall', [HomeController::class, 'getBall'])->name('getBall');
 Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('backoffice.logout');
 
     // USER
     Route::get('/games/play-game/{a}', [GameController::class, 'playGame'])->name('game.playGame');
-    
+
     Route::get('/profile/wallet', [ProfileController::class, 'wallet'])->name('wallet');
     Route::get('/profile/deposit', [DepositController::class, 'index'])->name('deposit');
     Route::get('/profile/setting', [ProfileController::class, 'profile'])->name('setting.profile');
@@ -100,7 +106,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/transactions', [TransactionController::class, 'index'])->name('transaction');
 
 
-    Route::get('/user/getBall', [HomeController::class, 'getBall'])->name('getBall');
+
     Route::get('/promotion-progress/{a}', [HomeController::class, 'getPromotionProgress'])->name('getPromotionProgress');
     Route::get('/history-game', [HomeController::class, 'getHistoryGame'])->name('getHistoryGame');
 
@@ -111,17 +117,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/dashboard/get-transaction-data', [DashboardController::class, 'getTransactionData'])->name('getTransactionData');
         Route::get('/dashboard/transaction-summary', [DashboardController::class, 'getTransactionSummary'])->name('getTransactionSummary');
-    
-        // Social Media Routes
-        Route::get('/social-media', [SocialMediaController::class, 'index'])->name('social-media.index');
-        Route::post('/social-media', [SocialMediaController::class, 'store'])->name('social-media.store');
-        Route::get('/social-media/{a}/edit', [SocialMediaController::class, 'edit'])->name('social-media.show');
-        Route::put('/social-media/{a}', [SocialMediaController::class, 'update'])->name('social-media.update');
-        Route::delete('/social-media', [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
-    
+
+        // // Social Media Routes
+        // Route::get('/social-media', [SocialMediaController::class, 'index'])->name('social-media.index');
+        // Route::post('/social-media', [SocialMediaController::class, 'store'])->name('social-media.store');
+        // Route::get('/social-media/{a}/edit', [SocialMediaController::class, 'edit'])->name('social-media.show');
+        // Route::put('/social-media/{a}', [SocialMediaController::class, 'update'])->name('social-media.update');
+        // Route::delete('/social-media', [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
+
         // Category Routes
         Route::get('/categories', [CategoryController::class, 'index'])->name('category');
-    
+
         // Provider Routes
         Route::get('/providers/createOrUpdateProviderApiNexus', [ProviderController::class, 'createOrUpdateProviderApiNexus'])->name('createOrUpdateProviderApiNexus');
         Route::get('/providers/createOrUpdateGameApiNexus', [ProviderController::class, 'createOrUpdateGameApiNexus'])->name('createOrUpdateGameApiNexus');
@@ -131,60 +137,69 @@ Route::middleware('auth')->group(function () {
         Route::get('/providers/update', [ProviderController::class, 'updateProvider'])->name('updateProvider');
         Route::get('/providers/update-game', [ProviderController::class, 'updateGame'])->name('updateGame');
         Route::post('/providers/update/data', [ProviderController::class, 'update'])->name('provider.update');
-    
+
         // Game Routes
         Route::get('/games', [BGameController::class, 'index'])->name('games');
         Route::get('/games/update', [BGameController::class, 'updateGame'])->name('updateGames');
         Route::post('/update-game-status', [BGameController::class, 'updateGameStatus'])->name('updateGameStatus');
-    
+
         // API Credentials Routes
         Route::get('/api-credentials', [ApiCredentialController::class, 'index'])->name('apicredentials');
         Route::post('/api-credentials/store', [ApiCredentialController::class, 'store'])->name('apicredentials.store');
         Route::get('/api-credentials/edit/{a}', [ApiCredentialController::class, 'edit'])->name('apicredentials.edit');
         Route::put('/api-credentials/update/{a}', [ApiCredentialController::class, 'update'])->name('apicredential.update');
         Route::delete('/api-credentials/destro/{a}', [ApiCredentialController::class, 'destroy'])->name('apicredential.destroy');
-    
+
         // Bank Routes
         Route::get('/banks', [BankController::class, 'index'])->name('banks');
         Route::post('/banks/store', [BankController::class, 'store'])->name('banks.store');
         Route::get('/banks/edit/{a}', [BankController::class, 'edit'])->name('banks.edit');
         Route::put('/banks/update/{b}', [BankController::class, 'update'])->name('banks.update');
         Route::delete('/banks/destroy/{a}', [BankController::class, 'destroy'])->name('banks.destroy');
-    
-        // Bank Account Routes
-        Route::get('/bankaccounts', [BankAccountController::class, 'index'])->name('bankaccounts');
-        Route::post('/bankaccounts/store', [BankAccountController::class, 'store'])->name('bankaccounts.store');
-        Route::get('/bankaccounts/edit/{a}', [BankAccountController::class, 'edit'])->name('bankaccounts.edit');
-        Route::put('/bankaccounts/update/{a}', [BankAccountController::class, 'update'])->name('bankaccounts.update');
-        Route::delete('/bankaccounts/destroy/{a}', [BankAccountController::class, 'destroy'])->name('bankaccounts.destroy');
-    
+
+        Route::get('/bank-accounts', [BankAccountController::class, 'index'])->name('bank-accounts.index');
+        Route::get('/bank-accounts/create', [BankAccountController::class, 'create'])->name('bank-accounts.create');
+        Route::post('/bank-accounts', [BankAccountController::class, 'store'])->name('bank-accounts.store');
+        Route::get('/bank-accounts/{bankAccount}/edit', [BankAccountController::class, 'edit'])->name('bank-accounts.edit');
+        Route::post('/bank-accounts/{bankAccount}', [BankAccountController::class, 'update'])->name('bank-accounts.update');
+        Route::post('/bank-accounts/{bankAccount}', [BankAccountController::class, 'destroy'])->name('bank-accounts.destroy');
+
         // Member Routes
-        Route::get('/members', [MemberController::class, 'index'])->name('members');
-        Route::post('/members/store', [MemberController::class, 'store'])->name('members.store');
-        Route::get('/members/edit/{b}', [MemberController::class, 'edit'])->name('members.edit');
-        Route::post('/members/update/{b}', [MemberController::class, 'update'])->name('members.update');
-        Route::delete('/members/delete/{b}', [MemberController::class, 'destroy'])->name('members.destroy');
-    
+        Route::get('members', [MemberController::class, 'index'])->name('members.index');
+        Route::patch('members/{userId}/lock', [MemberController::class, 'lock'])->name('members.lock');
+        Route::get('members-detail', [MemberController::class, 'show'])->name('members.show');
+
         // Setting Routes
         Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
         Route::post('/settings', [SettingController::class, 'storeOrUpdate'])->name('settings.storeOrUpdate');
-    
+
         // Transaction Deposit Routes
-        Route::get('/transactions/deposit', [TransactionDepositController::class, 'index'])->name('transactions.deposit');
-        Route::get('/transactions/deposit/{id}', [TransactionDepositController::class, 'show'])->name('transactions.deposit.detail');
-        Route::post('/transactions/deposit/{id}/update-status', [TransactionDepositController::class, 'updateStatus'])->name('transactions.deposit.updateStatus');
-    
-        // Transaction Withdraw Routes
-        Route::get('/transactions/withdraw', [TransactionWithdrawController::class, 'index'])->name('transactions.withdraw');
-        Route::get('/transactions/withdraw/{id}', [TransactionWithdrawController::class, 'show'])->name('transactions.withdraw.detail');
-        Route::post('/transactions/withdraw/{id}/update-status', [TransactionWithdrawController::class, 'updateStatus'])->name('transactions.withdraw.updateStatus');
-    
+        // Route::get('/transactions/deposit', [TransactionDepositController::class, 'index'])->name('transactions.deposit');
+        // Route::get('/transactions/deposit/{id}', [TransactionDepositController::class, 'show'])->name('transactions.deposit.detail');
+        // Route::post('/transactions/deposit/{id}/update-status', [TransactionDepositController::class, 'updateStatus'])->name('transactions.deposit.updateStatus');
+
+
+        Route::get('/transactions-deposit', [TransactionDepositController::class, 'index'])->name('transactions.deposit.index');
+        Route::get('/transactions/deposit/loadData', [TransactionDepositController::class, 'loadData'])->name('transactions.deposit.loadData');
+        Route::post('/transactions/deposit/update-status', [TransactionDepositController::class, 'updateStatus'])->name('transactions.deposit.updateStatus');
+
+
+        Route::get('/transactions-withdraw', [TransactionWithdrawController::class, 'index'])->name('transactions.withdraw.index');
+        Route::get('/transactions/withdraw/loadData', [TransactionWithdrawController::class, 'loadData'])->name('transactions.withdraw.loadData');
+        Route::post('/transactions/withdraw/update-status', [TransactionWithdrawController::class, 'updateStatus'])->name('transactions.withdraw.updateStatus');
+
+
+        Route::get('/transactions-bonus', [TransactionBonusController::class, 'index'])->name('transactions.bonus.index');
+        Route::get('/transactions/bonus/loadData', [TransactionBonusController::class, 'loadData'])->name('transactions.bonus.loadData');
+        Route::post('/transactions/bonus/update-status', [TransactionBonusController::class, 'updateStatus'])->name('transactions.bonus.updateStatus');
+
         // Banner Routes
-        Route::get('/banners/{id?}', [BannerController::class, 'index'])->name('banners');
-        Route::post('/banners', [BannerController::class, 'store'])->name('banners.store');
-        Route::put('/banners/{id}', [BannerController::class, 'update'])->name('banners.update');
-        Route::delete('/banners/{id}', [BannerController::class, 'destroy'])->name('banners.destroy');
-    
+        Route::get('banners', [BannerController::class, 'index'])->name('banners.index');
+        Route::post('banners/store', [BannerController::class, 'store'])->name('banners.store');
+        Route::get('banners/edit/{id}', [BannerController::class, 'edit'])->name('banners.edit');
+        Route::post('banners/update/{id}', [BannerController::class, 'update'])->name('banners.update');
+        Route::post('banners/destroy/{id}', [BannerController::class, 'destroy'])->name('banners.destroy');
+
         // Promotion Routes
         Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions');
         Route::get('/promotions-create', [PromotionController::class, 'create'])->name('promotions.create');
@@ -192,14 +207,43 @@ Route::middleware('auth')->group(function () {
         Route::get('/promotions-edit', [PromotionController::class, 'edit'])->name('promotions.edit');
         Route::post('/promotions-update', [PromotionController::class, 'update'])->name('promotions.update');
         Route::delete('/promotions-destroy', [PromotionController::class, 'destroy'])->name('promotions.destroy');
-    
+
         // Bonus Routes
         Route::get('/transaction/bonus', [BonusController::class, 'index'])->name('transactions.bonus');
         Route::put('/transaction/bonus/update', [BonusController::class, 'updateStatus'])->name('transaction.bonus.updateStatus');
-    
+
         // Promotion Bonus Routes
         Route::get('/promotion-bonus', [PromotionBonusController::class, 'index'])->name('promotionbonus');
         Route::post('/promotion-bonus', [PromotionBonusController::class, 'store'])->name('promotionbonus.store');
+
+
+        // games
+        Route::get('games', [GamePlayController::class, 'index'])->name('games.index');
+        Route::get('games/load-data', [GamePlayController::class, 'loadData'])->name('games.loadData');
+
+
+        Route::get('social-media', [SocialMediaController::class, 'index'])->name('social_media.index');
+        Route::post('social-media', [SocialMediaController::class, 'store'])->name('social_media.store');
+        Route::post('social-media/{id}', [SocialMediaController::class, 'update'])->name('social_media.update');
+        Route::delete('social-media/{id}', [SocialMediaController::class, 'destroy'])->name('social_media.destroy');
+
+        Route::get('/livechat', [LiveChatController::class, 'index'])->name('livechat.index');
+        Route::post('/livechat', [LiveChatController::class, 'store'])->name('livechat.store');
+
+        Route::get('/seo-settings', [SeoController::class, 'index'])->name('seo.index');
+        Route::post('/seo-settings', [SeoController::class, 'store'])->name('seo.store');
+
+
+        Route::get('networks', [UserNetworkController::class, 'index'])->name('networks.index');
+        Route::post('networks', [UserNetworkController::class, 'store'])->name('networks.store');
+        Route::get('networks/{id}/edit', [UserNetworkController::class, 'edit'])->name('networks.edit');
+        Route::patch('networks/{id}', [UserNetworkController::class, 'update'])->name('networks.update');
+        Route::delete('networks/{id}', [UserNetworkController::class, 'destroy'])->name('networks.destroy');
+        Route::get('/generateReferralCode', [UserNetworkController::class, 'generateReferralCode'])->name('networks.generateReferralCode');
+
+
+        Route::get('/activity-logs', [LogActivityController::class, 'index'])->name('activity_logs.index');
+        Route::get('/activity-logs/{a}', [LogActivityController::class, 'show'])->name('activity_logs.show');
     });
-    
+
 });
