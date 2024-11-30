@@ -241,6 +241,7 @@
                         </div>
                     </div>
                     `;
+                    
                     const progressBar = document.getElementById('progress-bar');
                     const progressText = document.getElementById('progress-text');
                     progressBar.style.width = `${progress}%`;
