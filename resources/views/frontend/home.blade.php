@@ -146,16 +146,35 @@
             <div class="swiper-pagination"></div>
         </div>
 
-        <div class="md:w-4/6 2xl:w-4/6 mx-auto p-4">
+        <style>
+            /* Aturan umum untuk desktop */
+            .custom-card {
+                height: 500px;
+            }
+        
+            /* Aturan untuk tampilan mobile dengan lebar kurang dari 768px */
+            @media (max-width: 768px) {
+                .custom-card {
+                    height: 100px; 
+                }
+
+                .card-menu-game {
+                    margin-bottom: -25px;
+                }
+        
+                .custom-card .text-container {
+                    margin-top: 100px; /* Sesuaikan margin teks agar proporsional di tampilan mobile */
+                }
+            }
+        </style>
+        
+        <div class="md:w-4/6 2xl:w-4/6 mx-auto p-4 card-menu-game">
             <div class="mb-7 md:mb-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
-                    <a href="/slots"
-                        class="relative flex items-end overflow-hidden rounded-2xl bg-gray-800 p-4 md:p-7 transition-transform duration-300 hover:-translate-y-1 group"
-                        style="display: inline-block;height: 500px;">
-                        <img src="{{ asset('images/banner_casino.webp') }}" alt="Slot Banner"
-                            class="absolute inset-0 h-full w-full object-cover rounded-2xl opacity-80 transition-opacity duration-300 group-hover:opacity-100" />
+                    <a href="/slots" class="relative flex items-end overflow-hidden rounded-2xl bg-gray-800 p-4 md:p-7 transition-transform duration-300 hover:-translate-y-1 group custom-card">
+                        <img src="{{ asset('images/banner_casino.webp') }}" alt="Slot Banner" class="absolute inset-0 h-full w-full object-cover rounded-2xl opacity-80 transition-opacity duration-300 group-hover:opacity-100" />
                         <div class="absolute inset-0 bg-gradient-to-b from-yellow-500 to-orange-600 opacity-40"></div>
-                        <div class="relative z-10 max-w-md" style="margin-top: 180px;">
+                        <div class="relative z-10 max-w-md text-container" style="margin-top: 180px;">
                             <div class="mb-1 flex items-center space-x-2">
                                 <h2 class="text-lg md:text-2xl font-bold text-white">Slot</h2>
                                 <div class="bg-green-500 text-white text-xs font-medium px-2 py-1 rounded-full">
@@ -167,14 +186,11 @@
                             </p>
                         </div>
                     </a>
-
-                    <a href="/casino"
-                        class="relative flex items-end overflow-hidden rounded-2xl bg-gray-800 p-4 md:p-7 transition-transform duration-300 hover:-translate-y-1 group"
-                        style="display: inline-block;height: 500px;">
-                        <img src="{{ asset('images/banner_casino.webp') }}" alt="Casino Banner"
-                            class="absolute inset-0 h-full w-full object-cover rounded-2xl opacity-80 transition-opacity duration-300 group-hover:opacity-100" />
+        
+                    <a href="/casino" class="relative flex items-end overflow-hidden rounded-2xl bg-gray-800 p-4 md:p-7 transition-transform duration-300 hover:-translate-y-1 group custom-card">
+                        <img src="{{ asset('images/banner_casino.webp') }}" alt="Casino Banner" class="absolute inset-0 h-full w-full object-cover rounded-2xl opacity-80 transition-opacity duration-300 group-hover:opacity-100" />
                         <div class="absolute inset-0 bg-gradient-to-b from-purple-800 to-indigo-900 opacity-40"></div>
-                        <div class="relative z-10 max-w-md" style="margin-top: 180px;">
+                        <div class="relative z-10 max-w-md text-container" style="margin-top: 180px;">
                             <div class="mb-1 flex items-center space-x-2">
                                 <h2 class="text-lg md:text-2xl font-bold text-white">Casino</h2>
                                 <div class="bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-full">
@@ -182,14 +198,14 @@
                                 </div>
                             </div>
                             <p class="text-sm text-gray-300">
-                                Rasakan pengalaman live casino dengan berbagai game seperti blackjack, roulette, dan
-                                baccarat.
+                                Rasakan pengalaman live casino dengan berbagai game seperti blackjack, roulette, dan baccarat.
                             </p>
                         </div>
                     </a>
                 </div>
             </div>
         </div>
+        
 
         @if (Auth::user())
             <div class="md:w-4/6 2xl:w-4/6 mx-auto p-4">

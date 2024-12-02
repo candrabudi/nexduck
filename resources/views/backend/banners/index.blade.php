@@ -27,7 +27,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $banner->banner_name }}</td>
-                                    <td><img src="{{ asset('storage/' . $banner->banner_image) }}" width="100"
+                                    <td><img src="{{ $banner->banner_image }}" width="100"
                                             alt="Banner Image"></td>
                                     <td>{{ $banner->banner_status == 1 ? 'Active' : 'Inactive' }}</td>
                                     <td>
