@@ -49,7 +49,6 @@ use Illuminate\Support\Str;
 |
 */
 
-$setting = Setting::first();
 Route::get('/', [HomeController::class, 'index'])->name('member');
 
 Route::get('/games/{a}', [GameController::class, 'detail'])->name('game');
@@ -111,7 +110,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/history-game', [HomeController::class, 'getHistoryGame'])->name('getHistoryGame');
 
     // BACKOFFICE
-    $setting = Setting::first();
     Route::group(['prefix' => 'backoffice', 'as' => 'backoffice.'], function () {
         // Dashboard Routes
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
