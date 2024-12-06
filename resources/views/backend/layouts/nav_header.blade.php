@@ -1,5 +1,5 @@
 <div class="nav-header">
-    <a href="index.html" class="brand-logo">
+    <a href="{{ route('backoffice.dashboard') }}" class="brand-logo">
         <svg class="logo-abbr" width="32" height="30" viewBox="0 0 32 30" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path

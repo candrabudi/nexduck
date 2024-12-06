@@ -381,20 +381,20 @@
     </div>
 @endsection
 @section('styles')
-    <link href="{{ asset('backoffice/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('backoffice/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('backoffice/vendor/swiper/css/swiper-bundle.min.css') }}" rel="stylesheet">
     <link href="{{ asset('backoffice/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('backoffice/vendor/datatables/css/buttons.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('backoffice/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}"
         rel="stylesheet">
     <!-- Style css -->
-    <link class="main-css" href="{{ asset('backoffice/css/style.css') }}" rel="stylesheet">
+    <link class="main-css" href="{{ asset('backoffice/css/style.css') }}" rel="stylesheet"> --}}
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/4.1.0/apexcharts.min.js"
         integrity="sha512-pX8wly6uaNHjO2Idm8xpq7Fu52iU/F3IK2rS8vTUlw7138ZsDCgfljwotyOpQxycTqK4MryB4Pv7ArDmzx7sPQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+{{-- 
     <script src="{{ asset('backoffice/vendor/global/global.min.js') }}"></script>
     <script src="{{ asset('backoffice/vendor/chart-js/chart.bundle.min.js') }}"></script>
     <script src="{{ asset('backoffice/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
@@ -406,7 +406,7 @@
     <script src="{{ asset('backoffice/js/custom.min.js') }}"></script>
     <script src="{{ asset('backoffice/js/deznav-init.js') }}"></script>
     <script src="{{ asset('backoffice/js/demo.js') }}"></script>
-    <script src="{{ asset('backoffice/js/styleSwitcher.js') }}"></script>
+    <script src="{{ asset('backoffice/js/styleSwitcher.js') }}"></script> --}}
 
 
     <script>

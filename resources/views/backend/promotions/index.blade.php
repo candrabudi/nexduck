@@ -94,7 +94,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('backoffice/vendor/global/global.min.js') }}"></script>
+    {{-- <script src="{{ asset('backoffice/vendor/global/global.min.js') }}"></script>
     <script src="{{ asset('backoffice/vendor/chart-js/chart.bundle.min.js') }}"></script>
     <script src="{{ asset('backoffice/vendor/bootstrap-datepicker-master/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('backoffice/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
@@ -112,7 +112,7 @@
     <script src="{{ asset('backoffice/js/custom.min.js') }}"></script>
     <script src="{{ asset('backoffice/js/deznav-init.js') }}"></script>
     <script src="{{ asset('backoffice/js/demo.js') }}"></script>
-    <script src="{{ asset('backoffice/js/styleSwitcher.js') }}"></script>
+    <script src="{{ asset('backoffice/js/styleSwitcher.js') }}"></script> --}}
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

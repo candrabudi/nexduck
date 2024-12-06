@@ -73,7 +73,10 @@
 
                                                 <span class="ms-2">Settings </span>
                                             </a>
-                                            <a href="page-login.html" class="dropdown-item ai-icon">
+                                            <form id="logout-form" action="{{ route('backoffice.logout') }}" method="POST" style="display: none;">
+                                                @csrf
+                                            </form>
+                                            <a class="dropdown-item ai-icon" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                 <svg class="logout-svg" xmlns="http://www.w3.org/2000/svg"
                                                     width="18" height="18" viewBox="0 0 24 24"
                                                     fill="none" stroke="currentColor" stroke-width="2"
