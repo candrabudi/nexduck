@@ -103,7 +103,7 @@
         var isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
 
         if (isLoggedIn) {
-            window.location.href = '/invite';
+            window.location.href = '/profile/referral';
         } else {
             Swal.fire({
                 icon: 'error',
@@ -125,7 +125,7 @@
         var isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
 
         if (isLoggedIn) {
-            window.location.href = '/portfolio';
+            window.location.href = '/profile/wallet';
         } else {
             Swal.fire({
                 icon: 'error',

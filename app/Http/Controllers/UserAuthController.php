@@ -123,7 +123,7 @@ class UserAuthController extends Controller
                 $userNetwork->save();
 
             }
-            $this->createNexusMember($externalUsername);
+            $this->createNexusMember($request->input('username'));
 
             DB::commit();
             Auth::login($newUser);

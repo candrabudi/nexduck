@@ -11,7 +11,7 @@ class LogActivity
     public function handle(Request $request, Closure $next)
     {
         // Exclude /getBall route from logging
-        if ($request->path() === 'user/getBall') {
+        if ($request->path() === 'user/getBall' || $request->path() === 'register') {
             return $next($request); // Skip logging for this route
         }
 

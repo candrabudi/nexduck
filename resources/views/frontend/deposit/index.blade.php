@@ -40,9 +40,9 @@
                                     @endforeach
                                 </select>
                                 <div id="bank-details" class="details-box hidden mt-3 text-black">
-                                    <p><strong>Bank Name:</strong> <span id="bank-name"></span></p>
-                                    <p><strong>Account Number:</strong> <span id="account-number"></span></p>
-                                    <p><strong>Account Holder:</strong> <span id="account-name"></span></p>
+                                    {{-- <p style="color: black"><strong>Bank Name:</strong> <span id="bank-name"></span></p> --}}
+                                    <p style="color: black"><strong>Nomor Rekening:</strong> <span id="account-number"></span></p>
+                                    <p style="color: black"><strong>Nama Penerima:</strong> <span id="account-name"></span></p>
                                     <button type="button"
                                         class="copy-button btn-sm mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all"
                                         onclick="copyAccountNumber()">Copy Account Number</button>
@@ -79,10 +79,10 @@
                             </div>
 
                             <div id="promotion-details" class="promotion-details hidden mt-3 text-black">
-                                <p><strong>Promosi: </strong><span id="promotion-name"></span></p>
-                                <p><strong>Min. Deposit: </strong><span id="min-deposit"></span></p>
-                                <p><strong>Max. Deposit: </strong><span id="max_deposit"></span></p>
-                                <p><strong>Target Harus Tercapai: </strong><span id="target_promo"></span></p>
+                                <p style="color: black"><strong>Promosi: </strong><span id="promotion-name"></span></p>
+                                <p style="color: black"><strong>Min. Deposit: </strong><span id="min-deposit"></span></p>
+                                <p style="color: black"><strong>Max. Deposit: </strong><span id="max_deposit"></span></p>
+                                <p style="color: black"><strong>Target Harus Tercapai: </strong><span id="target_promo"></span></p>
                             </div>
 
                             <div class="mt-5">
@@ -170,13 +170,13 @@
             const bankDetailsDiv = document.getElementById('bank-details');
             const accountNumberSpan = document.getElementById('account-number');
             const accountNameSpan = document.getElementById('account-name');
-            const bankNameSpan = document.getElementById('bank-name');
+            // const bankNameSpan = document.getElementById('bank-name');
 
             if (bankDetails) {
                 bankDetailsDiv.classList.remove('hidden');
                 accountNumberSpan.textContent = bankDetails.account_number;
                 accountNameSpan.textContent = bankDetails.account_name;
-                bankNameSpan.textContent = bankDetails.bank_name;
+                // bankNameSpan.textContent = bankDetails.bank_name;
                 // Change text color to white for better contrast
                 bankDetailsDiv.style.color = 'white';
             } else {

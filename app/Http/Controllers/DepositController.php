@@ -18,10 +18,12 @@ class DepositController extends Controller
     public function index()
     {
         $banks = Bank::where('bank_type', 'bank')
+            ->join('bank_accounts as ba', 'ba.bank_id', '=', 'banks.id')
             ->with('bankAccount')
             ->get();
 
         $ewallets = Bank::where('bank_type', 'ewallet')
+            ->join('bank_accounts as ba', 'ba.bank_id', '=', 'banks.id')
             ->with('bankAccount')
             ->get();
 
