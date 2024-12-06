@@ -82,7 +82,7 @@ class UserAuthController extends Controller
                 'username' => $request->input('username'),
                 'email' => $request->input('email'),
                 'password' => Hash::make($request->input('password')),
-                'superadmin' => 'member',
+                'role' => 'member',
                 'register_ip_address' => $request->ip(),
             ]);
 
@@ -104,7 +104,7 @@ class UserAuthController extends Controller
             $externalUsername = $this->generateRandomString(12);
             MemberExt::create([
                 'user_id' => $newUser->id,
-                'ext_name' => $externalUsername,
+                'ext_name' => $request->input('username'),
             ]);
 
             MemberBalance::create([
@@ -131,7 +131,6 @@ class UserAuthController extends Controller
             return redirect('/')->with('success', 'Registration successful!');
 
         } catch (\Exception $e) {
-            return response()->json($e->getMessage());
             DB::rollBack();
             return response()->json(['error' => 'Registration failed. Please try again later.'], 500);
         }
