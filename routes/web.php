@@ -116,13 +116,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/get-transaction-data', [DashboardController::class, 'getTransactionData'])->name('getTransactionData');
         Route::get('/dashboard/transaction-summary', [DashboardController::class, 'getTransactionSummary'])->name('getTransactionSummary');
 
-        // // Social Media Routes
-        // Route::get('/social-media', [SocialMediaController::class, 'index'])->name('social-media.index');
-        // Route::post('/social-media', [SocialMediaController::class, 'store'])->name('social-media.store');
-        // Route::get('/social-media/{a}/edit', [SocialMediaController::class, 'edit'])->name('social-media.show');
-        // Route::put('/social-media/{a}', [SocialMediaController::class, 'update'])->name('social-media.update');
-        // Route::delete('/social-media', [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
-
         // Category Routes
         Route::get('/categories', [CategoryController::class, 'index'])->name('category');
 
@@ -160,7 +153,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/bank-accounts', [BankAccountController::class, 'store'])->name('bank-accounts.store');
         Route::get('/bank-accounts/{bankAccount}/edit', [BankAccountController::class, 'edit'])->name('bank-accounts.edit');
         Route::post('/bank-accounts/{bankAccount}', [BankAccountController::class, 'update'])->name('bank-accounts.update');
-        Route::post('/bank-accounts/{bankAccount}', [BankAccountController::class, 'destroy'])->name('bank-accounts.destroy');
+        Route::post('/bank-accounts/delete/{bankAccount}', [BankAccountController::class, 'destroy'])->name('bank-accounts.destroy');
 
         // Member Routes
         Route::get('members', [MemberController::class, 'index'])->name('members.index');
