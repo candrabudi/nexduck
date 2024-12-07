@@ -85,7 +85,7 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                             <i class="fa-regular fa-user text-success-emphasis"></i>
                         </div>
-                        <input type="text" name="referral_code" class="input-group" placeholder="Kode Referral (Opsional)">
+                        <input type="text" name="referral_code" class="input-group" value="{{ $referral }}" placeholder="Kode Referral (Opsional)"  {{ $referral ? 'readonly' : '' }}>
                     </div>
 
                     <!-- Google reCAPTCHA -->

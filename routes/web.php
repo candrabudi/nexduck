@@ -37,7 +37,7 @@ use App\Models\Game;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,9 +60,10 @@ Route::get('/login', function () {
     return view('frontend.auth.login');
 });
 
-Route::get('/register', function () {
+Route::get('/register', function (Request $request) {
     $banks = Bank::get();
-    return view('frontend.auth.register', compact('banks'));
+    $referral = $request->referral;
+    return view('frontend.auth.register', compact('banks', 'referral'));
 });
 
 Route::get('/support', function () {
