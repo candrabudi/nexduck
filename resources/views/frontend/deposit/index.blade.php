@@ -49,12 +49,12 @@
 
                             <div id="ewallet-section" class="hidden">
                                 <label for="ewalletMethod" class="mb-2 text-gray-400">Ewallet</label>
-                                <select id="ewalletMethod" name="ewalletMethod"
+                                <select id="ewalletMethod" name="admin_bank_id"
                                     class="block w-full p-3 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     onchange="showEwalletDetails(this)">
                                     <option value="">Select Ewallet</option>
                                     @foreach ($ewallets as $ewallet)
-                                        <option value="{{ $ewallet['bank_code'] }}"
+                                        <option value="{{ $ewallet->bankAccount->id }}"
                                             data-ewallet="{{ json_encode($ewallet->bankAccount) }}">
                                             {{ $ewallet['bank_name'] }}</option>
                                     @endforeach
