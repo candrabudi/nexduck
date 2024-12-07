@@ -254,7 +254,7 @@
 
                     data.games.forEach(game => {
                         const gameCard = `
-                        <div class="game-card" onclick="openModal('${game.game_name}', '${game.game_provider_code}', '${game.game_image}', '/games/play-game//${game.id}')">
+                        <div class="game-card" onclick="openModal('${game.game_name}', '${game.game_provider_code}', '${game.game_image}', '/games/play-game/${game.id}')">
                             <div class="relative group w-full">
                                 <img src="${game.game_image}" alt="${game.game_name}" class="game-image" />
                                 <div class="game-name-container">
