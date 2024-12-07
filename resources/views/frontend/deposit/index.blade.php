@@ -191,9 +191,8 @@
             if (ewalletDetails) {
                 ewalletDetailsDiv.classList.remove('hidden');
                 ewalletDetailsDiv.innerHTML = `
-                    <p><strong>Ewallet Name:</strong> ${ewalletDetails.bank_name}</p>
-                    <p><strong>Account Number:</strong> ${ewalletDetails.account_number}</p>
-                    <p><strong>Account Holder:</strong> ${ewalletDetails.account_name}</p>
+                    <p style="color: black"><strong>Account Number:</strong> ${ewalletDetails.account_number}</p>
+                    <p style="color: black"><strong>Account Holder:</strong> ${ewalletDetails.account_name}</p>
                 `;
             } else {
                 ewalletDetailsDiv.classList.add('hidden');
