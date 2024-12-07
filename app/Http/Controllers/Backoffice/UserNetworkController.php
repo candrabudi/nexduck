@@ -23,7 +23,7 @@ class UserNetworkController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|integer',
             'referral' => 'required|string|max:255',
-            'photo_id_card' => 'nullable|string',
+            // 'photo_id_card' => 'nullable|string',
             'status' => 'required|integer',
         ]);
 

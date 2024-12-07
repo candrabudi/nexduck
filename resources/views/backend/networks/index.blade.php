@@ -65,10 +65,10 @@
                             <label for="referral">Referral</label>
                             <input type="text" id="referral" name="referral" class="form-control" readonly>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="photo_id_card">Photo ID Card</label>
                             <input type="text" id="photo_id_card" name="photo_id_card" class="form-control">
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label for="status">Status</label>
                             <select id="status" name="status" class="form-control">
