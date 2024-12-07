@@ -36,7 +36,7 @@ class DepositController extends Controller
             ->first();
 
         $promotions = array();
-        if(!$claimPromotion) {
+        if (!$claimPromotion) {
             $promotions = Promotion::with('promotionDetail')
                 ->where('status', 'active')
                 ->whereDoesntHave('claimPromotions', function ($query) use ($user) {
@@ -60,11 +60,11 @@ class DepositController extends Controller
                 ->first();
 
             if ($pendingTransaction) {
+                session()->put('error', 'Kamu memiliki pending deposit.');
                 return redirect()->back();
             }
 
-            $bankMember = MemberBank::where('user_id', Auth::user()->id)
-                ->first();
+            $bankMember = MemberBank::where('user_id', Auth::user()->id)->first();
 
             $storeTransaction = new Transaction();
             $storeTransaction->user_id = Auth::user()->id;
@@ -99,12 +99,15 @@ class DepositController extends Controller
             }
 
             DB::commit();
+            session()->put('success', 'Deposit berhasil di ajukan, silahkan ditunggu.');
             return redirect()->back();
 
         } catch (\Exception $e) {
             DB::rollBack();
+            session()->put('error', 'Gagal mengajukan deposit.');
             return redirect()->back();
         }
     }
+
 
 }

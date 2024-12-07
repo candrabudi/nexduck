@@ -19,12 +19,9 @@
                         </select>
                     </div>
 
-                    <!-- Payment Method Form (Always visible) -->
                     <div id="payment-form" class="mt-5">
                         <form action="{{ route('deposit.store') }}" method="POST" id="deposit-form">
                             @csrf
-
-                            <!-- Bank Section (Initially hidden) -->
                             <div id="bank-section" class="hidden">
                                 <label for="bankMethod" class="mb-2 text-gray-400">Bank</label>
                                 <select id="bankMethod" name="admin_bank_id"
@@ -40,9 +37,10 @@
                                     @endforeach
                                 </select>
                                 <div id="bank-details" class="details-box hidden mt-3 text-black">
-                                    {{-- <p style="color: black"><strong>Bank Name:</strong> <span id="bank-name"></span></p> --}}
-                                    <p style="color: black"><strong>Nomor Rekening:</strong> <span id="account-number"></span></p>
-                                    <p style="color: black"><strong>Nama Penerima:</strong> <span id="account-name"></span></p>
+                                    <p style="color: black"><strong>Nomor Rekening:</strong> <span
+                                            id="account-number"></span></p>
+                                    <p style="color: black"><strong>Nama Penerima:</strong> <span id="account-name"></span>
+                                    </p>
                                     <button type="button"
                                         class="copy-button btn-sm mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all"
                                         onclick="copyAccountNumber()">Copy Account Number</button>
@@ -57,7 +55,8 @@
                                     <option value="">Select Ewallet</option>
                                     @foreach ($ewallets as $ewallet)
                                         <option value="{{ $ewallet['bank_code'] }}"
-                                            data-ewallet="{{ json_encode($ewallet->bankAccount) }}">{{ $ewallet['bank_name'] }}</option>
+                                            data-ewallet="{{ json_encode($ewallet->bankAccount) }}">
+                                            {{ $ewallet['bank_name'] }}</option>
                                     @endforeach
                                 </select>
                                 <div id="ewallet-details" class="details-box hidden mt-3 text-white"></div>
@@ -81,7 +80,8 @@
                                 <p style="color: black"><strong>Promosi: </strong><span id="promotion-name"></span></p>
                                 <p style="color: black"><strong>Min. Deposit: </strong><span id="min-deposit"></span></p>
                                 <p style="color: black"><strong>Max. Deposit: </strong><span id="max_deposit"></span></p>
-                                <p style="color: black"><strong>Target Harus Tercapai: </strong><span id="target_promo"></span></p>
+                                <p style="color: black"><strong>Target Harus Tercapai: </strong><span
+                                        id="target_promo"></span></p>
                             </div>
 
                             <div class="mt-5">
@@ -108,7 +108,6 @@
                                 </div>
                             </div>
 
-                            <!-- Submit Button -->
                             <div class="mt-5 w-full flex items-center justify-center">
                                 <button type="submit"
                                     class="bg-blue-500 text-white w-full py-3 rounded-md hover:bg-blue-600 transition-all">
@@ -123,6 +122,21 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (session('success'))
+        <h1>Peler lah ga jalan ini gess</h1>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('error') }}',
+                confirmButtonText: 'OK'
+            })
+        </script>
+    @endif
 
     <script>
         function copyAccountNumber() {
@@ -192,7 +206,8 @@
         }
 
         function showPromotionDetails(select) {
-            const promotionDetails = select.selectedOptions[0].dataset.promotionDetail ? JSON.parse(select.selectedOptions[0].dataset.promotionDetail) : null;
+            const promotionDetails = select.selectedOptions[0].dataset.promotionDetail ? JSON.parse(select.selectedOptions[
+                0].dataset.promotionDetail) : null;
             const promotionDetailsDiv = document.getElementById('promotion-details');
 
             if (promotionDetails) {
