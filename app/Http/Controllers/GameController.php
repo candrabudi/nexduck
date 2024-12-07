@@ -17,7 +17,6 @@ class GameController extends Controller
 {
     public function slot()
     {
-        // $games = Game::limit(52)->get();
         $games = Game::join('providers as pv', 'pv.id', '=', 'games.provider_id')
             ->select('games.*')
             ->where('pv.provider_type', 'slot')

@@ -3,9 +3,11 @@
     use App\Models\SeoSetting;
     use App\Models\Category;
     use App\Models\Bank;
+    use App\Models\LiveChat;
 
     // Ambil data pengaturan SEO dari model SeoSetting
     $seoSettings = SeoSetting::first(); // Sesuaikan dengan cara pengambilan data yang benar
+    $livechat = LiveChat::first(); // Sesuaikan dengan cara pengambilan data yang benar
     $categories = Category::where('category_status', 1)->get();
     $setting = Setting::first();
     $banks = Bank::where('bank_status', 1)->get();
@@ -260,7 +262,7 @@
 </head>
 
 <body color-theme="dark" class="bg-base text-gray-800 dark:text-gray-300 ">
-    <a href="javascript::void()" target="_blank" class="fixed right-4 z-50" style="bottom: 85px;">
+    <a href="{{ $livechat->link_livechat }}" target="_blank" class="fixed right-4 z-50" style="bottom: 85px;">
         <div class="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
