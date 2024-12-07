@@ -58,7 +58,7 @@
                                     <option value="">Select Ewallet</option>
                                     @foreach ($ewallets as $ewallet)
                                         <option value="{{ $ewallet['bank_code'] }}"
-                                            data-ewallet="{{ json_encode($ewallet) }}">{{ $ewallet['bank_name'] }}</option>
+                                            data-ewallet="{{ json_encode($ewallet->bankAccount) }}">{{ $ewallet['bank_name'] }}</option>
                                     @endforeach
                                 </select>
                                 <div id="ewallet-details" class="details-box hidden mt-3 text-white"></div>
