@@ -80,7 +80,7 @@
         var isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
 
         if (isLoggedIn) {
-            window.location.href = '/deposit';
+            window.location.href = '/profile/deposit';
         } else {
             Swal.fire({
                 icon: 'error',
