@@ -61,7 +61,7 @@ class DepositController extends Controller
 
             if ($pendingTransaction) {
                 session()->put('error', 'Kamu memiliki pending deposit.');
-                return redirect()->back();
+                return redirect()->route('transaction');
             }
 
             $bankMember = MemberBank::where('user_id', Auth::user()->id)->first();
@@ -100,7 +100,7 @@ class DepositController extends Controller
 
             DB::commit();
             session()->put('success', 'Deposit berhasil di ajukan, silahkan ditunggu.');
-            return redirect()->back();
+            return redirect()->route('transaction');
 
         } catch (\Exception $e) {
             DB::rollBack();
