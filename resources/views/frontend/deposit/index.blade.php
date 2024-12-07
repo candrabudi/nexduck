@@ -49,7 +49,6 @@
                                 </div>
                             </div>
 
-                            <!-- Ewallet Section (Initially hidden) -->
                             <div id="ewallet-section" class="hidden">
                                 <label for="ewalletMethod" class="mb-2 text-gray-400">Ewallet</label>
                                 <select id="ewalletMethod" name="ewalletMethod"
@@ -98,7 +97,6 @@
                                 </div>
                             </div>
 
-                            <!-- Amount Input -->
                             <div class="mt-3">
                                 <p class="mb-2 text-gray-400">IDR&nbsp;20,000 - IDR&nbsp;50,000,000</p>
                                 <div class="w-full flex items-center justify-between bg-gray-700 rounded py-1">
@@ -127,7 +125,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // Function to copy account number to clipboard
         function copyAccountNumber() {
             const accountNumber = document.getElementById('account-number').textContent;
             navigator.clipboard.writeText(accountNumber).then(() => {
@@ -147,12 +144,10 @@
             });
         }
 
-        // Show payment details based on selection
         function showPaymentDetails(select) {
             const method = select.value;
             document.getElementById('payment-form').classList.remove('hidden');
 
-            // Hide both sections initially
             document.getElementById('bank-section').classList.add('hidden');
             document.getElementById('ewallet-section').classList.add('hidden');
             document.getElementById('promotion-details').classList.add('hidden');
@@ -170,14 +165,11 @@
             const bankDetailsDiv = document.getElementById('bank-details');
             const accountNumberSpan = document.getElementById('account-number');
             const accountNameSpan = document.getElementById('account-name');
-            // const bankNameSpan = document.getElementById('bank-name');
 
             if (bankDetails) {
                 bankDetailsDiv.classList.remove('hidden');
                 accountNumberSpan.textContent = bankDetails.account_number;
                 accountNameSpan.textContent = bankDetails.account_name;
-                // bankNameSpan.textContent = bankDetails.bank_name;
-                // Change text color to white for better contrast
                 bankDetailsDiv.style.color = 'white';
             } else {
                 bankDetailsDiv.classList.add('hidden');
@@ -199,7 +191,6 @@
             }
         }
 
-        // Show Promotion Details
         function showPromotionDetails(select) {
             const promotionDetails = select.selectedOptions[0].dataset.promotionDetail ? JSON.parse(select.selectedOptions[0].dataset.promotionDetail) : null;
             const promotionDetailsDiv = document.getElementById('promotion-details');
@@ -257,9 +248,7 @@
             background-color: #10B981;
             color: white;
             padding: 4px 8px;
-            /* Reduced padding for a smaller button */
             font-size: 0.8rem;
-            /* Smaller font size */
             border-radius: 5px;
             cursor: pointer;
             display: inline-flex;
@@ -269,7 +258,6 @@
 
         .copy-button:hover {
             background-color: #2D9B63;
-            /* Darker shade on hover */
         }
     </style>
 @endsection

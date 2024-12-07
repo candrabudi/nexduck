@@ -2,7 +2,7 @@
 <html lang="en" class="h-100">
 
 <head>
-    <title>{{ App\Helpers\SettingsHelper::getSetting()->web_name }}</p></title>
+    <title>Login | {{ App\Helpers\SettingsHelper::getSetting()->web_name }}</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -64,15 +64,17 @@
                             <tr>
                                 <th>S.No</th>
                                 <th>Username</th>
-                                <th>Full Name</th>
-                                <th>Account Number</th>
+                                <th>Bank Penerima</th>
+                                <th>Nama Penerima</th>
+                                <th>Nomor Penerima</th>
+                                <th>Nominal</th>
                                 <th>Status</th>
                                 <th>Created At</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="transactions-table">
-                            <!-- Transaction rows will be loaded via AJAX -->
+                            
                         </tbody>
                     </table>
                     <div class="d-flex align-items-center justify-content-between flex-wrap">
@@ -118,7 +120,6 @@
 
 @section('scripts')
     <script>
-        // Function to load deposit transactions using AJAX
         function loadTransactions(page = 1) {
             var formData = $('#search-form').serialize() + '&page=' + page;
 
@@ -135,7 +136,6 @@
                             '<span class="badge bg-danger">Rejected</span>' :
                             '<span class="badge bg-warning">Pending</span>';
 
-                        // Check if status is 'pending' to show the "Edit Status" button
                         var editButton = '';
                         if (transaction.status === 'pending') {
                             editButton = `
@@ -149,8 +149,10 @@
                     <tr>
                         <td>${index + 1}</td>
                         <td>${transaction.user.username}</td>
-                        <td>${transaction.user_bank.account_name}</td>
-                        <td>${transaction.user_bank.account_number}</td>
+                        <td>${transaction.admin_bank.bank.bank_name}</td>
+                        <td>${transaction.admin_bank.account_name}</td>
+                        <td>${transaction.admin_bank.account_number}</td>
+                        <td>${transaction.amount}</td>
                         <td>${statusBadge}</td>
                         <td>${transaction.created_at}</td>
                         <td>${editButton}</td>
@@ -234,10 +236,10 @@
 
             // Handle save status change
             $('#save-status-btn').click(function() {
-                var formData = $('#edit-status-form').serialize(); // Serialize form data
+                var formData = $('#edit-status-form').serialize();
 
                 $.ajax({
-                    url: '{{ route('backoffice.transactions.deposit.updateStatus') }}', // Route to handle the update
+                    url: '{{ route('backoffice.transactions.deposit.updateStatus') }}',
                     method: 'POST',
                     data: formData,
                     headers: {
@@ -247,23 +249,22 @@
                     success: function(response) {
                         if (response.success) {
                             $('#editStatusModal').modal(
-                                'hide'); // Hide the modal if update is successful
-                            loadTransactions(); // Reload transactions after update
+                                'hide'); 
+                            loadTransactions();
                         } else {
                             alert('Error updating status');
                         }
                     },
                     error: function(xhr, status, error) {
                         alert('An error occurred: ' +
-                            error); // Handle any error that occurs during the request
+                            error);
                     }
                 });
             });
 
-            // Prevent form submission and trigger AJAX request on filter button click
             $('#search-form').on('submit', function(e) {
-                e.preventDefault(); // Prevent default form submission
-                loadTransactions(); // Trigger the load function to apply filters
+                e.preventDefault();
+                loadTransactions();
             });
 
         });

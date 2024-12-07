@@ -42,6 +42,17 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <form action="{{ route('backoffice.members.change-password', $user->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="mb-3">
+                            <label for="new_password" class="form-label">Password Baru</label>
+                            <input type="password" class="form-control" name="new_password" id="new_password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Password</button>
+                    </form>
                 </div>
             </div>
         </div>

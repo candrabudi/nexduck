@@ -24,12 +24,14 @@ class Transaction extends Model
 
     public function adminBank()
     {
-        return $this->hasOne(BankAccount::class, 'id', 'admin_bank_id');
+        return $this->hasOne(BankAccount::class, 'id', 'admin_bank_id')
+            ->with('bank');
     }
 
     public function userBank()
     {
-        return $this->hasOne(MemberBank::class, 'id', 'user_bank_id');
+        return $this->hasOne(MemberBank::class, 'id', 'user_bank_id')
+            ->with('bank');
     }
 
     public function userUpdate()

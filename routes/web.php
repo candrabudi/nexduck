@@ -158,6 +158,7 @@ Route::middleware('auth')->group(function () {
 
         // Member Routes
         Route::get('members', [MemberController::class, 'index'])->name('members.index');
+        Route::put('members/change-password/{a}', [MemberController::class, 'updatePassword'])->name('members.change-password');
         Route::patch('members/{userId}/lock', [MemberController::class, 'lock'])->name('members.lock');
         Route::get('members-detail', [MemberController::class, 'show'])->name('members.show');
 

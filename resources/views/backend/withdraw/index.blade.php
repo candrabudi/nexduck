@@ -64,8 +64,10 @@
                             <tr>
                                 <th>S.No</th>
                                 <th>Username</th>
-                                <th>Nama Lengkap</th>
+                                <th>Bank</th>
+                                <th>Nama Penerima</th>
                                 <th>Nomor Rekening</th>
+                                <th>Nominal</th>
                                 <th>Status</th>
                                 <th>Tanggal Dibuat</th>
                                 <th>Aksi</th>
@@ -145,8 +147,10 @@
                     <tr>
                         <td>${index + 1}</td>
                         <td>${transaction.user.username}</td>
+                        <td>${transaction.user_bank.bank.bank_name}</td>
                         <td>${transaction.user_bank.account_name}</td>
                         <td>${transaction.user_bank.account_number}</td>
+                        <td>${transaction.amount}</td>
                         <td>${statusBadge}</td>
                         <td>${transaction.created_at}</td>
                         <td>${editButton}</td>
