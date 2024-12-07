@@ -230,6 +230,7 @@ Route::middleware('auth')->group(function () {
         Route::get('networks', [UserNetworkController::class, 'index'])->name('networks.index');
         Route::post('networks', [UserNetworkController::class, 'store'])->name('networks.store');
         Route::get('networks/{id}/edit', [UserNetworkController::class, 'edit'])->name('networks.edit');
+        Route::get('networks-detail', [UserNetworkController::class, 'detail'])->name('networks.detail');
         Route::patch('networks/{id}', [UserNetworkController::class, 'update'])->name('networks.update');
         Route::delete('networks/{id}', [UserNetworkController::class, 'destroy'])->name('networks.destroy');
         Route::get('/generateReferralCode', [UserNetworkController::class, 'generateReferralCode'])->name('networks.generateReferralCode');

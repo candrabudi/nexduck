@@ -28,7 +28,8 @@
                                         <td>{{ $network->photo_id_card ?? '-' }}</td>
                                         <td>{{ $network->status == 1 ? 'Active' : 'Inactive' }}</td>
                                         <td>
-                                            <button class="btn btn-info btn-sm" onclick="editNetwork({{ $network->id }})">Edit</button>
+                                            <a href="{{ route('backoffice.networks.detail') }}?id={{ $network->id }}" class="btn btn-info btn-sm text-white">Detail</a>
+                                            <button class="btn btn-warning btn-sm" onclick="editNetwork({{ $network->id }})">Edit</button>
                                             <button class="btn btn-danger btn-sm" onclick="deleteNetwork({{ $network->id }})">Hapus</button>
                                         </td>
                                     </tr>
@@ -91,8 +92,6 @@
     <script>
         $(document).ready(function () {
             $('#networkTable').DataTable();
-
-            // Handle form submission
             $('#networkForm').submit(function (e) {
                 e.preventDefault();
                 let networkId = $('#network_id').val();

@@ -20,4 +20,15 @@ class Network extends Model
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
+
+    public function memberBank()
+    {
+        return $this->hasOne(MemberBank::class, 'user_id', 'user_id')
+            ->with('bank');
+    }
+
+    public function member()
+    {
+        return $this->hasOne(Member::class, 'user_id', 'user_id');
+    }
 }

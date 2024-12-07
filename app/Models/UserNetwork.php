@@ -13,4 +13,21 @@ class UserNetwork extends Model
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
+
+    public function member()
+    {
+        return $this->hasOne(Member::class, 'user_id', 'user_id');
+    }
+
+    public function transactionDeposit()
+    {
+        return $this->hasOne(Transaction::class, 'user_id', 'user_id')
+            ->where('status', 'approved');
+    }
+    
+    public function transactionDeposits()
+    {
+        return $this->hasMany(Transaction::class, 'user_id', 'user_id')
+            ->where('status', 'approved');
+    }
 }

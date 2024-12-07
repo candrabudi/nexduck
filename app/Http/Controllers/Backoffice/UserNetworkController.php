@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Network; // Assuming your model is Network
 use App\Models\User;
+use App\Models\UserNetwork;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class UserNetworkController extends Controller
@@ -29,6 +31,16 @@ class UserNetworkController extends Controller
 
         Network::create($validated);
         return response()->json(['message' => 'Network added successfully.'], 200);
+    }
+
+    public function detail(Request $request)
+    {
+        $id = $request->id;
+        $network = Network::findOrFail($id);
+
+        $userNetworks = UserNetwork::where('network_id', $id)
+            ->get();
+        return view('backend.networks.detail', compact('network', 'userNetworks'));
     }
 
     public function edit($id)
