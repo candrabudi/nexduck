@@ -138,7 +138,6 @@
             }
         }
 
-        // Show Bank Details
         function showBankDetails(select) {
             const bankDetails = select.options[select.selectedIndex].getAttribute('data-bank');
             const bankData = JSON.parse(bankDetails);
@@ -147,7 +146,6 @@
             document.getElementById('bank-details').classList.remove('hidden');
         }
 
-        // Show Ewallet Details
         function showEwalletDetails(select) {
             const ewalletDetails = select.options[select.selectedIndex].getAttribute('data-ewallet');
             const ewalletData = JSON.parse(ewalletDetails);
@@ -158,7 +156,6 @@
             document.getElementById('ewallet-details').classList.remove('hidden');
         }
 
-        // Show Promotion Details
         function showPromotionDetails(select) {
             const promotionDetails = select.options[select.selectedIndex].getAttribute('data-promotion-detail');
             const promotionData = JSON.parse(promotionDetails);
@@ -169,12 +166,10 @@
             document.getElementById('promotion-details').classList.remove('hidden');
         }
 
-        // Set Deposit Amount from Recommendation
         function setAmount(amount) {
             document.getElementById('amountInput').value = amount;
         }
 
-        // Copy Account Number to Clipboard
         function copyAccountNumber() {
             const accountNumber = document.getElementById('account-number').innerText;
             navigator.clipboard.writeText(accountNumber).then(function() {

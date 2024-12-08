@@ -54,7 +54,6 @@ class DepositController extends Controller
     {
         DB::beginTransaction();
         try {
-            // Cek apakah ada transaksi pending sebelumnya
             $pendingTransaction = Transaction::where('user_id', Auth::user()->id)
                 ->where('type', 'deposit')
                 ->where('status', 'pending')
@@ -65,17 +64,15 @@ class DepositController extends Controller
                 return redirect()->route('transaction');
             }
 
-            // Mendapatkan informasi bank member
             $bankMember = MemberBank::where('user_id', Auth::user()->id)->first();
 
-            // Menyimpan transaksi deposit
             $storeTransaction = new Transaction();
             $storeTransaction->user_id = Auth::user()->id;
             $storeTransaction->promotion_id = 0;
             if($request->admin_bank_id) {
                 $storeTransaction->admin_bank_id = $request->admin_bank_id;
             }else if($request->admin_ewallet_id) {
-                $storeTransaction->admin_ewallet_id = $request->admin_ewallet_id;
+                $storeTransaction->admin_bank_id = $request->admin_ewallet_id;
             }
             $storeTransaction->user_bank_id = $bankMember->id;
             $storeTransaction->amount = $request->amount;
@@ -85,14 +82,11 @@ class DepositController extends Controller
             $storeTransaction->save();
             $storeTransaction->fresh();
 
-            // Jika ada promo yang dipilih
             if ($request->promotion_id != 0 && !empty($request->promotion_id)) {
                 $promotion = PromotionDetail::where('promotion_id', $request->promotion_id)
                     ->first();
 
                 $bonus = ($request->amount * $promotion->percentage_bonus) / 100;
-
-                // Menyimpan transaksi bonus
                 $store = new Transaction();
                 $store->user_id = Auth::user()->id;
                 $store->transaction_id = $storeTransaction->id;
@@ -116,7 +110,4 @@ class DepositController extends Controller
             return redirect()->back();
         }
     }
-
-
-
 }
