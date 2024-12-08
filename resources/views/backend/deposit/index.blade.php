@@ -164,21 +164,22 @@
                         }).format(transaction.amount);
 
                         tableHtml += `
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>${transaction.user.username}</td>
-                            <td>${transaction.admin_bank.bank.bank_name}</td>
-                            <td>${transaction.admin_bank.account_name}</td>
-                            <td>${transaction.admin_bank.account_number}</td>
-                            <td>${transaction.user_bank.bank.bank_name}</td>
-                            <td>${transaction.user_bank.account_name}</td>
-                            <td>${transaction.user_bank.account_number}</td>
-                            <td>${formattedAmount}</td>
-                            <td>${statusBadge}</td>
-                            <td>${formattedDateString}</td>
-                            <td>${editButton}</td>
-                        </tr>
-                    `;
+    <tr>
+        <td>${index + 1}</td>
+        <td>${transaction?.user?.username || 'null'}</td>
+        <td>${transaction?.admin_bank?.bank?.bank_name || 'null'}</td>
+        <td>${transaction?.admin_bank?.account_name || 'null'}</td>
+        <td>${transaction?.admin_bank?.account_number || 'null'}</td>
+        <td>${transaction?.user_bank?.bank?.bank_name || 'null'}</td>
+        <td>${transaction?.user_bank?.account_name || 'null'}</td>
+        <td>${transaction?.user_bank?.account_number || 'null'}</td>
+        <td>${formattedAmount || 'null'}</td>
+        <td>${statusBadge || 'null'}</td>
+        <td>${formattedDateString || 'null'}</td>
+        <td>${editButton || 'null'}</td>
+    </tr>
+`;
+
                     });
 
                     $('#transactions-table').html(tableHtml);
