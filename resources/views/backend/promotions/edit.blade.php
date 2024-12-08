@@ -41,7 +41,7 @@
                                 <!-- Content (CKEditor) -->
                                 <div class="mb-3">
                                     <label for="content" class="form-label">Content</label>
-                                    <textarea class="form-control" id="ckeditor" name="content" required>{{ old('content', $promotion->content) }}</textarea>
+                                    <textarea class="form-control" id="contentEditor" name="content" required>{{ old('content', $promotion->content) }}</textarea>
                                 </div>
 
                                 <!-- Start Date -->
@@ -56,6 +56,51 @@
                                     <label for="end_date" class="form-label">End Date</label>
                                     <input type="date" class="form-control" name="end_date"
                                         value="{{ old('end_date', $promotion->end_date) }}" required>
+                                </div>
+
+                                <!-- Thumbnail -->
+                                <div class="mb-3">
+                                    <label for="thumbnail" class="form-label">Thumbnail</label>
+                                    <input type="file" class="form-control" name="thumbnail">
+                                </div>
+
+                                <!-- Promotion Details -->
+                                <h4>Promotion Details</h4>
+
+                                <!-- Min Deposit -->
+                                <div class="mb-3">
+                                    <label for="min_deposit" class="form-label">Min Deposit</label>
+                                    <input type="number" class="form-control" name="min_deposit"
+                                        value="{{ old('min_deposit', $promotion->details->min_deposit) }}" required>
+                                </div>
+
+                                <!-- Max Deposit -->
+                                <div class="mb-3">
+                                    <label for="max_deposit" class="form-label">Max Deposit</label>
+                                    <input type="number" class="form-control" name="max_deposit"
+                                        value="{{ old('max_deposit', $promotion->details->max_deposit) }}" required>
+                                </div>
+
+                                <!-- Max Withdraw -->
+                                <div class="mb-3">
+                                    <label for="max_withdraw" class="form-label">Max Withdraw</label>
+                                    <input type="number" class="form-control" name="max_withdraw"
+                                        value="{{ old('max_withdraw', $promotion->details->max_withdraw) }}" required>
+                                </div>
+
+                                <!-- Turn Over -->
+                                <div class="mb-3">
+                                    <label for="turn_over" class="form-label">Turn Over</label>
+                                    <input type="number" class="form-control" name="turn_over"
+                                        value="{{ old('turn_over', $promotion->details->turn_over) }}" required>
+                                </div>
+
+                                <!-- Percentage Bonus -->
+                                <div class="mb-3">
+                                    <label for="percentage_bonus" class="form-label">Percentage Bonus</label>
+                                    <input type="number" class="form-control" name="percentage_bonus"
+                                        value="{{ old('percentage_bonus', $promotion->details->percentage_bonus) }}"
+                                        required>
                                 </div>
 
                                 <!-- Promotion Type -->
@@ -108,50 +153,19 @@
                                         </option>
                                     </select>
                                 </div>
-
-                                <!-- Thumbnail -->
+                                
+                                <!-- Bonus Type -->
                                 <div class="mb-3">
-                                    <label for="thumbnail" class="form-label">Thumbnail</label>
-                                    <input type="file" class="form-control" name="thumbnail">
-                                </div>
-
-                                <!-- Promotion Details -->
-                                <h4>Promotion Details</h4>
-
-                                <!-- Min Deposit -->
-                                <div class="mb-3">
-                                    <label for="min_deposit" class="form-label">Min Deposit</label>
-                                    <input type="number" class="form-control" name="min_deposit"
-                                        value="{{ old('min_deposit', $promotion->details->min_deposit) }}" required>
-                                </div>
-
-                                <!-- Max Deposit -->
-                                <div class="mb-3">
-                                    <label for="max_deposit" class="form-label">Max Deposit</label>
-                                    <input type="number" class="form-control" name="max_deposit"
-                                        value="{{ old('max_deposit', $promotion->details->max_deposit) }}" required>
-                                </div>
-
-                                <!-- Max Withdraw -->
-                                <div class="mb-3">
-                                    <label for="max_withdraw" class="form-label">Max Withdraw</label>
-                                    <input type="number" class="form-control" name="max_withdraw"
-                                        value="{{ old('max_withdraw', $promotion->details->max_withdraw) }}" required>
-                                </div>
-
-                                <!-- Turn Over -->
-                                <div class="mb-3">
-                                    <label for="turn_over" class="form-label">Turn Over</label>
-                                    <input type="number" class="form-control" name="turn_over"
-                                        value="{{ old('turn_over', $promotion->details->turn_over) }}" required>
-                                </div>
-
-                                <!-- Percentage Bonus -->
-                                <div class="mb-3">
-                                    <label for="percentage_bonus" class="form-label">Percentage Bonus</label>
-                                    <input type="number" class="form-control" name="percentage_bonus"
-                                        value="{{ old('percentage_bonus', $promotion->details->percentage_bonus) }}"
-                                        required>
+                                    <label for="status" class="form-label">Bonus Type</label>
+                                    <select class="form-control" name="status">
+                                        <option value="daily"
+                                            {{ old('status', $promotion->status) == 'active' ? 'selected' : '' }}>
+                                            Publish</option>
+                                        <option value="old"
+                                            {{ old('status', $promotion->status) == 'inactive' ? 'selected' : '' }}>
+                                            Draft
+                                        </option>
+                                    </select>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Update Promotion</button>
@@ -171,6 +185,18 @@
     <link href="{{ asset('backoffice/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <!-- Style css -->
     <link class="main-css" href="{{ asset('backoffice/css/style.css') }}" rel="stylesheet">
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+
+    <style>
+        /* Tambahkan custom style untuk editor jika diperlukan */
+        .ck-editor__editable {
+            min-height: 200px; /* Setidaknya tinggi 200px */
+            background-color: #f4f4f4; /* Warna latar belakang */
+            font-family: Arial, sans-serif; /* Setel font */
+            font-size: 16px; /* Ukuran font */
+        }
+    </style>
 @endsection
 @section('scripts')
     <script src="{{ asset('backoffice/vendor/global/global.min.js') }}"></script>
@@ -191,6 +217,14 @@
     <script src="{{ asset('backoffice/js/custom.min.js') }}"></script>
     <script src="{{ asset('backoffice/js/demo.js') }}"></script>
     <script src="{{ asset('backoffice/js/styleSwitcher.js') }}"></script>
+    <script>
+        // Inisialisasi CKEditor pada textarea dengan id 'ckeditor'
+        ClassicEditor
+            .create(document.querySelector('#contentEditor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
     <script>
         $(document).ready(function() {
             // Initialize datepicker

@@ -49,13 +49,13 @@
                                         </td>
                                         <td><span>{{ $promotion->title }}</span></td>
                                         <td><span>{{ $promotion->slug }}</span></td>
-                                        <td><span>{{ $promotion->type }}</span></td>
+                                        <td><span>{{ $promotion->bonus_type }}</span></td>
                                         <td><span>{{ $promotion->provider_category }}</span></td>
                                         <td>
-                                            @if ($promotion->status == 1)
-                                                <span class="badge badge-success light border-0">Active</span>
+                                            @if ($promotion->status == 'active')
+                                                <span class="badge badge-success light border-0">Publish</span>
                                             @else
-                                                <span class="badge badge-danger light border-0">Inactive</span>
+                                                <span class="badge badge-danger light border-0">Draft</span>
                                             @endif
                                         </td>
                                         <td><span>{{ $promotion->start_date }}</span></td>
@@ -94,26 +94,6 @@
 @endsection
 
 @section('scripts')
-    {{-- <script src="{{ asset('backoffice/vendor/global/global.min.js') }}"></script>
-    <script src="{{ asset('backoffice/vendor/chart-js/chart.bundle.min.js') }}"></script>
-    <script src="{{ asset('backoffice/vendor/bootstrap-datepicker-master/js/bootstrap-datepicker.min.js') }}"></script>
-    <script src="{{ asset('backoffice/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('backoffice/vendor/apexchart/apexchart.js') }}"></script>
-
-    <script src="{{ asset('backoffice/vendor/peity/jquery.peity.min.js') }}"></script>
-    <script src="{{ asset('backoffice/js/dashboard/dashboard-2.js') }}"></script>
-
-    <script src="{{ asset('backoffice/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('backoffice/vendor/datatables/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('backoffice/vendor/datatables/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('backoffice/vendor/datatables/js/jszip.min.js') }}"></script>
-    <script src="{{ asset('backoffice/js/plugins-init/datatables.init.js') }}"></script>
-
-    <script src="{{ asset('backoffice/js/custom.min.js') }}"></script>
-    <script src="{{ asset('backoffice/js/deznav-init.js') }}"></script>
-    <script src="{{ asset('backoffice/js/demo.js') }}"></script>
-    <script src="{{ asset('backoffice/js/styleSwitcher.js') }}"></script> --}}
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>

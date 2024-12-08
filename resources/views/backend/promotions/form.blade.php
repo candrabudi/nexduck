@@ -30,10 +30,9 @@
 
                             <!-- Content -->
                             <label class="form-label">Content</label>
-                            <textarea class="form-control" id="ckeditor" name="content">{{ old('content') }}</textarea>
+                            <textarea class="form-control" id="contentEditor" name="content">{{ old('content') }}</textarea>
 
                             <div class="row mt-3">
-                                <!-- Thumbnail -->
                                 <div class="col-md-12 mb-3">
                                     <label class="form-label">Thumbnail</label>
                                     <input type="file" class="form-control" name="thumbnail">
@@ -116,6 +115,14 @@
                                     <option value="new" {{ old('bonus_type') == 'new' ? 'selected' : '' }}>New</option>
                                 </select>
                             </div>
+                            <!-- Bonus Type -->
+                            <div class="mb-3">
+                                <label class="form-label">Bonus Type</label>
+                                <select class="form-control" name="status">
+                                    <option value="daily" {{ old('status') == 'active' ? 'selected' : '' }}>Publish</option>
+                                    <option value="old" {{ old('status') == 'inactive' ? 'selected' : '' }}>Draft</option>
+                                </select>
+                            </div>
 
                             <!-- Submit Button -->
                             <div class="mb-3">
@@ -137,17 +144,23 @@
     <link href="{{ asset('backoffice/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <!-- Style css -->
     <link class="main-css" href="{{ asset('backoffice/css/style.css') }}" rel="stylesheet">
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+
+    <style>
+        /* Tambahkan custom style untuk editor jika diperlukan */
+        .ck-editor__editable {
+            min-height: 200px; /* Setidaknya tinggi 200px */
+            background-color: #f4f4f4; /* Warna latar belakang */
+            font-family: Arial, sans-serif; /* Setel font */
+            font-size: 16px; /* Ukuran font */
+        }
+    </style>
 @endsection
 @section('scripts')
     <script src="{{ asset('backoffice/vendor/global/global.min.js') }}"></script>
     <script src="{{ asset('backoffice/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('backoffice/vendor/bootstrap-datepicker-master/js/bootstrap-datepicker.min.js') }}"></script>
-
-
-    <!-- Ck-editor -->
-    <script src="{{ asset('backoffice/vendor/ckeditor/ckeditor.js') }}"></script>
-
-    <!--select plugins-file-->
     <script src="{{ asset('backoffice/vendor/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('backoffice/js/plugins-init/select2-init.js') }}"></script>
 
@@ -157,6 +170,14 @@
     <script src="{{ asset('backoffice/js/custom.min.js') }}"></script>
     <script src="{{ asset('backoffice/js/demo.js') }}"></script>
     <script src="{{ asset('backoffice/js/styleSwitcher.js') }}"></script>
+    <script>
+        // Inisialisasi CKEditor pada textarea dengan id 'ckeditor'
+        ClassicEditor
+            .create(document.querySelector('#contentEditor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
     <script>
         $(document).ready(function() {
             // Initialize datepicker

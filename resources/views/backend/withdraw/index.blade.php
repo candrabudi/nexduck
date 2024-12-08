@@ -134,14 +134,30 @@
                             transaction.status == 'rejected' ?
                             '<span class="badge bg-danger">Rejected</span>' :
                             '<span class="badge bg-warning">Pending</span>';
+
                         var editButton = '';
                         if (transaction.status === 'pending') {
                             editButton = `
                         <button class="btn btn-warning btn-sm edit-status-btn" data-id="${transaction.id}" data-status="${transaction.status}">Edit Status</button>
                     `;
-                        }else{
+                        } else {
                             editButton = '<span class="badge bg-danger">Sudah Update</span>';
                         }
+
+                        // Format amount to Rupiah (IDR)
+                        var formattedAmount = new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR'
+                        }).format(transaction.amount);
+
+                        // Format created_at to Y-m-d H:i:s
+                        var formattedDate = new Date(transaction.created_at);
+                        var formattedDateString = formattedDate.getFullYear() + '-' +
+                            ('0' + (formattedDate.getMonth() + 1)).slice(-2) + '-' +
+                            ('0' + formattedDate.getDate()).slice(-2) + ' ' +
+                            ('0' + formattedDate.getHours()).slice(-2) + ':' +
+                            ('0' + formattedDate.getMinutes()).slice(-2) + ':' +
+                            ('0' + formattedDate.getSeconds()).slice(-2);
 
                         tableHtml += ` 
                     <tr>
@@ -150,9 +166,9 @@
                         <td>${transaction.user_bank.bank.bank_name}</td>
                         <td>${transaction.user_bank.account_name}</td>
                         <td>${transaction.user_bank.account_number}</td>
-                        <td>${transaction.amount}</td>
+                        <td>${formattedAmount}</td>
                         <td>${statusBadge}</td>
-                        <td>${transaction.created_at}</td>
+                        <td>${formattedDateString}</td>
                         <td>${editButton}</td>
                     </tr>
                 `;
@@ -244,7 +260,7 @@
                     success: function(response) {
                         if (response.success) {
                             $('#editStatusModal').modal(
-                                'hide'); 
+                                'hide');
                             loadTransactions();
                         } else {
                             alert('Error updating status');
