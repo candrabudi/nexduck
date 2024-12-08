@@ -150,8 +150,8 @@
             const ewalletDetails = select.options[select.selectedIndex].getAttribute('data-ewallet');
             const ewalletData = JSON.parse(ewalletDetails);
             document.getElementById('ewallet-details').innerHTML = `
-                    <p><strong>Nomor Akun:</strong> ${ewalletData.account_number}</p>
-                    <p><strong>Nama Akun:</strong> ${ewalletData.account_name}</p>
+                    <p style="color: black"><strong>Nomor Akun:</strong> ${ewalletData.account_number}</p>
+                    <p style="color: black"><strong>Nama Akun:</strong> ${ewalletData.account_name}</p>
                 `;
             document.getElementById('ewallet-details').classList.remove('hidden');
         }
