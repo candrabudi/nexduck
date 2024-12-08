@@ -67,6 +67,9 @@
                                 <th>Bank Penerima</th>
                                 <th>Nama Penerima</th>
                                 <th>Nomor Penerima</th>
+                                <th>Bank Pengirim</th>
+                                <th>Nama Pengirim</th>
+                                <th>Nomor Pengirim</th>
                                 <th>Nominal</th>
                                 <th>Status</th>
                                 <th>Tanggal Dibuat</th>
@@ -167,6 +170,9 @@
                         <td>${transaction.admin_bank.bank.bank_name}</td>
                         <td>${transaction.admin_bank.account_name}</td>
                         <td>${transaction.admin_bank.account_number}</td>
+                        <td>${transaction.user_bank.bank.bank_name}</td>
+                        <td>${transaction.user_bank.account_name}</td>
+                        <td>${transaction.user_bank.account_number}</td>
                         <td>${formattedAmount}</td>
                         <td>${statusBadge}</td>
                         <td>${formattedDateString}</td>

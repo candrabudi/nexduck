@@ -12,8 +12,12 @@
                         <table id="example" class="display table" style="min-width: 845px">
                         <thead>
                             <tr>
+                                <th>Nama Lengkap</th>
                                 <th>Username</th>
                                 <th>Email</th>
+                                <th>Bank</th>
+                                <th>Nama Bank</th>
+                                <th>Nomor Rekening</th>
                                 <th>Role</th>
                                 <th>Status</th>
                                 <th>Phone Number</th>
@@ -23,8 +27,12 @@
                         <tbody>
                             @foreach ($users as $user)
                                 <tr>
+                                    <td>{{ $user->member->full_name }}</td>
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->email }}</td>
+                                    <td>{{ $user->memberBank->bank->bank_name }}</td>
+                                    <td>{{ $user->memberBank->account_name }}</td>
+                                    <td>{{ $user->memberBank->account_number }}</td>
                                     <td>{{ $user->role }}</td>
                                     <td>{{ $user->status == 1 ? 'Active' : 'Locked' }}</td>
                                     <td>{{ $user->member->phone_number ?? '-' }}</td>

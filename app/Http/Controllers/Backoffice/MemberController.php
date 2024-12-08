@@ -25,12 +25,10 @@ class MemberController extends Controller
 
         return view('backend.members.index', compact('users'));
     }
-
-    // Lock a user (change their status to 'locked')
     public function lock($userId)
     {
         $user = User::findOrFail($userId);
-        $user->status = 0; // Lock the user (0 means locked)
+        $user->status = 0;
         $user->save();
 
         return response()->json(['message' => 'User locked successfully!']);
@@ -45,7 +43,6 @@ class MemberController extends Controller
         return back()->with('status', 'Password berhasil diperbarui!');
     }
 
-    // Show user details
     public function show(Request $request)
     {
         $userId = $request->user_id;
@@ -55,6 +52,7 @@ class MemberController extends Controller
         $user = User::with('member')->findOrFail($userId);
         $transactions = Transaction::where('user_id', $user->id)
             ->get();
+            
         return view('backend.members.show', compact('user', 'transactions'));
     }
     
