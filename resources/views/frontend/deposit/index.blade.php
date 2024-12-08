@@ -3,7 +3,6 @@
 @section('content')
     <div class="md:w-4/6 2xl:w-4/6 mx-auto mt-20 p-4 md:p-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
             @include('frontend.layouts.components.menuprofile')
 
             <div class="relative col-span-2 bg-gray-800 text-white rounded-lg shadow-lg p-6">
@@ -22,6 +21,7 @@
                     <div id="payment-form" class="mt-5">
                         <form action="{{ route('deposit.store') }}" method="POST" id="deposit-form">
                             @csrf
+                            <!-- Bank Section -->
                             <div id="bank-section" class="hidden">
                                 <label for="bankMethod" class="mb-2 text-gray-400">Bank</label>
                                 <select id="bankMethod" name="admin_bank_id"
@@ -47,9 +47,10 @@
                                 </div>
                             </div>
 
+                            <!-- Ewallet Section -->
                             <div id="ewallet-section" class="hidden">
                                 <label for="ewalletMethod" class="mb-2 text-gray-400">Ewallet</label>
-                                <select id="ewalletMethod" name="admin_bank_id"
+                                <select id="ewalletMethod" name="admin_ewallet_id"
                                     class="block w-full p-3 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     onchange="showEwalletDetails(this)">
                                     <option value="">Select Ewallet</option>
@@ -62,6 +63,7 @@
                                 <div id="ewallet-details" class="details-box hidden mt-3 text-white"></div>
                             </div>
 
+                            <!-- Promotion Section -->
                             <div class="mt-5">
                                 <label for="promotion" class="mb-2 text-gray-400">Promotions</label>
                                 <select id="promotion" name="promotion_id"
@@ -84,6 +86,7 @@
                                         id="target_promo"></span></p>
                             </div>
 
+                            <!-- Deposit Amount Section -->
                             <div class="mt-5">
                                 <label class="mb-3 text-gray-400">Rekomendasi Deposit</label>
                                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 w-full">
@@ -108,10 +111,11 @@
                                 </div>
                             </div>
 
+                            <!-- Submit Button -->
                             <div class="mt-5 w-full flex items-center justify-center">
                                 <button type="submit"
                                     class="bg-blue-500 text-white w-full py-3 rounded-md hover:bg-blue-600 transition-all">
-                                    <span class="uppercase font-semibold text-sm">Deposit</span>
+                                    <span class="uppercase font-semibold text-sm">Konfirmasi Deposit</span>
                                 </button>
                             </div>
                         </form>
@@ -120,109 +124,64 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    @if (session('success'))
-        <h1>Peler lah ga jalan ini gess</h1>
-    @endif
-
-    @if (session('error'))
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: '{{ session('error') }}',
-                confirmButtonText: 'OK'
-            })
-        </script>
-    @endif
-
+@endsection
+@section('scripts')
     <script>
-        function copyAccountNumber() {
-            const accountNumber = document.getElementById('account-number').textContent;
-            navigator.clipboard.writeText(accountNumber).then(() => {
-                Swal.fire({
-                    title: 'Copied!',
-                    text: 'Account number has been copied to clipboard.',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                });
-            }).catch((err) => {
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Failed to copy account number.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            });
-        }
-
         function showPaymentDetails(select) {
             const method = select.value;
-            document.getElementById('payment-form').classList.remove('hidden');
-
-            document.getElementById('bank-section').classList.add('hidden');
-            document.getElementById('ewallet-section').classList.add('hidden');
-            document.getElementById('promotion-details').classList.add('hidden');
-
             if (method === 'bank') {
                 document.getElementById('bank-section').classList.remove('hidden');
+                document.getElementById('ewallet-section').classList.add('hidden');
             } else if (method === 'ewallet') {
                 document.getElementById('ewallet-section').classList.remove('hidden');
+                document.getElementById('bank-section').classList.add('hidden');
             }
         }
 
+        // Show Bank Details
         function showBankDetails(select) {
-            const bankDetails = select.selectedOptions[0].dataset.bank ? JSON.parse(select.selectedOptions[0].dataset
-                .bank) : null;
-            const bankDetailsDiv = document.getElementById('bank-details');
-            const accountNumberSpan = document.getElementById('account-number');
-            const accountNameSpan = document.getElementById('account-name');
-
-            if (bankDetails) {
-                bankDetailsDiv.classList.remove('hidden');
-                accountNumberSpan.textContent = bankDetails.account_number;
-                accountNameSpan.textContent = bankDetails.account_name;
-                bankDetailsDiv.style.color = 'white';
-            } else {
-                bankDetailsDiv.classList.add('hidden');
-            }
+            const bankDetails = select.options[select.selectedIndex].getAttribute('data-bank');
+            const bankData = JSON.parse(bankDetails);
+            document.getElementById('account-number').innerText = bankData.account_number;
+            document.getElementById('account-name').innerText = bankData.account_name;
+            document.getElementById('bank-details').classList.remove('hidden');
         }
 
+        // Show Ewallet Details
         function showEwalletDetails(select) {
-            const ewalletDetails = select.selectedOptions[0].dataset.ewallet ? JSON.parse(select.selectedOptions[0]
-                .dataset.ewallet) : null;
-            const ewalletDetailsDiv = document.getElementById('ewallet-details');
-            if (ewalletDetails) {
-                ewalletDetailsDiv.classList.remove('hidden');
-                ewalletDetailsDiv.innerHTML = `
-                    <p style="color: black"><strong>Account Number:</strong> ${ewalletDetails.account_number}</p>
-                    <p style="color: black"><strong>Account Holder:</strong> ${ewalletDetails.account_name}</p>
+            const ewalletDetails = select.options[select.selectedIndex].getAttribute('data-ewallet');
+            const ewalletData = JSON.parse(ewalletDetails);
+            document.getElementById('ewallet-details').innerHTML = `
+                    <p><strong>Nomor Akun:</strong> ${ewalletData.account_number}</p>
+                    <p><strong>Nama Akun:</strong> ${ewalletData.account_name}</p>
                 `;
-            } else {
-                ewalletDetailsDiv.classList.add('hidden');
-            }
+            document.getElementById('ewallet-details').classList.remove('hidden');
         }
 
+        // Show Promotion Details
         function showPromotionDetails(select) {
-            const promotionDetails = select.selectedOptions[0].dataset.promotionDetail ? JSON.parse(select.selectedOptions[
-                0].dataset.promotionDetail) : null;
-            const promotionDetailsDiv = document.getElementById('promotion-details');
-
-            if (promotionDetails) {
-                promotionDetailsDiv.classList.remove('hidden');
-                document.getElementById('promotion-name').textContent = promotionDetails.name;
-                document.getElementById('min-deposit').textContent = promotionDetails.min_deposit;
-                document.getElementById('max_deposit').textContent = promotionDetails.max_deposit;
-                document.getElementById('target_promo').textContent = promotionDetails.target;
-            } else {
-                promotionDetailsDiv.classList.add('hidden');
-            }
+            const promotionDetails = select.options[select.selectedIndex].getAttribute('data-promotion-detail');
+            const promotionData = JSON.parse(promotionDetails);
+            document.getElementById('promotion-name').innerText = promotionData.title;
+            document.getElementById('min-deposit').innerText = promotionData.min_deposit;
+            document.getElementById('max_deposit').innerText = promotionData.max_deposit;
+            document.getElementById('target_promo').innerText = promotionData.target;
+            document.getElementById('promotion-details').classList.remove('hidden');
         }
 
+        // Set Deposit Amount from Recommendation
         function setAmount(amount) {
             document.getElementById('amountInput').value = amount;
+        }
+
+        // Copy Account Number to Clipboard
+        function copyAccountNumber() {
+            const accountNumber = document.getElementById('account-number').innerText;
+            navigator.clipboard.writeText(accountNumber).then(function() {
+                alert("Account number copied to clipboard!");
+            }, function(err) {
+                alert('Failed to copy: ' + err);
+            });
         }
     </script>
 @endsection
