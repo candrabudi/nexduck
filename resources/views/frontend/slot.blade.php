@@ -241,32 +241,42 @@
 
     <script>
         let offset = 50;
+        let debounceTimeout = null; // Global variable to hold the timeout ID
 
         function searchGames() {
+            // Clear previous timeout if any
+            if (debounceTimeout) {
+                clearTimeout(debounceTimeout);
+            }
+
+            // Get the input values
             const searchQuery = document.getElementById('game-search').value;
             const providerId = document.getElementById('provider-filter').value;
 
-            fetch(`{{ route('games.search') }}?query=${searchQuery}&provider_id=${providerId}`)
-                .then(response => response.json())
-                .then(data => {
-                    const gameCards = document.getElementById('game-cards');
-                    gameCards.innerHTML = '';
+            // Set a new timeout to call the API after a delay of 500ms
+            debounceTimeout = setTimeout(function() {
+                fetch(`{{ route('games.search') }}?query=${searchQuery}&provider_id=${providerId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const gameCards = document.getElementById('game-cards');
+                        gameCards.innerHTML = '';
 
-                    data.games.forEach(game => {
-                        const gameCard = `
-                        <div class="game-card" onclick="openModal('${game.game_name}', '${game.game_provider_code}', '${game.game_image}', '/games/play-game/${game.id}')">
-                            <div class="relative group w-full">
-                                <img src="${game.game_image}" alt="${game.game_name}" class="game-image" />
-                                <div class="game-name-container">
-                                    <div class="game-name">${game.game_name.length > 15 ? game.game_name.slice(0, 15) + '...' : game.game_name}</div>
-                                    <div class="game-provider">${game.game_provider_code}</div>
+                        data.games.forEach(game => {
+                            const gameCard = `
+                                <div class="game-card" onclick="openModal('${game.game_name}', '${game.game_provider_code}', '${game.game_image}', '/games/play-game/${game.id}')">
+                                    <div class="relative group w-full">
+                                        <img src="${game.game_image}" alt="${game.game_name}" class="game-image" />
+                                        <div class="game-name-container">
+                                            <div class="game-name">${game.game_name.length > 15 ? game.game_name.slice(0, 15) + '...' : game.game_name}</div>
+                                            <div class="game-provider">${game.game_provider_code}</div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    `;
-                        gameCards.innerHTML += gameCard;
+                            `;
+                            gameCards.innerHTML += gameCard;
+                        });
                     });
-                });
+            }, 500); // Delay of 500ms after the user stops typing
         }
 
         function loadMoreGames() {
@@ -279,16 +289,16 @@
 
                     data.games.forEach(game => {
                         const gameCard = `
-                        <div class="game-card" onclick="openModal('${game.game_name}', '${game.game_provider_code}', '${game.game_image}', '/games/play-game/${game.id}')">
-                            <div class="relative group w-full">
-                                <img src="${game.game_image}" alt="${game.game_name}" class="game-image" />
-                                <div class="game-name-container">
-                                    <div class="game-name">${game.game_name.length > 15 ? game.game_name.slice(0, 15) + '...' : game.game_name}</div>
-                                    <div class="game-provider">${game.game_provider_code}</div>
+                            <div class="game-card" onclick="openModal('${game.game_name}', '${game.game_provider_code}', '${game.game_image}', '/games/play-game/${game.id}')">
+                                <div class="relative group w-full">
+                                    <img src="${game.game_image}" alt="${game.game_name}" class="game-image" />
+                                    <div class="game-name-container">
+                                        <div class="game-name">${game.game_name.length > 15 ? game.game_name.slice(0, 15) + '...' : game.game_name}</div>
+                                        <div class="game-provider">${game.game_provider_code}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `;
+                        `;
                         gameCards.innerHTML += gameCard;
                     });
 

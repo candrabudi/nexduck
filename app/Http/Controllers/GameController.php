@@ -60,15 +60,23 @@ class GameController extends Controller
     {
         $query = $request->query('query');
         $provider_id = $request->provider_id;
-
+    
+        // Capitalize each word in the query
+        if ($query) {
+            $query = ucwords(strtolower($query));
+        }
+    
         $games = Game::when($query, function ($q) use ($query) {
             return $q->where('game_name', 'like', '%' . $query . '%');
-        })->when($provider_id, function ($q) use ($provider_id) {
+        })
+        ->when($provider_id, function ($q) use ($provider_id) {
             return $q->where('provider_id', $provider_id);
-        })->get();
-
+        })
+        ->get();
+    
         return response()->json(['games' => $games]);
     }
+    
 
 
     public function detail($a)

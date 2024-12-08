@@ -142,8 +142,8 @@
                         var editButton = '';
                         if (transaction.status === 'pending') {
                             editButton = `
-                        <button class="btn btn-warning btn-sm edit-status-btn" data-id="${transaction.id}" data-status="${transaction.status}">Edit Status</button>
-                    `;
+                            <button class="btn btn-warning btn-sm edit-status-btn" data-id="${transaction.id}" data-status="${transaction.status}">Edit Status</button>
+                        `;
                         } else {
                             editButton = '<span class="badge bg-danger">Sudah Update</span>';
                         }
@@ -164,21 +164,21 @@
                         }).format(transaction.amount);
 
                         tableHtml += `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${transaction.user.username}</td>
-                        <td>${transaction.admin_bank.bank.bank_name}</td>
-                        <td>${transaction.admin_bank.account_name}</td>
-                        <td>${transaction.admin_bank.account_number}</td>
-                        <td>${transaction.user_bank.bank.bank_name}</td>
-                        <td>${transaction.user_bank.account_name}</td>
-                        <td>${transaction.user_bank.account_number}</td>
-                        <td>${formattedAmount}</td>
-                        <td>${statusBadge}</td>
-                        <td>${formattedDateString}</td>
-                        <td>${editButton}</td>
-                    </tr>
-                `;
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${transaction.user.username}</td>
+                            <td>${transaction.admin_bank.bank.bank_name}</td>
+                            <td>${transaction.admin_bank.account_name}</td>
+                            <td>${transaction.admin_bank.account_number}</td>
+                            <td>${transaction.user_bank.bank.bank_name}</td>
+                            <td>${transaction.user_bank.account_name}</td>
+                            <td>${transaction.user_bank.account_number}</td>
+                            <td>${formattedAmount}</td>
+                            <td>${statusBadge}</td>
+                            <td>${formattedDateString}</td>
+                            <td>${editButton}</td>
+                        </tr>
+                    `;
                     });
 
                     $('#transactions-table').html(tableHtml);
@@ -192,50 +192,49 @@
                     var lastPage = response.pagination.last_page;
 
                     paginationHtml += `
-                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                    <a class="page-link" href="javascript:void(0);" data-page="1"><i class="fa-solid fa-angle-left"></i></a>
-                </li>
-                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                    <a class="page-link" href="javascript:void(0);" data-page="${currentPage - 1}"><i class="fa-solid fa-angle-left"></i></a>
-                </li>
-            `;
+                    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="javascript:void(0);" data-page="1"><i class="fa-solid fa-angle-left"></i></a>
+                    </li>
+                    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="javascript:void(0);" data-page="${currentPage - 1}"><i class="fa-solid fa-angle-left"></i></a>
+                    </li>
+                `;
 
                     for (let i = 1; i <= 5 && i <= lastPage; i++) {
                         paginationHtml += `
-                    <li class="page-item ${i === currentPage ? 'active' : ''}">
-                        <a href="javascript:void(0);" class="page-link" data-page="${i}">${i}</a>
-                    </li>
-                `;
+                        <li class="page-item ${i === currentPage ? 'active' : ''}">
+                            <a href="javascript:void(0);" class="page-link" data-page="${i}">${i}</a>
+                        </li>
+                    `;
                     }
 
                     if (currentPage > 5 && currentPage < lastPage - 5) {
                         paginationHtml += `
-                    <li class="page-item disabled"><span class="page-link">...</span></li>
-                `;
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    `;
                     }
 
                     for (let i = Math.max(lastPage - 4, 6); i <= lastPage; i++) {
                         paginationHtml += `
-                    <li class="page-item ${i === currentPage ? 'active' : ''}">
-                        <a href="javascript:void(0);" class="page-link" data-page="${i}">${i}</a>
-                    </li>
-                `;
+                        <li class="page-item ${i === currentPage ? 'active' : ''}">
+                            <a href="javascript:void(0);" class="page-link" data-page="${i}">${i}</a>
+                        </li>
+                    `;
                     }
 
                     paginationHtml += `
-                <li class="page-item ${currentPage === lastPage ? 'disabled' : ''}">
-                    <a class="page-link" href="javascript:void(0);" data-page="${currentPage + 1}"><i class="fa-solid fa-angle-right"></i></a>
-                </li>
-                <li class="page-item ${currentPage === lastPage ? 'disabled' : ''}">
-                    <a class="page-link" href="javascript:void(0);" data-page="${lastPage}"><i class="fa-solid fa-angle-right"></i></a>
-                </li>
-            `;
+                    <li class="page-item ${currentPage === lastPage ? 'disabled' : ''}">
+                        <a class="page-link" href="javascript:void(0);" data-page="${currentPage + 1}"><i class="fa-solid fa-angle-right"></i></a>
+                    </li>
+                    <li class="page-item ${currentPage === lastPage ? 'disabled' : ''}">
+                        <a class="page-link" href="javascript:void(0);" data-page="${lastPage}"><i class="fa-solid fa-angle-right"></i></a>
+                    </li>
+                `;
 
                     $('#pagination-links').html(paginationHtml);
                 }
             });
         }
-
 
         $(document).ready(function() {
             loadTransactions();
@@ -269,16 +268,14 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            $('#editStatusModal').modal(
-                                'hide');
+                            $('#editStatusModal').modal('hide');
                             loadTransactions();
                         } else {
                             alert('Error updating status');
                         }
                     },
                     error: function(xhr, status, error) {
-                        alert('An error occurred: ' +
-                            error);
+                        alert('An error occurred: ' + error);
                     }
                 });
             });
@@ -287,7 +284,6 @@
                 e.preventDefault();
                 loadTransactions();
             });
-
         });
     </script>
 @endsection
