@@ -55,23 +55,15 @@
     </div>
 @endsection
 
-@section('styles')
-    <!-- Add any custom styles if necessary -->
-@endsection
-
 @section('scripts')
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
         });
 
-        // View user details with query params
         function viewDetail(userId) {
-            // Redirect to the user details page with query parameters
             window.location.href = '/backoffice/members-detail?user_id=' + userId;
         }
-
-        // Lock user function with query params
         function lockUser(userId) {
             Swal.fire({
                 title: 'Are you sure?',
@@ -87,7 +79,7 @@
                         type: 'PATCH',
                         success: function(response) {
                             Swal.fire('Locked!', 'The user has been locked.', 'success');
-                            location.reload(); // Reload to see the status change
+                            location.reload();
                         },
                         error: function() {
                             Swal.fire('Error!', 'There was a problem locking the user.', 'error');

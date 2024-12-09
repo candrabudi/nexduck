@@ -17,16 +17,25 @@ class AuthController extends Controller
     }
 
     public function authenticate(Request $request)
-    {    
+    {
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
-    
+
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            return redirect()->route('backoffice.dashboard');
+            $user = Auth::user(); // Get the logged-in user
+
+            // Check if the user's role is either 'admin' or 'promotor'
+            if ($user->role === 'admin' || $user->role === 'promotor') {
+                return redirect()->route('backoffice.dashboard');
+            }
+
+            // Log the user out if the role doesn't match
+            Auth::logout();
+            return back()->withErrors(['username' => 'You do not have permission to access this page.']);
         }
-    
+
         return back()->withErrors(['username' => 'Invalid credentials.']);
     }
 
@@ -36,8 +45,8 @@ class AuthController extends Controller
 
         $request->session()->invalidate();
 
-        $request->session()->regenerateToken(); // Regenerasi CSRF token
+        $request->session()->regenerateToken();
 
-        return redirect()->route('member'); // Redirect ke halaman login
+        return redirect()->route('member');
     }
 }
