@@ -70,12 +70,15 @@
                 <li>
                     <a href="{{ route('backoffice.members.index') }}" aria-expanded="false">
                         <div class="menu-icon">
-                            <svg width="800px" height="800px" viewBox="0 0 24 24" fill="none"
+
+                            <?xml version="1.0" encoding="utf-8"?>
+                            <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                            <svg fill="#000000" width="800px" height="800px" viewBox="0 0 32 32" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="12" cy="6" r="4" fill="#1C274C" />
-                                <path opacity="0.5"
-                                    d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
-                                    fill="#1C274C" />
+                                <title>member-card</title>
+                                <path
+                                    d="M0 26.016q0 0.832 0.576 1.408t1.44 0.576h5.984v-1.984h-0.992q-0.416 0-0.704-0.288t-0.288-0.704 0.288-0.704 0.704-0.32h4q0.384 0 0.704 0.32t0.288 0.704-0.288 0.704-0.704 0.288h-0.992v1.984h12v-1.984h-1.024q-0.384 0-0.704-0.288t-0.288-0.704 0.288-0.704 0.704-0.32h4q0.416 0 0.704 0.32t0.32 0.704-0.32 0.704-0.704 0.288h-0.992v1.984h6.016q0.8 0 1.408-0.576t0.576-1.408v-20q0-0.832-0.576-1.408t-1.408-0.608h-28q-0.832 0-1.44 0.608t-0.576 1.408v20zM4 22.016v-14.016h14.016v14.016h-14.016zM7.040 20h7.936q-1.12-1.472-2.976-1.856v-0.32q0.896-0.352 1.44-1.088t0.576-1.728v-1.984q0-1.248-0.896-2.144t-2.112-0.864-2.144 0.864-0.864 2.144v1.984q0 0.96 0.544 1.728t1.472 1.088v0.32q-1.856 0.384-2.976 1.856zM20 22.016v-2.016h2.016v2.016h-2.016zM20 18.016v-2.016h10.016v2.016h-10.016zM20 14.016v-2.016h4v2.016h-4zM20 10.016v-2.016h6.016v2.016h-6.016zM26.016 14.016v-2.016h4v2.016h-4zM28 10.016v-2.016h2.016v2.016h-2.016z">
+                                </path>
                             </svg>
                         </div>
                         <span class="nav-text">Member</span>
@@ -85,25 +88,68 @@
                 <li>
                     <a href="{{ route('backoffice.games.index') }}" aria-expanded="false">
                         <div class="menu-icon">
-                            <svg fill="#000000" width="800px" height="800px" viewBox="0 0 32 32" version="1.1"
+
+                            <?xml version="1.0" encoding="UTF-8"?>
+
+                            <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                            <svg width="800px" height="800px" viewBox="0 0 48 48" id="b"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M23.226 2.361c-0.8-0.375-1.556-0.729-2.245-1.075-1.765-0.884-3.364-1.313-4.89-1.313-3.072 0-5.197 1.772-6.53 3.105l-6.464 6.471c-3.459 3.463-4.011 6.988-1.79 11.431 0.345 0.69 0.699 1.448 1.074 2.251 2.022 4.325 4.112 8.796 7.533 8.796 0.096 0 0.191-0.003 0.288-0.011 3.53-0.276 4.532-4.822 5.416-8.831 0.14-0.635 0.274-1.244 0.41-1.79 0.238-0.944 0.705-1.53 1.986-2.814l0.176-0.177 0.108-0.108 0.285-0.284c1.284-1.284 1.504-1.822 1.244-3.058l-0.29-1.078c-0.261-0.832-0.859-1.377-1.522-1.63-1.423-0.464-2.409 0.671-2.998 1.043 1.84-2.421 1.287-4.888 0.42-5.435-0.512-0.43-1.276-0.406-1.876 0.234z" />
+
+                                <defs>
+
+                                    <style>
+                                        .c {
+                                            fill: #000000;
+                                        }
+
+                                        .d {
+                                            fill: none;
+                                            stroke: #000000;
+                                            stroke-linecap: round;
+                                            stroke-linejoin: round;
+                                        }
+                                    </style>
+
+                                </defs>
+
+                                <g>
+
+                                    <line class="d" x1="14.25" y1="20.8401" x2="14.25" y2="15.4132" />
+
+                                    <line class="d" x1="11.5366" y1="18.1267" x2="16.9634" y2="18.1267" />
+
+                                    <path class="d"
+                                        d="m17.1869,10.8372v-1.6128c0-.581-.471-1.052-1.052-1.052h-3.7698c-.581,0-1.052.471-1.052,1.052v1.7708" />
+
+                                    <path class="d"
+                                        d="m29.0435,24.8808l4.5534,6.83c1.485,2.2276,4.377,3.0323,6.7991,1.8919,2.2669-1.0672,3.5041-3.5476,2.9874-5.9993-.9842-4.6705-1.7692-9.0259-2.5726-11.9826-.8457-3.1124-3.8836-5.2804-7.2842-5.2804-2.0521,0-3.9114.8108-5.2876,2.1236h-8.4779c-1.3763-1.3128-3.2355-2.1236-5.2876-2.1236-3.4006,0-6.4386,2.1681-7.2842,5.2804-.8034,2.9567-1.5884,7.3122-2.5726,11.9826-.5167,2.4517.7205,4.9321,2.9874,5.9993,2.4221,1.1404,5.3141.3357,6.7991-1.8919l4.5534-6.83h10.087Z" />
+
+                                    <path class="d"
+                                        d="m30.8131,10.8372v-1.6128c0-.581.471-1.052,1.052-1.052h3.7698c.581,0,1.052.471,1.052,1.052v1.7708" />
+
+                                    <circle class="c" cx="31.03" cy="18.1267" r=".75" />
+
+                                    <circle class="c" cx="36.4634" cy="18.1267" r=".75" />
+
+                                    <circle class="c" cx="33.75" cy="15.4132" r=".75" />
+
+                                    <circle class="c" cx="33.75" cy="20.8401" r=".785" />
+
+                                </g>
+
+                                <g>
+
+                                    <path class="d"
+                                        d="m20.8882,34.6779s.2691,3.6048,4.1955,5.1496c-1.5126-2.8643,2.3172-5.4068,2.2206-7.2091.7724,1.4482.2896,3.0574.2896,3.0574,0,0,4.0551-5.3746-2.3816-8.6895,1.0299,1.8988,1.223,1.9632,1.223,3.7976" />
+
+                                    <path class="d"
+                                        d="m26.3767,29.597s-2.9022,2.0559-2.5803,4.7593c-1.3267-1.3611-1.2874-1.931-1.223-3.8942-2.1715-.0043-.8818-2.2473.2575-3.4758-4.5378,1.7057-4.2804,6.5654-2.4459,8.9148.4184-1.6092,1.3302-2.1501,1.3302-2.1501" />
+
+                                </g>
+
                             </svg>
                         </div>
                         <span class="nav-text">Game</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('backoffice.logout') }}" aria-expanded="false">
-                        <div class="menu-icon">
-                            <svg width="24" height="24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M14 2H7C5.9 2 5 2.9 5 4V16C5 17.1 5.9 18 7 18H14C15.1 18 16 17.1 16 16V4C16 2.9 15.1 2 14 2ZM14 16H7V4H14V16ZM19 9H18V13C18 13.55 17.55 14 17 14H13C12.45 14 12 13.55 12 13V9H8L12 5L16 9H19V9Z" />
-                            </svg>
-                        </div>
-                        <span class="nav-text">Logout</span>
                     </a>
                 </li>
             @endif
@@ -305,9 +351,7 @@
 
 <script>
     document.getElementById('event-link').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the link from navigating
-
-        // Trigger SweetAlert with "Coming Soon" message
+        e.preventDefault();
         Swal.fire({
             title: 'Coming Soon!',
             text: 'This feature is under development.',
@@ -317,12 +361,9 @@
     });
 </script>
 
-<!-- JavaScript -->
 <script>
     document.getElementById('transaction-history-link').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the link from navigating
-
-        // Trigger SweetAlert with "Coming Soon" message
+        e.preventDefault();
         Swal.fire({
             title: 'Coming Soon!',
             text: 'This feature is under development.',
@@ -331,12 +372,11 @@
         });
     });
 </script>
-<!-- JavaScript -->
+
 <script>
     document.getElementById('game-history-link').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the link from navigating
+        e.preventDefault();
 
-        // Trigger SweetAlert with "Coming Soon" message
         Swal.fire({
             title: 'Coming Soon!',
             text: 'This feature is under development.',

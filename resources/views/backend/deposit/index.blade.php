@@ -164,21 +164,21 @@
                         }).format(transaction.amount);
 
                         tableHtml += `
-    <tr>
-        <td>${index + 1}</td>
-        <td>${transaction?.user?.username || 'null'}</td>
-        <td>${transaction?.admin_bank?.bank?.bank_name || 'null'}</td>
-        <td>${transaction?.admin_bank?.account_name || 'null'}</td>
-        <td>${transaction?.admin_bank?.account_number || 'null'}</td>
-        <td>${transaction?.user_bank?.bank?.bank_name || 'null'}</td>
-        <td>${transaction?.user_bank?.account_name || 'null'}</td>
-        <td>${transaction?.user_bank?.account_number || 'null'}</td>
-        <td>${formattedAmount || 'null'}</td>
-        <td>${statusBadge || 'null'}</td>
-        <td>${formattedDateString || 'null'}</td>
-        <td>${editButton || 'null'}</td>
-    </tr>
-`;
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${transaction?.user?.username || 'null'}</td>
+                                <td>${transaction?.admin_bank?.bank?.bank_name || 'null'}</td>
+                                <td>${transaction?.admin_bank?.account_name || 'null'}</td>
+                                <td>${transaction?.admin_bank?.account_number || 'null'}</td>
+                                <td>${transaction?.user_bank?.bank?.bank_name || 'null'}</td>
+                                <td>${transaction?.user_bank?.account_name || 'null'}</td>
+                                <td>${transaction?.user_bank?.account_number || 'null'}</td>
+                                <td>${formattedAmount || 'null'}</td>
+                                <td>${statusBadge || 'null'}</td>
+                                <td>${formattedDateString || 'null'}</td>
+                                <td>${editButton || 'null'}</td>
+                            </tr>
+                        `;
 
                     });
 
@@ -240,13 +240,11 @@
         $(document).ready(function() {
             loadTransactions();
 
-            // Handle page change
             $('#pagination-links').on('click', '.page-link', function() {
                 var page = $(this).data('page');
                 loadTransactions(page);
             });
 
-            // Handle Edit Status button click
             $(document).on('click', '.edit-status-btn', function() {
                 var transactionId = $(this).data('id');
                 var currentStatus = $(this).data('status');
@@ -255,7 +253,6 @@
                 $('#editStatusModal').modal('show');
             });
 
-            // Handle save status change
             $('#save-status-btn').click(function() {
                 var formData = $('#edit-status-form').serialize();
 
@@ -264,22 +261,39 @@
                     method: 'POST',
                     data: formData,
                     headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                            'content') // Add CSRF token to headers
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
                         if (response.success) {
-                            $('#editStatusModal').modal('hide');
-                            loadTransactions();
+                            Swal.fire({
+                                title: 'Success',
+                                text: 'Status berhasil di perbarui!',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(function() {
+                                $('#editStatusModal').modal('hide');
+                                loadTransactions();
+                            });
                         } else {
-                            alert('Error updating status');
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Gagal memperbarui status!',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
                         }
                     },
                     error: function(xhr, status, error) {
-                        alert('An error occurred: ' + error);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi kesalahan saat memperbarui status.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
                     }
                 });
             });
+
 
             $('#search-form').on('submit', function(e) {
                 e.preventDefault();

@@ -254,24 +254,39 @@
                     method: 'POST',
                     data: formData,
                     headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                            'content')
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
                         if (response.success) {
-                            $('#editStatusModal').modal(
-                                'hide');
-                            loadTransactions();
+                            Swal.fire({
+                                title: 'Berhasil',
+                                text: 'Status berhasil diperbarui!',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(function() {
+                                $('#editStatusModal').modal('hide');
+                                loadTransactions();
+                            });
                         } else {
-                            alert('Error updating status');
+                            Swal.fire({
+                                title: 'Gagal',
+                                text: 'Gagal memperbarui status.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
                         }
                     },
                     error: function(xhr, status, error) {
-                        alert('An error occurred: ' +
-                            error);
+                        Swal.fire({
+                            title: 'Kesalahan',
+                            text: 'Terjadi kesalahan saat memperbarui status',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
                     }
                 });
             });
+
 
             $('#search-form').on('submit', function(e) {
                 e.preventDefault();

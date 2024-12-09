@@ -10,6 +10,8 @@
     <link href="{{ asset('backoffice/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link class="main-css" href="{{ asset('backoffice/css/style.css') }}" rel="stylesheet">
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body style="background-image:url('{{ asset('backoffice/images/bg.png') }}'); background-position:center;">
@@ -24,7 +26,7 @@
                                     <div class="text-center mb-3">
                                         <a href="index.html">
                                             <img src="{{ asset(App\Helpers\SettingsHelper::getSetting()->web_logo ) }}" alt="">
-                                        </a>                                        
+                                        </a>
                                     </div>
                                     <h4 class="text-center mb-4">Masuk Untuk Mengelola Data</h4>
                                     <form action="{{ route('backoffice.authenticate') }}" method="POST">
@@ -46,6 +48,17 @@
                                             <button type="submit" class="btn btn-primary btn-block">Masuk</button>
                                         </div>
                                     </form>
+
+                                    <!-- SweetAlert for errors -->
+                                    <script>
+                                        @if ($errors->any())
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: '{{ $errors->first('username') }}',
+                                            });
+                                        @endif
+                                    </script>
                                 </div>
                             </div>
                         </div>
