@@ -92,28 +92,34 @@
                     <h6 class="card-title">Game Dimainkan</h6>
                 </div>
                 <div class="card-body">
-                    <!-- Tabel game yang dimainkan -->
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Nama Game</th>
-                                <th>IP Address</th>
-                                <th>Browser</th>
-                                <th>Tanggal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Slot Adventure</td>
-                                <td>192.168.1.1</td>
-                                <td>Chrome</td>
-                                <td>2024-11-29</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <!-- Tambahkan table-responsive untuk responsivitas -->
+                    <div class="table-responsive">
+                        <!-- Tabel game yang dimainkan -->
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nama Game</th>
+                                    <th>IP Address</th>
+                                    <th>Browser</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($logGames as $lg)
+                                    <tr>
+                                        <td>{{ $lg->game->game_name }}</td>
+                                        <td>{{ $lg->ip_address }}</td>
+                                        <td>{{ $lg->browser }}</td>
+                                        <td>2024-11-29</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
+        
     </div>
     <div class="row">
         <div class="col-xl-12">

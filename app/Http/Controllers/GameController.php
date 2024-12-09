@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\ApiCredential;
 use App\Models\Game;
+use App\Models\LogGameActivity;
 use App\Models\Member;
 use App\Models\MemberExt;
 use App\Models\Provider;
@@ -12,7 +13,7 @@ use App\Models\ProviderApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-
+use Jenssegers\Agent\Agent;
 class GameController extends Controller
 {
     public function slot()
@@ -35,14 +36,14 @@ class GameController extends Controller
             ->limit(52)
             ->orderBy('games.id', 'desc')
             ->get();
-    
+
         $slots = Provider::where('provider_type', 'live')
             ->get();
 
 
         return view('frontend.slot', compact('games', 'slots'));
     }
-    
+
 
     public function loadMoreGames(Request $request)
     {
@@ -60,23 +61,23 @@ class GameController extends Controller
     {
         $query = $request->query('query');
         $provider_id = $request->provider_id;
-    
+
         // Capitalize each word in the query
         if ($query) {
             $query = ucwords(strtolower($query));
         }
-    
+
         $games = Game::when($query, function ($q) use ($query) {
             return $q->where('game_name', 'like', '%' . $query . '%');
         })
-        ->when($provider_id, function ($q) use ($provider_id) {
-            return $q->where('provider_id', $provider_id);
-        })
-        ->get();
-    
+            ->when($provider_id, function ($q) use ($provider_id) {
+                return $q->where('provider_id', $provider_id);
+            })
+            ->get();
+
         return response()->json(['games' => $games]);
     }
-    
+
 
 
     public function detail($a)
@@ -102,12 +103,12 @@ class GameController extends Controller
         return view('frontend.games.detail', compact('games', 'slots', 'provider'));
     }
 
-
     public function playGame($gameId)
     {
         if (!Auth::user()) {
             return redirect()->route('member');
         }
+
         try {
             $game = Game::where('id', $gameId)->first();
             if (!$game) {
@@ -131,6 +132,23 @@ class GameController extends Controller
             $responseData = $response->json();
 
             if (isset($responseData['launch_url'])) {
+                // Gunakan Agent untuk mendeteksi browser dan platform
+                $agent = new Agent();
+                $browser = $agent->browser();
+                $platform = $agent->platform();
+
+                $browserInfo = $browser . ' - ' . $platform;
+
+                // Catat log aktivitas game
+                LogGameActivity::create([
+                    'user_id' => Auth::user()->id,
+                    'provider_id' => $game->provider_id,
+                    'game_id' => $game->id,
+                    'ip_address' => request()->ip(),
+                    'browser' => $browserInfo,
+                ]);
+
+                // Arahkan ke URL peluncuran game
                 return redirect()->away($responseData['launch_url']);
             }
 
@@ -140,6 +158,7 @@ class GameController extends Controller
             return redirect()->route('member')->with('error', $e->getMessage());
         }
     }
+
 
     private function extractGameUrl($gameUrl)
     {
