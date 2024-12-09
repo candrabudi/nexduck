@@ -62,7 +62,6 @@ class GameController extends Controller
         $query = $request->query('query');
         $provider_id = $request->provider_id;
 
-        // Capitalize each word in the query
         if ($query) {
             $query = ucwords(strtolower($query));
         }
@@ -132,14 +131,12 @@ class GameController extends Controller
             $responseData = $response->json();
 
             if (isset($responseData['launch_url'])) {
-                // Gunakan Agent untuk mendeteksi browser dan platform
                 $agent = new Agent();
                 $browser = $agent->browser();
                 $platform = $agent->platform();
 
                 $browserInfo = $browser . ' - ' . $platform;
 
-                // Catat log aktivitas game
                 LogGameActivity::create([
                     'user_id' => Auth::user()->id,
                     'provider_id' => $game->provider_id,
@@ -148,7 +145,6 @@ class GameController extends Controller
                     'browser' => $browserInfo,
                 ]);
 
-                // Arahkan ke URL peluncuran game
                 return redirect()->away($responseData['launch_url']);
             }
 

@@ -10,7 +10,7 @@ class LiveChatController extends Controller
 {
     public function index()
 {
-    $liveChat = LiveChat::first(); // Get the first record (or null if none exists)
+    $liveChat = LiveChat::first();
     return view('backend.live_chat.index', compact('liveChat'));
 }
 
@@ -23,7 +23,7 @@ public function store(Request $request)
     ]);
 
     $liveChat = LiveChat::updateOrCreate(
-        ['id' => 1], // We assume there is only one record for live chat settings
+        ['id' => 1],
         $request->only(['link_livechat', 'code_livechat', 'scripts_js_livechat'])
     );
 

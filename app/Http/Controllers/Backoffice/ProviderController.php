@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str; // Tambahkan ini jika belum
+use Illuminate\Support\Str;
 
 class ProviderController extends Controller
 {
@@ -80,7 +80,7 @@ class ProviderController extends Controller
                         ]);
 
                 $res = $response->body();
-                $decodes = json_decode($res, true); // Decode JSON
+                $decodes = json_decode($res, true);
                 DB::beginTransaction();
                 if (isset($decodes['games'])) {
                     foreach ($decodes['games'] as $dc) {
@@ -101,7 +101,6 @@ class ProviderController extends Controller
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json($e->getMessage());
             logger()->error('Update Provider Error: ', ['error' => $e->getMessage()]);
         }
     }

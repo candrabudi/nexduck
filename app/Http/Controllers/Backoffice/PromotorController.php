@@ -27,7 +27,7 @@ class PromotorController extends Controller
 
         $user = User::create([
             'username' => $request->username,
-            'password' => bcrypt($request->password), // Encrypt password
+            'password' => bcrypt($request->password),
             'email' => $request->email,
             'role' => 'promotor',
             'status' => $request->status,
@@ -43,12 +43,11 @@ class PromotorController extends Controller
             'username' => 'required|unique:users,username,' . $id,
             'email' => 'required|email|unique:users,email,' . $id,
             'status' => 'required',
-            'password' => 'nullable', // Make password optional
+            'password' => 'nullable',
         ]);
 
         $user = User::find($id);
 
-        // Prepare data for updating user
         $userData = [
             'username' => $request->username,
             'email' => $request->email,
@@ -56,15 +55,12 @@ class PromotorController extends Controller
             'role' => 'promotor',
         ];
 
-        // Only update password if it's provided
         if ($request->password) {
-            $userData['password'] = bcrypt($request->password); // Encrypt new password
+            $userData['password'] = bcrypt($request->password);
         }
 
-        // Update the user
         $user->update($userData);
 
-        // Update the associated member's data
         $user->member->update([
             'full_name' => $request->full_name,
             'phone_number' => $request->phone_number,

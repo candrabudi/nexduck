@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\RateLimiter;
 
 class UserAuthController extends Controller
 {
-    // Login with validation and error handling
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [

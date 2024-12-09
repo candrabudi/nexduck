@@ -26,13 +26,12 @@ class BannerController extends Controller
             'banner_status' => 'required|integer',
         ]);
 
-        // Store the uploaded banner image and generate the asset URL
         $imagePath = $request->file('banner_image')->store('banners', 'public');
         $imageUrl = asset(Storage::url($imagePath));
 
         Banner::create([
             'banner_name' => $request->banner_name,
-            'banner_image' => $imageUrl,  // Save the full URL to the database
+            'banner_image' => $imageUrl, 
             'banner_status' => $request->banner_status,
             'created_by' => Auth::id(),
             'created_ip_address' => $request->ip(),
@@ -41,14 +40,12 @@ class BannerController extends Controller
         return redirect()->back()->with('success', 'Banner created successfully.');
     }
 
-    // Edit a banner (load the edit form)
     public function edit($id)
     {
         $banner = Banner::findOrFail($id);
         return view('backend.banners.edit', compact('banner'));
     }
 
-    // Update a banner
     public function update(Request $request, $id)
     {
         $banner = Banner::findOrFail($id);
@@ -59,7 +56,6 @@ class BannerController extends Controller
             'banner_status' => 'required|integer',
         ]);
 
-        // If a new image is uploaded, replace the old one and generate the asset URL
         if ($request->hasFile('banner_image')) {
             $imagePath = $request->file('banner_image')->store('banners', 'public');
             $imageUrl = asset(Storage::url($imagePath));
@@ -76,7 +72,6 @@ class BannerController extends Controller
         return redirect()->back()->with('success', 'Banner updated successfully.');
     }
 
-    // Delete a banner
     public function destroy($id)
     {
         $banner = Banner::findOrFail($id);

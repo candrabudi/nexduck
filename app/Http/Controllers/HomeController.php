@@ -3,24 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
-use App\Models\Category;
 use App\Models\ClaimPromotion;
 use App\Models\Game;
-use App\Models\Member;
 use App\Models\MemberBalance;
 use App\Models\MemberExt;
 use App\Models\Promotion;
-use App\Models\PromotionDetail;
 use App\Models\Provider;
 use App\Models\SeoSetting;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -414,7 +407,6 @@ class HomeController extends Controller
     {
         $user = Auth::user();
 
-        // Persiapkan data untuk request API
         $postData = [
             'method' => 'money_info',
             'agent_code' => env('NEXUS_AGENT_CODE'),
@@ -423,15 +415,11 @@ class HomeController extends Controller
         ];
 
         try {
-            // Kirim request ke API
             $response = Http::post(env('NEXUS_URL'), $postData);
 
-            // Periksa apakah response berhasil
             if ($response->successful()) {
-                // Decode data response
                 $data = json_decode($response->body(), true);
 
-                // Periksa apakah struktur data valid
                 if (isset($data['status']) && $data['status'] == 1 && isset($data['user']['balance'])) {
                     // Update saldo di database
                     MemberBalance::where('user_id', $user->id)
@@ -447,14 +435,12 @@ class HomeController extends Controller
                     ]);
                 }
             } else {
-                // Jika request API gagal
                 return response()->json([
                     'status' => 0,
                     'msg' => 'Failed to fetch data from API.',
                 ]);
             }
         } catch (\Exception $e) {
-            // Tangani error jika terjadi exception
             return response()->json([
                 'status' => 0,
                 'msg' => 'An error occurred: ' . $e->getMessage(),
@@ -464,7 +450,7 @@ class HomeController extends Controller
 
     public function getSeoSetting()
     {
-        $seoSettings = SeoSetting::first(); // Ambil data SEO pertama
+        $seoSettings = SeoSetting::first();
 
         if ($seoSettings) {
             return response()->json([

@@ -19,10 +19,9 @@ use Illuminate\Support\Facades\Http;
 
 class MemberController extends Controller
 {
-    // Show the list of users
     public function index()
     {
-        $users = User::where('role', 'member')->with('member')->get(); // Eager load the member details
+        $users = User::where('role', 'member')->with('member')->get();
 
         return view('backend.members.index', compact('users'));
     }

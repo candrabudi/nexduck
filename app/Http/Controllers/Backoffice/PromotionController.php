@@ -13,10 +13,8 @@ class PromotionController extends Controller
 {
     public function index()
     {
-        // Fetch promotions with their related details
         $promotions = Promotion::with('details')->get();
 
-        // Pass the promotions to the view
         return view('backend.promotions.index', compact('promotions'));
     }
 
@@ -46,10 +44,8 @@ class PromotionController extends Controller
                 'percentage_bonus' => 'required|integer',
             ]);
 
-            // Store the file and get the path
             $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
             
-            // Use asset() to generate the URL to the stored file
             $thumbnailUrl = asset('storage/' . $thumbnailPath);
             
             // Create the promotion
@@ -64,7 +60,7 @@ class PromotionController extends Controller
                 'provider_category' => $request->provider_category,
                 'bonus_type' => $request->bonus_type,
                 'status' => 'active',
-                'thumbnail' => $thumbnailUrl, // Store the full URL of the image
+                'thumbnail' => $thumbnailUrl, 
             ]);
 
             // Create the promotion detail
@@ -123,24 +119,18 @@ class PromotionController extends Controller
             return redirect()->back()->with('error', 'Promotion not found');
         }
 
-        // Check if a new thumbnail has been uploaded
         if ($request->hasFile('thumbnail')) {
-            // Store the new thumbnail image
             $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
-            // Use asset() to generate the URL for the new thumbnail
             $thumbnailUrl = asset('storage/' . $thumbnailPath);
             
-            // Update the promotion with the new thumbnail URL
             $promotion->thumbnail = $thumbnailUrl;
         }
 
-        // Update the promotion with the other input values
         $promotion->update($request->only([
             'title', 'slug', 'short_desc', 'content', 'start_date', 'end_date',
             'promotion_type', 'provider_category', 'bonus_type', 'status'
         ]));
 
-        // Check if promotion details exist and update them
         if ($promotion->details()->exists()) {
             $promotion->details()->update($request->only([
                 'min_deposit', 'max_deposit', 'max_withdraw', 'turn_over', 'percentage_bonus'
