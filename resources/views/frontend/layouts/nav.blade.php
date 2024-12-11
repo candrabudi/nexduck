@@ -133,66 +133,68 @@
                     </div>
                 </div>
             @else
-            <div class="flex items-center py-3">
-                <div class="flex ml-5">
-                  <!-- Login Button -->
-                  <button class="flat-button-login" onclick="navigateTo('/login')">Login</button>
-              
-                  <!-- Register Button -->
-                  <button class="flat-button-register ml-3" onclick="navigateTo('/register')">Register</button>
+                <div class="flex items-center py-3">
+                    <div class="flex ml-5">
+                        <!-- Login Button -->
+                        <button class="flat-button-login" onclick="navigateTo('/login')">Login</button>
+
+                        <!-- Register Button -->
+                        <button class="flat-button-register ml-3" onclick="navigateTo('/register')">Register</button>
+                    </div>
+
+                    <script>
+                        function navigateTo(url) {
+                            window.location.href = url;
+                        }
+                    </script>
                 </div>
-              
-                <script>
-                  function navigateTo(url) {
-                    window.location.href = url;
-                  }
-                </script>
-              </div>
-              
-              <style>
-                /* Common styles for flat buttons */
-                .flat-button-login,
-                .flat-button-register {
-                  padding: 10px 20px;
-                  border: 2px solid transparent;
-                  border-radius: 8px;
-                  color: #fff;
-                  font-size: 16px;
-                  font-weight: bold;
-                  cursor: pointer;
-                  width: 120px;
-                  transition: all 0.3s ease;
-                }
-              
-                /* Flat color for the Login button */
-                .flat-button-login {
-                  background-color: #4caf50; /* Green */
-                }
-              
-                /* Flat color for the Register button */
-                .flat-button-register {
-                  background-color: #2196f3; /* Blue */
-                }
-              
-                /* Hover effects with subtle shadow */
-                .flat-button-login:hover {
-                  background-color: #388e3c; /* Darker green */
-                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                }
-              
-                .flat-button-register:hover {
-                  background-color: #1976d2; /* Darker blue */
-                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                }
-              
-                /* Focus effects */
-                .flat-button-login:focus,
-                .flat-button-register:focus {
-                  outline: none;
-                  border: 2px solid #fff;
-                }
-              </style>
-              
+
+                <style>
+                    /* Common styles for flat buttons */
+                    .flat-button-login,
+                    .flat-button-register {
+                        padding: 10px 20px;
+                        border: 2px solid transparent;
+                        border-radius: 4px;
+                        color: #fff;
+                        font-size: 12px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        width: 80px;
+                        transition: all 0.3s ease;
+                    }
+
+                    /* Flat color for the Login button */
+                    .flat-button-login {
+                        background-color: #4caf50;
+                        /* Green */
+                    }
+
+                    /* Flat color for the Register button */
+                    .flat-button-register {
+                        background-color: #2196f3;
+                        /* Blue */
+                    }
+
+                    /* Hover effects with subtle shadow */
+                    .flat-button-login:hover {
+                        background-color: #388e3c;
+                        /* Darker green */
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                    }
+
+                    .flat-button-register:hover {
+                        background-color: #1976d2;
+                        /* Darker blue */
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                    }
+
+                    .flat-button-login:focus,
+                    .flat-button-register:focus {
+                        outline: none;
+                        border: 2px solid #fff;
+                    }
+                </style>
             @endif
 
         </div>
