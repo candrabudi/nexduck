@@ -2,99 +2,146 @@
 
 @section('content')
     <div class="row">
-        <!-- Card Content -->
-        <div class="col-xl-4">
-            <div class="card">
-                {{-- <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h6 class="card-title mb-0">Data Member</h6>
-                    <!-- Edit Button to Trigger Modal -->
-                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#transactionModal">
-                        Edit Transaksi
-                    </button>
-                </div> --}}
-                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h6 class="card-title mb-0">Data Member</h6>
-                    <!-- Edit Button to Trigger SweetAlert -->
-                    <button type="button" class="btn btn-sm btn-primary" onclick="showComingSoonAlert()">
-                        Edit Transaksi
-                    </button>
-                </div>
-
-                <div class="card-body">
-                    <table class="table table-borderless">
-                        <tbody>
-                            <tr>
-                                <th scope="row" class="text-muted">Username</th>
-                                <td class="fw-semibold">{{ $user->username }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="text-muted">Email</th>
-                                <td class="fw-semibold">{{ $user->email }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="text-muted">Nama Lengkap</th>
-                                <td class="fw-semibold">{{ $user->member->full_name }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="text-muted">Nomor Handphone</th>
-                                <td class="fw-semibold">{{ $user->member->phone_number }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <form action="{{ route('backoffice.members.change-password', $user->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-
-                        <div class="mb-3">
-                            <label for="new_password" class="form-label">Password Baru</label>
-                            <input type="password" class="form-control" name="new_password" id="new_password" required>
+        <div class="col-xl-12">
+            <div class="card profile-overview">
+                <div class="card-body d-flex">
+                    <div class="clearfix">
+                        <div class="d-inline-block position-relative me-sm-4 me-3 mb-3 mb-lg-0">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3906/3906577.png" alt=""
+                                class="rounded-4 profile-avatar">
+                            <span
+                                class="fa fa-circle border border-3 border-white text-success position-absolute bottom-0 end-0 rounded-circle"></span>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update Password</button>
-                    </form>
+                    </div>
+                    <div class="clearfix d-xl-flex flex-grow-1">
+                        <div class="clearfix pe-md-5">
+                            <h3 class="fw-semibold mb-1">{{ $user->member->full_name }} <img
+                                    src="https://cdn-icons-png.flaticon.com/512/6270/6270515.png" width="24"
+                                    alt="Blue Tick"></h3>
+                            <ul class="d-flex flex-wrap fs-6 align-items-center">
+                                <li class="me-3 d-inline-flex align-items-center"><i
+                                        class="las la-user me-1 fs-18"></i>{{ $user->username }}</li>
+                                <li class="me-3 d-inline-flex align-items-center"><i
+                                        class="las la-phone me-1 fs-18"></i>{{ $user->member->phone_number }}</li>
+                                <li class="me-3 d-inline-flex align-items-center"><i
+                                        class="las la-envelope me-1 fs-18"></i>{{ $user->email }}</li>
+                            </ul>
+                            <div class="d-md-flex d-none flex-wrap">
+                                <div class="border outline-dashed rounded p-2 d-flex align-items-center me-3 mt-3">
+                                    <div
+                                        class="avatar avatar-md style-1 bg-primary-light text-primary rounded d-flex align-items-center justify-content-center">
+
+                                        <img src="https://cdn-icons-png.flaticon.com/512/16914/16914760.png " width="32"
+                                            alt="">
+                                    </div>
+                                    <div class="clearfix ms-2">
+                                        <h3 class="mb-0 fw-semibold lh-1">Rp {{ number_format($totalDeposit, 0, ',', '.') }}
+                                        </h3>
+                                        <span class="fs-14">Total Deposit</span>
+                                    </div>
+                                </div>
+                                <div class="border outline-dashed rounded p-2 d-flex align-items-center me-3 mt-3">
+                                    <div
+                                        class="avatar avatar-md style-1 bg-primary-light text-primary rounded d-flex align-items-center justify-content-center">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/2769/2769253.png" width="32"
+                                            alt="">
+                                    </div>
+                                    <div class="clearfix ms-2">
+                                        <h3 class="mb-0 fw-semibold lh-1">Rp
+                                            {{ number_format($totalWithdraw, 0, ',', '.') }}
+                                        </h3>
+                                        <span class="fs-14">Total Withdraw</span>
+                                    </div>
+                                </div>
+                                <div class="border outline-dashed rounded p-2 d-flex align-items-center me-3 mt-3">
+                                    <div
+                                        class="avatar avatar-md style-1 bg-primary-light text-primary rounded d-flex align-items-center justify-content-center">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/11509/11509409.png" width="32"
+                                            alt="">
+                                    </div>
+                                    <div class="clearfix ms-2">
+                                        <h3 class="mb-0 fw-semibold lh-1">Rp
+                                            {{ number_format($totalDeposit - $totalWithdraw, 0, ',', '.') }}</h3>
+                                        <span class="fs-14"></span>Kalkulasi Profit
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix mt-3 mt-xl-0 ms-auto d-flex flex-column col-xl-4">
+                            <div class="clearfix mb-3 text-xl-end">
+                                <a href="javascript:void(0);" class="btn btn-sm btn-primary text-white"
+                                    onclick="showComingSoonAlert()">Edit Transaksi</a>
+                                <a href="javascript:void(0);" class="btn btn-sm btn-danger ms-2"
+                                    onclick="showComingSoonAlert()">Lock Game</a>
+                                <a href="javascript:void(0);" class="btn btn-sm btn-warning ms-2" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalCenter">Ganti Password</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-
-        <div class="col-xl-4">
+        <div class="col-xl-6">
             <div class="card">
                 <div class="card-header py-3">
                     <h6 class="card-title">Aktivitas User</h6>
                 </div>
                 <div class="card-body">
-                    <!-- Tabel aktivitas user -->
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Aktivitas</th>
-                                <th>IP Address</th>
-                                <th>Browser</th>
-                                <th>Tanggal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Login</td>
-                                <td>192.168.1.1</td>
-                                <td>Chrome</td>
-                                <td>2024-11-29</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Aktivitas</th>
+                                    <th>IP Address</th>
+                                    <th>Browser</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($logActivities as $la)
+                                    <tr>
+                                        <td>{{ $la->menu }}</td>
+                                        <td>{{ $la->ip_address }}</td>
+                                        <td>{{ $la->browser }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($la->created_at)->format('Y-m-d H:i:s') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <nav>
+                        <ul class="pagination pagination-sm">
+                            <li class="page-item {{ $logActivities->onFirstPage() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $logActivities->previousPageUrl() }}">
+                                    <i class="la la-angle-left"></i>
+                                </a>
+                            </li>
+        
+                            @foreach ($logActivities->getUrlRange(1, $logActivities->lastPage()) as $page => $url)
+                                <li class="page-item {{ $page == $logActivities->currentPage() ? 'active' : '' }}">
+                                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                </li>
+                            @endforeach
+        
+                            <li class="page-item {{ $logActivities->hasMorePages() ? '' : 'disabled' }}">
+                                <a class="page-link" href="{{ $logActivities->nextPageUrl() }}">
+                                    <i class="la la-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4">
+        
+        <div class="col-xl-6">
             <div class="card">
                 <div class="card-header py-3">
                     <h6 class="card-title">Game Dimainkan</h6>
                 </div>
                 <div class="card-body">
-                    <!-- Tambahkan table-responsive untuk responsivitas -->
                     <div class="table-responsive">
-                        <!-- Tabel game yang dimainkan -->
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -110,16 +157,41 @@
                                         <td>{{ $lg->game->game_name }}</td>
                                         <td>{{ $lg->ip_address }}</td>
                                         <td>{{ $lg->browser }}</td>
-                                        <td>2024-11-29</td>
+                                        <td>{{ $lg->created_at->format('Y-m-d') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
+        
+                    <!-- Custom Pagination Layout -->
+                    <nav>
+                        <ul class="pagination pagination-sm">
+                            <!-- Previous Button -->
+                            <li class="page-item {{ $logGames->onFirstPage() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $logGames->previousPageUrl() }}">
+                                    <i class="la la-angle-left"></i>
+                                </a>
+                            </li>
+        
+                            <!-- Page Number Links -->
+                            @foreach ($logGames->getUrlRange(1, $logGames->lastPage()) as $page => $url)
+                                <li class="page-item {{ $page == $logGames->currentPage() ? 'active' : '' }}">
+                                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                </li>
+                            @endforeach
+        
+                            <!-- Next Button -->
+                            <li class="page-item {{ $logGames->hasMorePages() ? '' : 'disabled' }}">
+                                <a class="page-link" href="{{ $logGames->nextPageUrl() }}">
+                                    <i class="la la-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
-        
     </div>
     <div class="row">
         <div class="col-xl-12">
@@ -143,10 +215,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($transactions as $trx)    
+                                @foreach ($transactions as $trx)
                                     <tr>
                                         <td>{{ $trx->userBank->account_name }}</td>
-                                        <td>{{ $trx->userBank->account_number  }}</td>
+                                        <td>{{ $trx->userBank->account_number }}</td>
                                         <td>{{ $trx->userBank->bank->bank_name }}</td>
                                         <td>Rp {{ number_format($trx->amount, 0, ',', '.') }}</td>
                                         <td>
@@ -197,11 +269,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Data will be populated by JavaScript -->
+
                             </tbody>
                         </table>
 
-                        <!-- Pagination Controls -->
                         <div id="pagination-controls" class="d-flex justify-content-between">
                             <button id="prev-page" class="btn btn-primary" disabled>Previous</button>
                             <span id="page-info"></span>
@@ -213,7 +284,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="transactionModal" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
+    <div class="modal fade" id="transactionModal" tabindex="-1" aria-labelledby="transactionModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -253,12 +325,39 @@
             </div>
         </div>
     </div>
-@endsection
 
+    <div class="modal fade" id="exampleModalCenter">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="{{ route('backoffice.members.change-password', $user->id) }}" method="POST">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ganti Password Pemain</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="mb-3">
+                            <label for="new_password" class="form-label">Password Baru</label>
+                            <input type="password" class="form-control" name="new_password" id="new_password" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-danger light" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-sm btn-primary">Ganti Password</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection
 @section('scripts')
     <script>
         let currentPage = 1;
         const perPage = 10;
+
         function fetchGameHistory(page) {
             fetch('{{ route('backoffice.members.getGameHistoryPlayer', $user->id) }}?page=' + page)
                 .then(response => response.json())

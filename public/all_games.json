@@ -1,0 +1,652 @@
+[
+    {
+        "title": "Alchemy Gold",
+        "identifier": "pgsoft/AlchemyGold",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/AlchemyGold.webp"
+    },
+    {
+        "title": "Asgardian Rising",
+        "identifier": "pgsoft/AsgardianRising",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/AsgardianRising.webp"
+    },
+    {
+        "title": "Bakery Bonanza",
+        "identifier": "pgsoft/BakeryBonanza",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/BakeryBonanza.webp"
+    },
+    {
+        "title": "Bali Vacation",
+        "identifier": "pgsoft/BaliVacation",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/BaliVacation.webp"
+    },
+    {
+        "title": "Battleground Royale",
+        "identifier": "pgsoft/BattlegroundRoyale",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/BattlegroundRoyale.webp"
+    },
+    {
+        "title": "Bikini Paradise",
+        "identifier": "pgsoft/BikiniParadise",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/BikiniParadise.webp"
+    },
+    {
+        "title": "Buffalo Win",
+        "identifier": "pgsoft/BuffaloWin",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/BuffaloWin.webp"
+    },
+    {
+        "title": "Butterfly Blossom",
+        "identifier": "pgsoft/ButterflyBlossom",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/ButterflyBlossom.webp"
+    },
+    {
+        "title": "Caishen Wins",
+        "identifier": "pgsoft/CaishenWins",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/CaishenWins.webp"
+    },
+    {
+        "title": "Candy Bonanza",
+        "identifier": "pgsoft/CandyBonanza",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/CandyBonanza.webp"
+    },
+    {
+        "title": "Candy Burst",
+        "identifier": "pgsoft/CandyBurst",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/CandyBurst.webp"
+    },
+    {
+        "title": "Captain's Bounty",
+        "identifier": "pgsoft/CaptainsBounty",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/CaptainsBounty.webp"
+    },
+    {
+        "title": "Cash Mania",
+        "identifier": "pgsoft/CashMania",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/CashMania.webp"
+    },
+    {
+        "title": "Circus Delight",
+        "identifier": "pgsoft/CircusDelight",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/CircusDelight.webp"
+    },
+    {
+        "title": "Cocktail Nights",
+        "identifier": "pgsoft/CocktailNights",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/CocktailNights.webp"
+    },
+    {
+        "title": "Cruise Royale",
+        "identifier": "pgsoft/CruiseRoyale",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/CruiseRoyale.webp"
+    },
+    {
+        "title": "Crypto Gold",
+        "identifier": "pgsoft/CryptoGold",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/CryptoGold.webp"
+    },
+    {
+        "title": "Destiny of Sun and Moon",
+        "identifier": "pgsoft/DestinyofSunandMoon",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/DestinyofSunandMoon.webp"
+    },
+    {
+        "title": "Diner Delights",
+        "identifier": "pgsoft/DinerDelights",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/DinerDelights.webp"
+    },
+    {
+        "title": "Double Fortune",
+        "identifier": "pgsoft/DoubleFortune",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/DoubleFortune.webp"
+    },
+    {
+        "title": "Dragon Hatch",
+        "identifier": "pgsoft/DragonHatch",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/DragonHatch.webp"
+    },
+    {
+        "title": "Dragon Hatch 2",
+        "identifier": "pgsoft/DragonHatch2",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/DragonHatch2.webp"
+    },
+    {
+        "title": "Dragon Legend",
+        "identifier": "pgsoft/DragonLegend",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/DragonLegend.webp"
+    },
+    {
+        "title": "Dragon Tiger Luck",
+        "identifier": "pgsoft/DragonTigerLuck",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/DragonTigerLuck.webp"
+    },
+    {
+        "title": "Dreams of Macau",
+        "identifier": "pgsoft/DreamsofMacau",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/DreamsofMacau.webp"
+    },
+    {
+        "title": "Egypt's Book of Mystery",
+        "identifier": "pgsoft/EgyptsBookofMystery",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/EgyptsBookofMystery.webp"
+    },
+    {
+        "title": "Emoji Riches",
+        "identifier": "pgsoft/EmojiRiches",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/EmojiRiches.webp"
+    },
+    {
+        "title": "Emperor's Favour",
+        "identifier": "pgsoft/EmperorsFavour",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/EmperorsFavour.webp"
+    },
+    {
+        "title": "Flirting Scholar",
+        "identifier": "pgsoft/FlirtingScholar",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/FlirtingScholar.webp"
+    },
+    {
+        "title": "Forge of Wealth",
+        "identifier": "pgsoft/ForgeofWealth",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/ForgeofWealth.webp"
+    },
+    {
+        "title": "Fortune Dragon",
+        "identifier": "pgsoft/FortuneDragon",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/FortuneDragon.webp"
+    },
+    {
+        "title": "Fortune Gods",
+        "identifier": "pgsoft/FortuneGods",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/FortuneGods.webp"
+    },
+    {
+        "title": "Fortune Mouse",
+        "identifier": "pgsoft/FortuneMouse",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/FortuneMouse.webp"
+    },
+    {
+        "title": "Fortune Ox",
+        "identifier": "pgsoft/FortuneOx",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/FortuneOx.webp"
+    },
+    {
+        "title": "Fortune Rabbit",
+        "identifier": "pgsoft/FortuneRabbit",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/FortuneRabbit.webp"
+    },
+    {
+        "title": "Fortune Tiger",
+        "identifier": "pgsoft/FortuneTiger",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/FortuneTiger.webp"
+    },
+    {
+        "title": "Fruity Candy",
+        "identifier": "pgsoft/FruityCandy",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/FruityCandy.webp"
+    },
+    {
+        "title": "Futebol Fever",
+        "identifier": "pgsoft/FutebolFever",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/FutebolFever.webp"
+    },
+    {
+        "title": "Galactic Gems",
+        "identifier": "pgsoft/GalacticGems",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/GalacticGems.webp"
+    },
+    {
+        "title": "Ganesha Fortune",
+        "identifier": "pgsoft/GaneshaFortune",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/GaneshaFortune.webp"
+    },
+    {
+        "title": "Ganesha Gold",
+        "identifier": "pgsoft/GaneshaGold",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/GaneshaGold.webp"
+    },
+    {
+        "title": "Garuda Gems",
+        "identifier": "pgsoft/GarudaGems",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/GarudaGems.webp"
+    },
+    {
+        "title": "Gem Saviour",
+        "identifier": "pgsoft/GemSaviour",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/GemSaviour.webp"
+    },
+    {
+        "title": "Gem Saviour Conquest",
+        "identifier": "pgsoft/GemSaviourConquest",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/GemSaviourConquest.webp"
+    },
+    {
+        "title": "Gem Saviour Sword",
+        "identifier": "pgsoft/GemSaviourSword",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/GemSaviourSword.webp"
+    },
+    {
+        "title": "Gemstones Gold",
+        "identifier": "pgsoft/GemstonesGold",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/GemstonesGold.webp"
+    },
+    {
+        "title": "Genie's 3 Wishes",
+        "identifier": "pgsoft/Genies3Wishes",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/Genies3Wishes.webp"
+    },
+    {
+        "title": "Gladiator's Glory",
+        "identifier": "pgsoft/GladiatorsGlory",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/GladiatorsGlory.webp"
+    },
+    {
+        "title": "Guardians of Ice & Fire",
+        "identifier": "pgsoft/GuardiansofIceFire",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/GuardiansofIceFire.webp"
+    },
+    {
+        "title": "Hawaiian Tiki",
+        "identifier": "pgsoft/HawaiianTiki",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/HawaiianTiki.webp"
+    },
+    {
+        "title": "Heist Stakes",
+        "identifier": "pgsoft/HeistStakes",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/HeistStakes.webp"
+    },
+    {
+        "title": "Hip Hop Panda",
+        "identifier": "pgsoft/HipHopPanda",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/HipHopPanda.webp"
+    },
+    {
+        "title": "Honey Trap of Diao Chan",
+        "identifier": "pgsoft/HoneyTrapofDiaoChan",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/HoneyTrapofDiaoChan.webp"
+    },
+    {
+        "title": "Hood vs Wolf",
+        "identifier": "pgsoft/HoodvsWolf",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/HoodvsWolf.webp"
+    },
+    {
+        "title": "Hotpot",
+        "identifier": "pgsoft/Hotpot",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/Hotpot.webp"
+    },
+    {
+        "title": "Jack Frost's Winter",
+        "identifier": "pgsoft/JackFrostsWinter",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/JackFrostsWinter.webp"
+    },
+    {
+        "title": "Jewels of Prosperity",
+        "identifier": "pgsoft/JewelsofProsperity",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/JewelsofProsperity.webp"
+    },
+    {
+        "title": "Journey to the Wealth",
+        "identifier": "pgsoft/JourneytotheWealth",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/JourneytotheWealth.webp"
+    },
+    {
+        "title": "Jungle Delight",
+        "identifier": "pgsoft/JungleDelight",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/JungleDelight.webp"
+    },
+    {
+        "title": "Jurassic Kingdom",
+        "identifier": "pgsoft/JurassicKingdom",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/JurassicKingdom.webp"
+    },
+    {
+        "title": "Legendary Monkey King",
+        "identifier": "pgsoft/LegendaryMonkeyKing",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/LegendaryMonkeyKing.webp"
+    },
+    {
+        "title": "Legend of Hou Yi",
+        "identifier": "pgsoft/LegendofHouYi",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/LegendofHouYi.webp"
+    },
+    {
+        "title": "Legend of Perseus",
+        "identifier": "pgsoft/LegendofPerseus",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/LegendofPerseus.webp"
+    },
+    {
+        "title": "Leprechaun Riches",
+        "identifier": "pgsoft/LeprechaunRiches",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/LeprechaunRiches.webp"
+    },
+    {
+        "title": "Lucky Clover Lady",
+        "identifier": "pgsoft/LuckyCloverLady",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/LuckyCloverLady.webp"
+    },
+    {
+        "title": "Lucky Neko",
+        "identifier": "pgsoft/LuckyNeko",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/LuckyNeko.webp"
+    },
+    {
+        "title": "Lucky Piggy",
+        "identifier": "pgsoft/LuckyPiggy",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/LuckyPiggy.webp"
+    },
+    {
+        "title": "Mafia Mayhem",
+        "identifier": "pgsoft/MafiaMayhem",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/MafiaMayhem.webp"
+    },
+    {
+        "title": "Mahjong Ways",
+        "identifier": "pgsoft/MahjongWays",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/MahjongWays.webp"
+    },
+    {
+        "title": "Mahjong Ways 2",
+        "identifier": "pgsoft/MahjongWays2",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/MahjongWays2.webp"
+    },
+    {
+        "title": "Majestic Treasures",
+        "identifier": "pgsoft/MajesticTreasures",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/MajesticTreasures.webp"
+    },
+    {
+        "title": "Mask Carnival",
+        "identifier": "pgsoft/MaskCarnival",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/MaskCarnival.webp"
+    },
+    {
+        "title": "Medusa",
+        "identifier": "pgsoft/Medusa",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/Medusa.webp"
+    },
+    {
+        "title": "Medusa II",
+        "identifier": "pgsoft/MedusaII",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/MedusaII.webp"
+    },
+    {
+        "title": "Mermaid Riches",
+        "identifier": "pgsoft/MermaidRiches",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/MermaidRiches.webp"
+    },
+    {
+        "title": "Midas Fortune",
+        "identifier": "pgsoft/MidasFortune",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/MidasFortune.webp"
+    },
+    {
+        "title": "Mr. Hallow-Win",
+        "identifier": "pgsoft/MrHallowWin",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/MrHallowWin.webp"
+    },
+    {
+        "title": "Muay Thai Champion",
+        "identifier": "pgsoft/MuayThaiChampion",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/MuayThaiChampion.webp"
+    },
+    {
+        "title": "Mystical Spirits",
+        "identifier": "pgsoft/MysticalSpirits",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/MysticalSpirits.webp"
+    },
+    {
+        "title": "Ninja Raccoon Frenzy",
+        "identifier": "pgsoft/NinjaRaccoonFrenzy",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/NinjaRaccoonFrenzy.webp"
+    },
+    {
+        "title": "Ninja vs Samurai",
+        "identifier": "pgsoft/NinjavsSamurai",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/NinjavsSamurai.webp"
+    },
+    {
+        "title": "Oishi Delights",
+        "identifier": "pgsoft/OishiDelights",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/OishiDelights.webp"
+    },
+    {
+        "title": "Opera Dynasty",
+        "identifier": "pgsoft/OperaDynasty",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/OperaDynasty.webp"
+    },
+    {
+        "title": "Oriental Prosperity",
+        "identifier": "pgsoft/OrientalProsperity",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/OrientalProsperity.webp"
+    },
+    {
+        "title": "Phoenix Rises",
+        "identifier": "pgsoft/PhoenixRises",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/PhoenixRises.webp"
+    },
+    {
+        "title": "Piggy Gold",
+        "identifier": "pgsoft/PiggyGold",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/PiggyGold.webp"
+    },
+    {
+        "title": "Pinata Wins",
+        "identifier": "pgsoft/PinataWins",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/PinataWins.webp"
+    },
+    {
+        "title": "Plushie Frenzy",
+        "identifier": "pgsoft/PlushieFrenzy",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/PlushieFrenzy.webp"
+    },
+    {
+        "title": "Prosperity Fortune Tree",
+        "identifier": "pgsoft/ProsperityFortuneTree",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/ProsperityFortuneTree.webp"
+    },
+    {
+        "title": "Prosperity Lion",
+        "identifier": "pgsoft/ProsperityLion",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/ProsperityLion.webp"
+    },
+    {
+        "title": "Queen of Bounty",
+        "identifier": "pgsoft/QueenofBounty",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/QueenofBounty.webp"
+    },
+    {
+        "title": "Raider Jane's Crypt of Fortune",
+        "identifier": "pgsoft/RaiderJanesCryptofFortune",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/RaiderJanesCryptofFortune.webp"
+    },
+    {
+        "title": "Rave Party Fever",
+        "identifier": "pgsoft/RavePartyFever",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/RavePartyFever.webp"
+    },
+    {
+        "title": "Reel Love",
+        "identifier": "pgsoft/ReelLove",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/ReelLove.webp"
+    },
+    {
+        "title": "Rise of Apollo",
+        "identifier": "pgsoft/RiseofApollo",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/RiseofApollo.webp"
+    },
+    {
+        "title": "Rooster Rumble",
+        "identifier": "pgsoft/RoosterRumble",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/RoosterRumble.webp"
+    },
+    {
+        "title": "Safari Wilds",
+        "identifier": "pgsoft/SafariWilds",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/SafariWilds.webp"
+    },
+    {
+        "title": "Santa's Gift Rush",
+        "identifier": "pgsoft/SantasGiftRush",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/SantasGiftRush.webp"
+    },
+    {
+        "title": "Secrets of Cleopatra",
+        "identifier": "pgsoft/SecretsofCleopatra",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/SecretsofCleopatra.webp"
+    },
+    {
+        "title": "Shaolin Soccer",
+        "identifier": "pgsoft/ShaolinSoccer",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/ShaolinSoccer.webp"
+    },
+    {
+        "title": "Shark Bounty",
+        "identifier": "pgsoft/SharkHunter",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/SharkHunter.webp"
+    },
+    {
+        "title": "Songkran Splash",
+        "identifier": "pgsoft/SongkranSplash",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/SongkranSplash.webp"
+    },
+    {
+        "title": "Speed Winner",
+        "identifier": "pgsoft/SpeedWinner",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/SpeedWinner.webp"
+    },
+    {
+        "title": "Spirited Wonders",
+        "identifier": "pgsoft/SpiritedWonders",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/SpiritedWonders.webp"
+    },
+    {
+        "title": "Super Golf Drive",
+        "identifier": "pgsoft/SuperGolfDrive",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/SuperGolfDrive.webp"
+    },
+    {
+        "title": "Supermarket Spree",
+        "identifier": "pgsoft/SupermarketSpree",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/SupermarketSpree.webp"
+    },
+    {
+        "title": "Symbols of Egypt",
+        "identifier": "pgsoft/SymbolsofEgypt",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/SymbolsofEgypt.webp"
+    },
+    {
+        "title": "Thai River Wonders",
+        "identifier": "pgsoft/ThaiRiverWonders",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/ThaiRiverWonders.webp"
+    },
+    {
+        "title": "The Great Icescape",
+        "identifier": "pgsoft/TheGreatIcescape",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/TheGreatIcescape.webp"
+    },
+    {
+        "title": "The Queen's Banquet",
+        "identifier": "pgsoft/TheQueensBanquet",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/TheQueensBanquet.webp"
+    },
+    {
+        "title": "Three Crazy Piggies",
+        "identifier": "pgsoft/ThreeCrazyPiggies",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/ThreeCrazyPiggies.webp"
+    },
+    {
+        "title": "Totem Wonders",
+        "identifier": "pgsoft/TotemWonders",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/TotemWonders.webp"
+    },
+    {
+        "title": "Treasures of Aztec",
+        "identifier": "pgsoft/TreasuresofAztec",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/TreasuresofAztec.webp"
+    },
+    {
+        "title": "Tree of Fortune",
+        "identifier": "pgsoft/TreeofFortune",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/TreeofFortune.webp"
+    },
+    {
+        "title": "Tsar Treasures",
+        "identifier": "pgsoft/TsarTreasures",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/TsarTreasures.webp"
+    },
+    {
+        "title": "Ultimate Striker",
+        "identifier": "pgsoft/UltimateStriker",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/UltimateStriker.webp"
+    },
+    {
+        "title": "Vampire's Charm",
+        "identifier": "pgsoft/VampiresCharm",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/VampiresCharm.webp"
+    },
+    {
+        "title": "Ways of the Qilin",
+        "identifier": "pgsoft/WaysoftheQilin",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/WaysoftheQilin.webp"
+    },
+    {
+        "title": "Wild Ape",
+        "identifier": "pgsoft/WildApe",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/WildApe.webp"
+    },
+    {
+        "title": "Wild Bandito",
+        "identifier": "pgsoft/WildBandito",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/WildBandito.webp"
+    },
+    {
+        "title": "Wild Bounty Showdown",
+        "identifier": "pgsoft/WildBountyShowdown",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/WildBountyShowdown.webp"
+    },
+    {
+        "title": "Wild Coaster",
+        "identifier": "pgsoft/WildCoaster",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/WildCoaster.webp"
+    },
+    {
+        "title": "Wild Fireworks",
+        "identifier": "pgsoft/WildFireworks",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/WildFireworks.webp"
+    },
+    {
+        "title": "Wild Heist Cashout",
+        "identifier": "pgsoft/WildHeistCashout",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/WildHeistCashout.webp"
+    },
+    {
+        "title": "Wings of Iguazu",
+        "identifier": "pgsoft/WingsofIguazu",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/WingsofIguazu.webp"
+    },
+    {
+        "title": "Win Win Fish Prawn Crab",
+        "identifier": "pgsoft/WinWinFishPrawnCrab",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/WinWinFishPrawnCrab.webp"
+    },
+    {
+        "title": "Win Win Won",
+        "identifier": "pgsoft/WinWinWon",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/WinWinWon.webp"
+    },
+    {
+        "title": "Yakuza Honor",
+        "identifier": "pgsoft/YakuzaHonor",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/YakuzaHonor.webp"
+    },
+    {
+        "title": "Zombie Outbreak",
+        "identifier": "pgsoft/ZombieOutbreak",
+        "thumbnail_url": "https://wild.io/thumbnail/pgsoft/ZombieOutbreak.webp"
+    },
+    {
+        "title": "Museum Mystery",
+        "identifier": "relax/MuseumMystery",
+        "thumbnail_url": "https://wild.io/thumbnail/relax/MuseumMystery.webp"
+    }
+]

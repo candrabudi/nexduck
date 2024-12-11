@@ -50,7 +50,7 @@
                     <div class="flex items-center">
                         <button type="button" class="flex justify-center items-center mr-3 pt-1 wallet-money">
                             <div class="mr-2">
-                                <img src="https://cdn270.picsart.com/297e52e4-65f2-409d-8a3e-032d3b24403b/451868880001211.png?to=crop&amp;type=webp&amp;r=1456x1456&amp;q=85" 
+                                <img src="https://cdn270.picsart.com/297e52e4-65f2-409d-8a3e-032d3b24403b/451868880001211.png?to=crop&amp;type=webp&amp;r=1456x1456&amp;q=85"
                                     alt="" width="20">
                             </div>
                             <div>
@@ -59,7 +59,7 @@
                                 </strong>
                             </div>
                         </button>
-                        
+
                         <script>
                             function updateBalance() {
                                 fetch('{{ route('getBall') }}')
@@ -79,7 +79,7 @@
                             }
                             setInterval(updateBalance, 3000);
                         </script>
-                        
+
                         <button class="hidden md:block ui-button-blue mr-3 rounded"
                             onclick="window.location.href='/profile/deposit'">
                             Deposit
@@ -101,7 +101,8 @@
                                             <a href="/profile/wallet" class="block px-4 py-2">Profile</a>
                                         </li>
                                         <li>
-                                            <a href="{{ route('setting.profile') }}" class="block px-4 py-2">Pengaturan</a>
+                                            <a href="{{ route('setting.profile') }}"
+                                                class="block px-4 py-2">Pengaturan</a>
                                         </li>
                                         <li>
                                             <form action="/logout" method="POST" class="block px-4 py-2">
@@ -132,19 +133,66 @@
                     </div>
                 </div>
             @else
-                <div class="flex items-center py-3">
-                    <div class="flex ml-5">
-                        <button class="ui-button-blue" onclick="navigateTo('/login')">Login</button>
-                        <button class="ui-button-blue ml-3 rounded" onclick="navigateTo('/register')">Register</button>
-                    </div>
-                    
-                    <script>
-                        function navigateTo(url) {
-                            window.location.href = url;
-                        }
-                    </script>
-                    
+            <div class="flex items-center py-3">
+                <div class="flex ml-5">
+                  <!-- Login Button -->
+                  <button class="flat-button-login" onclick="navigateTo('/login')">Login</button>
+              
+                  <!-- Register Button -->
+                  <button class="flat-button-register ml-3" onclick="navigateTo('/register')">Register</button>
                 </div>
+              
+                <script>
+                  function navigateTo(url) {
+                    window.location.href = url;
+                  }
+                </script>
+              </div>
+              
+              <style>
+                /* Common styles for flat buttons */
+                .flat-button-login,
+                .flat-button-register {
+                  padding: 10px 20px;
+                  border: 2px solid transparent;
+                  border-radius: 8px;
+                  color: #fff;
+                  font-size: 16px;
+                  font-weight: bold;
+                  cursor: pointer;
+                  width: 120px;
+                  transition: all 0.3s ease;
+                }
+              
+                /* Flat color for the Login button */
+                .flat-button-login {
+                  background-color: #4caf50; /* Green */
+                }
+              
+                /* Flat color for the Register button */
+                .flat-button-register {
+                  background-color: #2196f3; /* Blue */
+                }
+              
+                /* Hover effects with subtle shadow */
+                .flat-button-login:hover {
+                  background-color: #388e3c; /* Darker green */
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                }
+              
+                .flat-button-register:hover {
+                  background-color: #1976d2; /* Darker blue */
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                }
+              
+                /* Focus effects */
+                .flat-button-login:focus,
+                .flat-button-register:focus {
+                  outline: none;
+                  border: 2px solid #fff;
+                }
+              </style>
+              
             @endif
 
         </div>

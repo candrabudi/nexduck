@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ActivityLog extends Model
 {
     use HasFactory;
-
-    // Tentukan kolom yang dapat diisi
     protected $fillable = [
         'user_id', 
         'role', 
@@ -23,13 +21,15 @@ class ActivityLog extends Model
         'request_body', 
         'raw_json', 
         'latency',
-        'latitude',          // Add latitude
-        'longitude',         // Add longitude
-        'response_code',     // Add response_code
-        'response_body',     // Add response_body
+        'latitude',
+        'longitude',         
+        'response_code',  
+        'response_body',
+        'country',
+        'city', 
+        'region',
     ];
 
-    // Relasi ke model User
     public function user()
     {
         return $this->belongsTo(User::class);

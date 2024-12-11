@@ -21,7 +21,7 @@ class GameController extends Controller
         $games = Game::join('providers as pv', 'pv.id', '=', 'games.provider_id')
             ->select('games.*')
             ->where('pv.provider_type', 'slot')
-            ->limit(52)
+            ->limit(54)
             ->orderBy('games.id', 'desc')
             ->get();
         $slots = Provider::get();
@@ -33,7 +33,7 @@ class GameController extends Controller
         $games = Game::join('providers as pv', 'pv.id', '=', 'games.provider_id')
             ->select('games.*')
             ->where('pv.provider_type', 'live')
-            ->limit(52)
+            ->limit(54)
             ->orderBy('games.id', 'desc')
             ->get();
 
@@ -61,21 +61,26 @@ class GameController extends Controller
     {
         $query = $request->query('query');
         $provider_id = $request->provider_id;
-
+        $offset = $request->offset ?? 0;
+        $limit = $request->limit ?? 20;
+    
         if ($query) {
             $query = ucwords(strtolower($query));
         }
-
+    
         $games = Game::when($query, function ($q) use ($query) {
             return $q->where('game_name', 'like', '%' . $query . '%');
         })
             ->when($provider_id, function ($q) use ($provider_id) {
                 return $q->where('provider_id', $provider_id);
             })
+            ->skip($offset) // Skip games based on offset
+            ->take($limit) // Limit the number of games fetched
             ->get();
-
+    
         return response()->json(['games' => $games]);
     }
+    
 
 
 

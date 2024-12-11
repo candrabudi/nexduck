@@ -9,13 +9,14 @@ class LogActivityController extends Controller
 {
     public function index()
     {
-        $logs = ActivityLog::all();
+        $logs = ActivityLog::orderBy('id', 'DESC')
+            ->get();
         return view('backend.activity_logs.index', compact('logs'));
     }
 
     public function show($id)
-{
-    $log = ActivityLog::findOrFail($id);
-    return response()->json($log);
-}
+    {
+        $log = ActivityLog::findOrFail($id);
+        return response()->json($log);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backoffice;
 
 use App\Helpers\AesEncryptionHelper;
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Bank;
 use App\Models\LogGameActivity;
 use App\Models\Member;
@@ -55,9 +56,30 @@ class MemberController extends Controller
 
         $logGames = LogGameActivity::where('user_id', $user->id)
             ->orderBy('created_at', 'DESC')
-            ->get();
+            ->paginate(5);
+        
+        $totalGamePlay = LogGameActivity::where('user_id', $user->id)
+            ->distinct('game_id') 
+            ->count('game_id');
+        
+
+
+        $totalDeposit = DB::table('transactions')
+            ->where('user_id', $userId)
+            ->where('type', 'deposit')
+            ->where('status', 'approved')
+            ->sum('amount');
+
+        $totalWithdraw = DB::table('transactions')
+            ->where('user_id', $userId)
+            ->where('type', 'withdraw')
+            ->where('status', 'approved')
+            ->sum('amount');
+
+            $logActivities = ActivityLog::where('user_id', $userId)
+            ->paginate(5); 
             
-        return view('backend.members.show', compact('user', 'transactions', 'logGames'));
+        return view('backend.members.show', compact('user', 'transactions', 'logGames', 'totalWithdraw', 'totalDeposit', 'totalGamePlay', 'logActivities'));
     }
     
     public function getGameHistoryPlayer(Request $request, $a)

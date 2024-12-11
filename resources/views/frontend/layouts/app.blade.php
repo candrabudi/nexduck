@@ -366,19 +366,19 @@
                                     <img src="{{ $setting->web_logo }}" alt="NxWhisper.io Logo" class="h-9">
                                     <p class="text-sm">© 2024 NxWhisper. All rights reserved.</p>
                                     <div class="flex space-x-4">
-                                        <a href="https://t.me/wildcasinohq" target="_blank" rel="noreferrer"
+                                        <a href="" target="_blank" rel="noreferrer"
                                             class="text-xl hover:opacity-75">
                                             <i class="fab fa-telegram"></i>
                                         </a>
-                                        <a href="https://twitter.com/wild_io" target="_blank" rel="noreferrer"
+                                        <a href="" target="_blank" rel="noreferrer"
                                             class="text-xl hover:opacity-75">
                                             <i class="fab fa-twitter"></i>
                                         </a>
-                                        <a href="https://www.instagram.com/wildcasino.io" target="_blank"
+                                        <a href="" target="_blank"
                                             rel="noreferrer" class="text-xl hover:opacity-75">
                                             <i class="fab fa-instagram"></i>
                                         </a>
-                                        <a href="https://bit.ly/wild-discord" target="_blank" rel="noreferrer"
+                                        <a href="" target="_blank" rel="noreferrer"
                                             class="text-xl hover:opacity-75">
                                             <i class="fab fa-discord"></i>
                                         </a>

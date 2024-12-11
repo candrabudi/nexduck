@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
 {
@@ -37,7 +38,6 @@ class HomeController extends Controller
 
             $providers = $qpv->map(function ($pv) {
                 $games = Game::where('provider_id', $pv->id)
-                    ->take(20)
                     ->get()
                     ->map(function ($game) {
                         // Generate dynamic gradient colors for each game
@@ -464,5 +464,40 @@ class HomeController extends Controller
             ]);
         }
     }
+
+
+
+    //  // Define the path to the JSON file
+    //  $path = storage_path('app/public/all_games.json');
+    //  // Check if the file exists
+    //  if (!File::exists($path)) {
+    //      return response()->json(['error' => 'File not found'], 404);
+    //  }
+
+    //  // Get the content of the file
+    //  $jsonContent = File::get($path);
+
+    //  // Decode the JSON content into an associative array
+    //  $gamesData = json_decode($jsonContent, true);
+
+    //  // Check if the data is properly decoded
+    //  if ($gamesData === null) {
+    //      return response()->json(['error' => 'Failed to decode JSON'], 500);
+    //  }
+
+    //  // Loop through each game in the JSON data and update or insert it
+    //  foreach ($gamesData as $game) {
+
+    //      // Find the game by identifier
+    //      $existingGame = Game::where('game_name', 'LIKE','%'.$game['title'].'%')->first();
+    //      // return $existingGame;
+
+    //      if ($existingGame) {
+    //          $existingGame->game_image = $game['thumbnail_url'];
+    //          $existingGame->save(); // Save the changes
+    //      }
+    //  }
+
+    //  return response()->json(['message' => 'Games updated successfully from the JSON file']);
 
 }
