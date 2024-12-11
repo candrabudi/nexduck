@@ -116,11 +116,12 @@ class UserAuthController extends Controller
                 $network = Network::where('referral', $request->referral_code)
                     ->first();
 
-                $userNetwork = new UserNetwork();
-                $userNetwork->network_id = $network->id;
-                $userNetwork->user_id = $newUser->id;
-                $userNetwork->save();
-
+                if($network) {
+                    $userNetwork = new UserNetwork();
+                    $userNetwork->network_id = $network->id;
+                    $userNetwork->user_id = $newUser->id;
+                    $userNetwork->save();
+                }
             }
             $this->createNexusMember($request->input('username'));
 
