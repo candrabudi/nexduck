@@ -59,13 +59,13 @@ class TransactionWithdrawController extends Controller
                 ], 400);
             }
 
-            if ($request->status == 'rejected' && !$request->has('reason')) {
-                return response()->json([
-                    'status' => 'failed', 
-                    'code' => 422, 
-                    'message' => 'Jika status di tolak, maka isi alasannya'
-                ], 422);
-            }
+            // if ($request->status == 'rejected' && !$request->has('reason')) {
+            //     return response()->json([
+            //         'status' => 'failed', 
+            //         'code' => 422, 
+            //         'message' => 'Jika status di tolak, maka isi alasannya'
+            //     ], 422);
+            // }
 
             $transaction->update([
                 'status' => $request->status,
