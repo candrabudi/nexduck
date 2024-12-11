@@ -20,6 +20,7 @@ class HomeController extends Controller
 {
     public function index()
     {
+        
         $slots = cache()->remember('slots', 60, function () {
             return Provider::where('provider_type', 'SLOT')
                 ->where('provider_status', 1)

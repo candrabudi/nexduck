@@ -2,7 +2,7 @@
     <div class="carousel-container carousel-{{ $index }}">
         <div class="carousel-header">
             <h2>
-                <img src="https://www.wild.io/cdn-cgi/image/width=640,quality=75,format=webp//assets/providers-page.svg"
+                <img src="https://cdn-icons-png.flaticon.com/512/10490/10490256.png"
                     alt="Casino Icon">
                 {{ $pv['provider_name'] }}
             </h2>
