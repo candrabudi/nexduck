@@ -40,6 +40,7 @@ use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,10 +60,16 @@ Route::post('/register', [UserAuthController::class, 'register'])->name('registe
 
 
 Route::get('/login', function () {
+    if(Auth::user()){
+        return redirect()->route('member');
+    }
     return view('frontend.auth.login');
 });
 
 Route::get('/register', function (Request $request) {
+    if(Auth::user()){
+        return redirect()->route('member');
+    }
     $banks = Bank::get();
     $referral = $request->referral;
     return view('frontend.auth.register', compact('banks', 'referral'));

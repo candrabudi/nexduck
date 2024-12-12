@@ -38,7 +38,7 @@ class MemberController extends Controller
     public function updatePassword(Request $request, $id)
     {
         $user = User::find($id);
-        $user->password = Hash::make($request->new_password);
+        $user->password = bcrypt($request->new_password);
         $user->save();
 
         return back()->with('status', 'Password berhasil diperbarui!');
