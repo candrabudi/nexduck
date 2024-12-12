@@ -39,9 +39,9 @@ class HomeController extends Controller
 
             $providers = $qpv->map(function ($pv) {
                 $games = Game::where('provider_id', $pv->id)
+                    ->take(15)
                     ->get()
                     ->map(function ($game) {
-                        // Generate dynamic gradient colors for each game
                         $game->start_color = '#' . substr(md5($game->id), 0, 6);
                         $game->end_color = '#' . substr(md5($game->id * 2), 0, 6);
                         return $game;
