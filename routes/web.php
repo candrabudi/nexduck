@@ -194,6 +194,7 @@ Route::middleware('auth')->group(function () {
             Route::patch('members/{userId}/lock', [MemberController::class, 'lock'])->name('members.lock');
             Route::get('members-detail', [MemberController::class, 'show'])->name('members.show');
             Route::get('members-detail/history-game/{a}', [MemberController::class, 'getGameHistoryPlayer'])->name('members.getGameHistoryPlayer');
+            Route::post('members-detail/setting-balance/{a}', [MemberController::class, 'settingBalance'])->name('members.settingBalance');
 
             // Setting Routes
             Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');

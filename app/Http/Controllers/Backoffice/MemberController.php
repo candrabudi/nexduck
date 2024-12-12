@@ -8,6 +8,7 @@ use App\Models\ActivityLog;
 use App\Models\Bank;
 use App\Models\LogGameActivity;
 use App\Models\Member;
+use App\Models\MemberBalance;
 use App\Models\MemberBank;
 use App\Models\MemberExt;
 use App\Models\Transaction;
@@ -130,5 +131,112 @@ class MemberController extends Controller
             'current_page' => $page,
             'per_page' => $perPage,
         ]);
+    }
+
+
+    public function settingBalance(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try{
+            $user = User::where('id', $id)
+                ->first();
+
+            if(!$user) {
+                return redirect()->back();
+            }
+
+            if ($request->type == "manual_deposit") {
+                DB::beginTransaction();
+                try {
+                    $memberExt = MemberExt::where('user_id', $id)->first();
+                    $memberBalance = MemberBalance::where('user_id', $id)->first();
+            
+                    $postData = [
+                        'method' => 'user_deposit',
+                        'agent_code' => env('NEXUS_AGENT_CODE'),
+                        'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
+                        'user_code' => $memberExt->ext_name,
+                        'amount' => (int)$request->amount
+                    ];
+            
+                    $response = Http::post(env('NEXUS_URL'), $postData);
+            
+                    $databody = $response->json();
+            
+                    if ($databody['status'] == 1 && $databody['msg'] == 'SUCCESS') {
+
+                        $memberBalance->main_balance = $databody['user_balance'];
+                        $memberBalance->save();
+            
+                        $store = new Transaction();
+                        $store->user_id = $id;
+                        $store->promotion_id = 0;
+                        $store->user_bank_id = 0;
+                        $store->amount = $request->amount;
+                        $store->type = "manual_deposit";
+                        $store->status = "approved";
+                        $store->created_ip_address = $request->ip();
+                        $store->save();
+            
+                        DB::commit();
+                        return redirect()->back()->with('success', 'Manual deposit successful.');
+                    } else {
+                        DB::rollBack();
+                        return redirect()->back()->withErrors(['error' => 'Deposit failed: ' . $databody['msg']]);
+                    }
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    return redirect()->back()->withErrors(['error' => 'An error occurred: ' . $e->getMessage()]);
+                }
+            }
+
+            if ($request->type == "manual_withdraw") {
+                DB::beginTransaction();
+                try {
+                    $memberExt = MemberExt::where('user_id', $id)->first();
+                    $memberBalance = MemberBalance::where('user_id', $id)->first();
+            
+                    $postData = [
+                        'method' => 'user_withdraw',
+                        'agent_code' => env('NEXUS_AGENT_CODE'),
+                        'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
+                        'user_code' => $memberExt->ext_name,
+                        'amount' => (int)$request->amount
+                    ];
+            
+                    $response = Http::post(env('NEXUS_URL'), $postData);
+            
+                    $databody = $response->json();
+            
+                    if ($databody['status'] == 1 && $databody['msg'] == 'SUCCESS') {
+                        $memberBalance->main_balance = $databody['user_balance'];
+                        $memberBalance->save();
+            
+                        $store = new Transaction();
+                        $store->user_id = $id;
+                        $store->promotion_id = 0;
+                        $store->user_bank_id = 0;
+                        $store->amount = $request->amount;
+                        $store->type = "manual_withdraw";
+                        $store->status = "approved";
+                        $store->created_ip_address = $request->ip();
+                        $store->save();
+            
+                        DB::commit();
+                        return redirect()->back()->with('success', 'Manual withdraw successful.');
+                    } else {
+                        DB::rollBack();
+                        return redirect()->back()->withErrors(['error' => 'Withdraw failed: ' . $databody['msg']]);
+                    }
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    return redirect()->back()->withErrors(['error' => 'An error occurred: ' . $e->getMessage()]);
+                }
+            }            
+
+        }catch(\Exception $e){
+            DB::rollBack();
+            return redirect()->back();
+        }
     }
 }

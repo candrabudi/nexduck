@@ -53,8 +53,7 @@
         </div>
     </div>
 
-    <!-- Create Bank Account Modal -->
-    <!-- Modal untuk Menambahkan Akun Bank -->
+    <!-- Modal untuk menambahkan akun bank -->
     <div class="modal fade" id="createBankAccountModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -65,10 +64,12 @@
                 <form action="{{ route('backoffice.bank-accounts.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
+                        <!-- Input Nama Akun -->
                         <div class="mb-3">
                             <label for="account_name" class="form-label">Nama Akun</label>
                             <input type="text" class="form-control" id="account_name" name="account_name" required>
                         </div>
+                        <!-- Input Bank -->
                         <div class="mb-3">
                             <label for="bank_id" class="form-label">Bank</label>
                             <select name="bank_id" class="form-select" required>
@@ -77,16 +78,24 @@
                                 @endforeach
                             </select>
                         </div>
+                        <!-- Input Nomor Akun -->
                         <div class="mb-3">
                             <label for="account_number" class="form-label">Nomor Akun</label>
                             <input type="text" class="form-control" id="account_number" name="account_number" required>
                         </div>
+                        <!-- Input Status Akun -->
                         <div class="mb-3">
                             <label for="account_status" class="form-label">Status</label>
                             <select name="account_status" class="form-select" required>
                                 <option value="1">Aktif</option>
                                 <option value="0">Tidak Aktif</option>
                             </select>
+                        </div>
+                        <!-- Input Gambar Akun -->
+                        <div class="mb-3">
+                            <label for="account_image" class="form-label">Gambar Akun</label>
+                            <input type="file" class="form-control" id="account_image" name="account_image"
+                                accept="image/*">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -98,7 +107,7 @@
         </div>
     </div>
 
-    <!-- Modal untuk Mengedit Akun Bank -->
+    <!-- Modal untuk mengedit akun bank -->
     <div class="modal fade" id="editBankAccountModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -109,11 +118,13 @@
                 <form action="" method="POST" enctype="multipart/form-data" id="editBankAccountForm">
                     @csrf
                     <div class="modal-body">
-                        <input type="hidden" name="_method" value="POST">
+                        <!-- Input Nama Akun -->
                         <div class="mb-3">
                             <label for="edit_account_name" class="form-label">Nama Akun</label>
-                            <input type="text" class="form-control" id="edit_account_name" name="account_name" required>
+                            <input type="text" class="form-control" id="edit_account_name" name="account_name"
+                                required>
                         </div>
+                        <!-- Input Bank -->
                         <div class="mb-3">
                             <label for="edit_bank_id" class="form-label">Bank</label>
                             <select name="bank_id" class="form-select" id="edit_bank_id" required>
@@ -122,17 +133,25 @@
                                 @endforeach
                             </select>
                         </div>
+                        <!-- Input Nomor Akun -->
                         <div class="mb-3">
                             <label for="edit_account_number" class="form-label">Nomor Akun</label>
                             <input type="text" class="form-control" id="edit_account_number" name="account_number"
                                 required>
                         </div>
+                        <!-- Input Status Akun -->
                         <div class="mb-3">
                             <label for="edit_account_status" class="form-label">Status</label>
                             <select name="account_status" class="form-select" id="edit_account_status" required>
                                 <option value="1">Aktif</option>
                                 <option value="0">Tidak Aktif</option>
                             </select>
+                        </div>
+                        <!-- Input Gambar Akun -->
+                        <div class="mb-3">
+                            <label for="edit_account_image" class="form-label">Gambar Akun</label>
+                            <input type="file" class="form-control" id="edit_account_image" name="account_image"
+                                accept="image/*">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -148,7 +167,6 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            // Trigger edit modal and populate with bank account data
             $('.editBankAccountBtn').on('click', function() {
                 var accountId = $(this).data('id');
                 var accountName = $(this).data('name');
@@ -157,17 +175,14 @@
                 var bankId = $(this).data('bank');
                 var accountImage = $(this).data('image');
 
-                // Set form action URL
                 $('#editBankAccountForm').attr('action', '/backoffice/bank-accounts/' + accountId);
 
-                // Populate modal fields with existing data
                 $('#edit_account_name').val(accountName);
                 $('#edit_account_number').val(accountNumber);
                 $('#edit_account_status').val(accountStatus);
                 $('#edit_bank_id').val(bankId);
                 $('#current_image').attr('src', accountImage);
 
-                // Show modal after filling the data
                 $('#editBankAccountModal').modal('show');
             });
         });

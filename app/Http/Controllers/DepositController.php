@@ -28,6 +28,12 @@ class DepositController extends Controller
             ->join('bank_accounts as ba', 'ba.bank_id', '=', 'banks.id')
             ->with('bankAccount')
             ->get();
+        
+        $qris = Bank::where('bank_type', 'qris')
+            ->select('banks.*')
+            ->join('bank_accounts as ba', 'ba.bank_id', '=', 'banks.id')
+            ->with('bankAccount')
+            ->get();
 
         $user = auth()->user();
 
@@ -45,7 +51,7 @@ class DepositController extends Controller
                 ->get();
         }
 
-        return view('frontend.deposit.index', compact('banks', 'ewallets', 'promotions'));
+        return view('frontend.deposit.index', compact('banks', 'ewallets', 'promotions', 'qris'));
     }
 
 
@@ -73,6 +79,8 @@ class DepositController extends Controller
                 $storeTransaction->admin_bank_id = $request->admin_bank_id;
             }else if($request->admin_ewallet_id) {
                 $storeTransaction->admin_bank_id = $request->admin_ewallet_id;
+            }else if($request->admin_qris_id) {
+                $storeTransaction->admin_bank_id = $request->admin_qris_id;
             }
             $storeTransaction->user_bank_id = $bankMember->id;
             $storeTransaction->amount = $request->amount;

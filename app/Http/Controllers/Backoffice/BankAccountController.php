@@ -44,15 +44,14 @@ class BankAccountController extends Controller
             'account_number' => $request->account_number,
             'bank_id' => $request->bank_id,
             'account_status' => $request->account_status,
-            'account_image' => $imagePath,
+            'account_image' => asset('storage/'.$imagePath),
         ]);
-
         return redirect()->route('backoffice.bank-accounts.index')->with('success', 'Bank Account created successfully');
     }
 
     public function edit(BankAccount $bankAccount)
     {
-        $banks = Bank::all(); // Mengambil semua bank untuk dropdown
+        $banks = Bank::all();
         return view('backend.bank_accounts.edit', compact('bankAccount', 'banks'));
     }
 
@@ -85,7 +84,6 @@ class BankAccountController extends Controller
 
         return redirect()->route('backoffice.bank-accounts.index')->with('success', 'Bank Account updated successfully');
     }
-
     public function destroy(BankAccount $bankAccount)
     {
         if ($bankAccount->account_image && Storage::exists('public/' . $bankAccount->account_image)) {

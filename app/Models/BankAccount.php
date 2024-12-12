@@ -14,6 +14,7 @@ class BankAccount extends Model
         'account_name',
         'account_number',
         'account_status',
+        'account_image'
     ];
 
     public function bank()

@@ -12,9 +12,10 @@
                         <select id="paymentMethod" name="payment_method"
                             class="block w-full p-3 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                             onchange="showPaymentDetails(this)">
-                            <option value="">Select Bank or E-wallet</option>
+                            <option value="">Select Bank, E-wallet or QRIS</option>
                             <option value="bank" data-method="bank">Bank</option>
                             <option value="ewallet" data-method="ewallet">Ewallet</option>
+                            <option value="qris" data-method="qris">QRIS</option>
                         </select>
                     </div>
 
@@ -30,9 +31,10 @@
                                     <option value="">Select Bank</option>
                                     @foreach ($banks as $bank)
                                         @if ($bank->bankAccount)
-                                            <option value="{{ $bank->bankAccount->id }} "
-                                                data-bank="{{ json_encode($bank->bankAccount) }} ">
-                                                {{ $bank['bank_name'] }}</option>
+                                            <option value="{{ $bank->bankAccount->id }}"
+                                                data-bank="{{ json_encode($bank->bankAccount) }}">
+                                                {{ $bank['bank_name'] }}
+                                            </option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -41,13 +43,17 @@
                                             id="account-number"></span></p>
                                     <p style="color: black"><strong>Nama Penerima:</strong> <span id="account-name"></span>
                                     </p>
+                                    <div id="account-image-wrapper" class="mt-2 hidden">
+                                        <strong>Account Image:</strong><br>
+                                        <img id="account-image" src="" alt="Account Image"
+                                            class="w-100 h-100 object-cover rounded-md">
+                                    </div>
                                     <button type="button"
                                         class="copy-button btn-sm mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all"
                                         onclick="copyAccountNumber()">Copy Account Number</button>
                                 </div>
                             </div>
 
-                            <!-- Ewallet Section -->
                             <div id="ewallet-section" class="hidden">
                                 <label for="ewalletMethod" class="mb-2 text-gray-400">Ewallet</label>
                                 <select id="ewalletMethod" name="admin_ewallet_id"
@@ -63,7 +69,28 @@
                                 <div id="ewallet-details" class="details-box hidden mt-3 text-white"></div>
                             </div>
 
-                            <!-- Promotion Section -->
+                            <div id="qris-section" class="hidden mt-5">
+                                <label for="qrisMethod" class="mb-2 text-gray-400">QRIS</label>
+                                <select id="qrisMethod" name="admin_qris_id"
+                                    class="block w-full p-3 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onchange="showQrisDetails(this)">
+                                    <option value="">Select QRIS</option>
+                                    @foreach ($qris as $qris_item)
+                                        <option value="{{ $qris_item->id }}" data-qris="{{ json_encode($qris_item->bankAccount) }}">
+                                            {{ $qris_item->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div id="qris-details" class="details-box hidden mt-3 text-black">
+                                    <p style="color: black"><strong>QRIS ID:</strong> <span id="qris-id"></span></p>
+                                    <div id="qris-code-wrapper" class="mt-2">
+                                        <strong>QR Code:</strong><br>
+                                        <img id="qris-code" src="" alt="QR Code"
+                                            class="w-100 h-100 object-cover rounded-md">
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="mt-5">
                                 <label for="promotion" class="mb-2 text-gray-400">Promotions</label>
                                 <select id="promotion" name="promotion_id"
@@ -71,7 +98,8 @@
                                     onchange="showPromotionDetails(this)">
                                     <option value="">Select Promotion</option>
                                     @foreach ($promotions as $promotion)
-                                        <option value="{{ $promotion->id }}" data-promotion="{{ json_encode($promotion) }}"
+                                        <option value="{{ $promotion->id }}"
+                                            data-promotion="{{ json_encode($promotion) }}"
                                             data-promotion-detail="{{ json_encode($promotion->promotionDetail) }}">
                                             {{ $promotion->title }}</option>
                                     @endforeach
@@ -86,7 +114,6 @@
                                         id="target_promo"></span></p>
                             </div>
 
-                            <!-- Deposit Amount Section -->
                             <div class="mt-5">
                                 <label class="mb-3 text-gray-400">Rekomendasi Deposit</label>
                                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 w-full">
@@ -132,19 +159,48 @@
             if (method === 'bank') {
                 document.getElementById('bank-section').classList.remove('hidden');
                 document.getElementById('ewallet-section').classList.add('hidden');
+                document.getElementById('qris-section').classList.add('hidden');
             } else if (method === 'ewallet') {
                 document.getElementById('ewallet-section').classList.remove('hidden');
                 document.getElementById('bank-section').classList.add('hidden');
+                document.getElementById('qris-section').classList.add('hidden');
+            } else if (method === 'qris') {
+                document.getElementById('qris-section').classList.remove('hidden');
+                document.getElementById('bank-section').classList.add('hidden');
+                document.getElementById('ewallet-section').classList.add('hidden');
             }
+        }
+
+        function showQrisDetails(select) {
+            const qrisDetails = select.options[select.selectedIndex].getAttribute('data-qris');
+            const qrisData = JSON.parse(qrisDetails);
+
+            document.getElementById('qris-id').innerText = qrisData.account_number;
+            if (qrisData.account_image) {
+                document.getElementById('qris-code').src = qrisData.account_image;
+            }
+            document.getElementById('qris-details').classList.remove('hidden');
         }
 
         function showBankDetails(select) {
             const bankDetails = select.options[select.selectedIndex].getAttribute('data-bank');
             const bankData = JSON.parse(bankDetails);
+
             document.getElementById('account-number').innerText = bankData.account_number;
             document.getElementById('account-name').innerText = bankData.account_name;
+
+            const accountImageWrapper = document.getElementById('account-image-wrapper');
+            if (bankData.account_image) {
+                document.getElementById('account-image').src = bankData
+                    .account_image;
+                accountImageWrapper.classList.remove('hidden');
+            } else {
+                accountImageWrapper.classList.add('hidden');
+            }
+
             document.getElementById('bank-details').classList.remove('hidden');
         }
+
 
         function showEwalletDetails(select) {
             const ewalletDetails = select.options[select.selectedIndex].getAttribute('data-ewallet');

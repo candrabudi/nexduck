@@ -69,8 +69,8 @@
                         </div>
                         <div class="clearfix mt-3 mt-xl-0 ms-auto d-flex flex-column col-xl-4">
                             <div class="clearfix mb-3 text-xl-end">
-                                <a href="javascript:void(0);" class="btn btn-sm btn-primary text-white"
-                                    onclick="showComingSoonAlert()">Edit Transaksi</a>
+                                <a href="javascript:void(0);" class="btn btn-sm btn-primary text-white" data-bs-toggle="modal"
+                                data-bs-target="#transactionModal">Edit Transaksi</a>
                                 <a href="javascript:void(0);" class="btn btn-sm btn-danger ms-2"
                                     onclick="showComingSoonAlert()">Lock Game</a>
                                 <a href="javascript:void(0);" class="btn btn-sm btn-warning ms-2" data-bs-toggle="modal"
@@ -217,9 +217,9 @@
                             <tbody>
                                 @foreach ($transactions as $trx)
                                     <tr>
-                                        <td>{{ $trx->userBank->account_name }}</td>
-                                        <td>{{ $trx->userBank->account_number }}</td>
-                                        <td>{{ $trx->userBank->bank->bank_name }}</td>
+                                        <td>{{ $trx->userBank ? $trx->userBank->account_name : 'Manual data' }}</td>
+                                        <td>{{ $trx->userBank ? $trx->userBank->account_number : 'Manual data' }}</td>
+                                        <td>{{ $trx->userBank ? $trx->userBank->bank->bank_name : 'Manual data non bank' }}</td>
                                         <td>Rp {{ number_format($trx->amount, 0, ',', '.') }}</td>
                                         <td>
                                             @if ($trx->status == 'pending')
@@ -292,9 +292,9 @@
                     <h5 class="modal-title" id="transactionModalLabel">Update Transaksi</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="#" method="POST">
+                <form action="{{ route('backoffice.members.settingBalance', $user->id) }}" method="POST">
                     @csrf
-                    @method('PUT')
+                    @method('POST')
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="type" class="form-label">Tipe Transaksi</label>
@@ -318,8 +318,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-sm btn-primary">Simpan Perubahan</button>
                     </div>
                 </form>
             </div>
