@@ -76,7 +76,7 @@
                                     onchange="showQrisDetails(this)">
                                     <option value="">Select QRIS</option>
                                     @foreach ($qris as $qris_item)
-                                        <option value="{{ $qris_item->id }}" data-qris="{{ json_encode($qris_item->bankAccount) }}">
+                                        <option value="{{ $qris_item->bankAccount->id }}" data-qris="{{ json_encode($qris_item->bankAccount) }}">
                                             {{ $qris_item->name }}
                                         </option>
                                     @endforeach
