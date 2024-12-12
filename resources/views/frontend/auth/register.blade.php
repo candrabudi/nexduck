@@ -5,6 +5,11 @@
         <!-- Main form container, full-width on mobile, limited width on larger screens -->
         <div class="w-full max-w-lg mx-auto">
             <div class="mb-5 cursor-pointer w-full">
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <form id="registerForm" method="post" action="{{ route('register') }}">
                     @csrf
                     <div class="flex justify-between mb-6">
@@ -16,7 +21,8 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                             <i class="fa-regular fa-user text-success-emphasis"></i>
                         </div>
-                        <input type="text" name="full_name" class="input-group" placeholder="Masukkan Nama Lengkap" required="">
+                        <input type="text" name="full_name" class="input-group" placeholder="Masukkan Nama Lengkap"
+                            required="">
                     </div>
 
                     <!-- Username -->
@@ -24,7 +30,8 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                             <i class="fa-regular fa-user text-success-emphasis"></i>
                         </div>
-                        <input type="text" name="username" class="input-group" placeholder="Masukkan Username" required="">
+                        <input type="text" name="username" class="input-group" placeholder="Masukkan Username"
+                            required="">
                     </div>
 
                     <!-- Email -->
@@ -32,7 +39,8 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                             <i class="fa-regular fa-envelope text-success-emphasis"></i>
                         </div>
-                        <input type="email" name="email" class="input-group" placeholder="Masukkan Email" required="">
+                        <input type="email" name="email" class="input-group" placeholder="Masukkan Email"
+                            required="">
                     </div>
 
                     <!-- Kata Sandi -->
@@ -40,7 +48,8 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                             <i class="fa-regular fa-lock text-success-emphasis"></i>
                         </div>
-                        <input type="password" name="password" class="input-group" placeholder="Masukkan Kata Sandi" required="">
+                        <input type="password" name="password" class="input-group" placeholder="Masukkan Kata Sandi"
+                            required="">
                     </div>
 
                     <!-- Nomor Telepon -->
@@ -48,7 +57,9 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                             <i class="fa-regular fa-phone"></i>
                         </div>
-                        <input type="text" name="phone_number" class="input-group" placeholder="Masukkan Nomor Telepon (Contoh: 085xxxxxxxx)" required="" pattern="^08\d{9,10}$" title="Masukkan nomor telepon dengan format: 085xxxxxxxx">
+                        <input type="text" name="phone_number" class="input-group"
+                            placeholder="Masukkan Nomor Telepon (Contoh: 085xxxxxxxx)" required="" pattern="^08\d{9,10}$"
+                            title="Masukkan nomor telepon dengan format: 085xxxxxxxx">
                     </div>
 
                     <!-- Bank -->
@@ -69,7 +80,8 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                             <i class="fa-regular fa-user text-success-emphasis"></i>
                         </div>
-                        <input type="text" name="account_name" class="input-group" placeholder="Masukkan Nama Pemilik Rekening" required="">
+                        <input type="text" name="account_name" class="input-group"
+                            placeholder="Masukkan Nama Pemilik Rekening" required="">
                     </div>
 
                     <!-- Nomor Rekening -->
@@ -77,7 +89,8 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                             <i class="fa-regular fa-user text-success-emphasis"></i>
                         </div>
-                        <input type="number" name="account_number" class="input-group" placeholder="Masukkan Nomor Rekening" required="">
+                        <input type="number" name="account_number" class="input-group"
+                            placeholder="Masukkan Nomor Rekening" required="">
                     </div>
 
                     <!-- Kolom Opsional (Reff) -->
@@ -85,7 +98,8 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                             <i class="fa-regular fa-user text-success-emphasis"></i>
                         </div>
-                        <input type="text" name="referral_code" class="input-group" value="{{ $referral }}" placeholder="Kode Referral (Opsional)"  {{ $referral ? 'readonly' : '' }}>
+                        <input type="text" name="referral_code" class="input-group" value="{{ $referral }}"
+                            placeholder="Kode Referral (Opsional)" {{ $referral ? 'readonly' : '' }}>
                     </div>
 
                     <!-- Google reCAPTCHA -->
@@ -101,7 +115,8 @@
                     <!-- Checkbox Syarat dan Ketentuan -->
                     <div class="mb-3 mt-11">
                         <div class="flex">
-                            <input id="terms" name="terms" required="" type="checkbox" class="w-4 h-4 text-blue-600">
+                            <input id="terms" name="terms" required="" type="checkbox"
+                                class="w-4 h-4 text-blue-600">
                             <label for="terms" class="ml-2 text-sm">Saya setuju dengan Syarat dan Ketentuan</label>
                         </div>
                     </div>

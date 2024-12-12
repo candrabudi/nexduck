@@ -132,7 +132,7 @@ class UserAuthController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Registration failed. Please try again later.'], 500);
+            return redirect()->back()->with('error', 'Registration failed. Please try again later.');
         }
     }
 
