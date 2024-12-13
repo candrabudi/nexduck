@@ -45,6 +45,32 @@
             </div>
         </div>
     </div>
+
+    <audio id="notification-sound" src="{{ asset('cash_register_tone.mp3') }}" preload="auto"></audio>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function checkPendingTransactions() {
+                $.ajax({
+                    url: '/check-pending-transactions',
+                    method: 'GET',
+                    success: function (response) {
+                        if (response.pending_count > 0) {
+                            var audio = document.getElementById('notification-sound');
+                            audio.play();
+                        }
+                    },
+                    error: function () {
+                        console.log('Gagal mengambil data transaksi.');
+                    }
+                });
+            }
+
+            setInterval(checkPendingTransactions, 10000);
+        });
+    </script>
+
     <script src="{{ asset('backoffice/vendor/global/global.min.js') }}"></script>
     <script src="{{ asset('backoffice/vendor/chart-js/chart.bundle.min.js') }}"></script>
     <script src="{{ asset('backoffice/vendor/bootstrap-datepicker-master/js/bootstrap-datepicker.min.js') }}"></script>

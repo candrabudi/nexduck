@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -209,5 +210,11 @@ class DashboardController extends Controller
         ];
 
         return response()->json($transactionData);
+    }
+
+    public function checkPendingTransactions()
+    {
+        $pendingCount = Transaction::where('status', 'pending')->count();
+        return response()->json(['pending_count' => $pendingCount]);
     }
 }

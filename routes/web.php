@@ -96,6 +96,8 @@ Route::post('/backoffice/login', [AuthController::class, 'authenticate'])->name(
 Route::get('/promotion', [ControllersPromotionController::class, 'index'])->name('promotion.index');
 Route::get('/promotion/{a}', [ControllersPromotionController::class, 'show'])->name('promotion.show');
 
+Route::get('/check-pending-transactions', [DashboardController::class, 'checkPendingTransactions']);
+
 Route::get('/user/getBall', [HomeController::class, 'getBall'])->name('getBall');
 Route::middleware('auth')->group(function () {
 
