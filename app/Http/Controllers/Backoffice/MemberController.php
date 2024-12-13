@@ -58,11 +58,11 @@ class MemberController extends Controller
         $logGames = LogGameActivity::where('user_id', $user->id)
             ->orderBy('created_at', 'DESC')
             ->paginate(5);
-        
+
         $totalGamePlay = LogGameActivity::where('user_id', $user->id)
-            ->distinct('game_id') 
+            ->distinct('game_id')
             ->count('game_id');
-        
+
 
 
         $totalDeposit = DB::table('transactions')
@@ -77,18 +77,18 @@ class MemberController extends Controller
             ->where('status', 'approved')
             ->sum('amount');
 
-            $logActivities = ActivityLog::where('user_id', $userId)
-            ->paginate(5); 
-            
+        $logActivities = ActivityLog::where('user_id', $userId)
+            ->paginate(5);
+
         return view('backend.members.show', compact('user', 'transactions', 'logGames', 'totalWithdraw', 'totalDeposit', 'totalGamePlay', 'logActivities'));
     }
-    
+
     public function getGameHistoryPlayer(Request $request, $a)
     {
         $startDate = Carbon::now()->subDays(7)->startOfDay()->format('Y-m-d H:i:s');
         $endDate = Carbon::now()->endOfDay()->format('Y-m-d H:i:s');
         $user = User::with('member')->findOrFail($a);
-        $page = (int)$request->page == 1 ? 0 : (int)$request->page;
+        $page = (int) $request->page == 1 ? 0 : (int) $request->page;
         $perPage = 10;
         $postArray = [
             'method' => 'get_game_log',
@@ -137,106 +137,91 @@ class MemberController extends Controller
     public function settingBalance(Request $request, $id)
     {
         DB::beginTransaction();
-        try{
-            $user = User::where('id', $id)
-                ->first();
+        try {
+            $user = User::where('id', $id)->first();
 
-            if(!$user) {
-                return redirect()->back();
+            if (!$user) {
+                return redirect()->back()->withErrors(['error' => 'User not found.']);
+            }
+
+            $memberExt = MemberExt::where('user_id', $id)->first();
+            $memberBalance = MemberBalance::where('user_id', $id)->first();
+
+            if (!$memberExt || !$memberBalance) {
+                return redirect()->back()->withErrors(['error' => 'Member details not found.']);
             }
 
             if ($request->type == "manual_deposit") {
-                DB::beginTransaction();
-                try {
-                    $memberExt = MemberExt::where('user_id', $id)->first();
-                    $memberBalance = MemberBalance::where('user_id', $id)->first();
-            
-                    $postData = [
-                        'method' => 'user_deposit',
-                        'agent_code' => env('NEXUS_AGENT_CODE'),
-                        'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
-                        'user_code' => $memberExt->ext_name,
-                        'amount' => (int)$request->amount
-                    ];
-            
-                    $response = Http::post(env('NEXUS_URL'), $postData);
-            
-                    $databody = $response->json();
-            
-                    if ($databody['status'] == 1 && $databody['msg'] == 'SUCCESS') {
+                $postData = [
+                    'method' => 'user_deposit',
+                    'agent_code' => env('NEXUS_AGENT_CODE'),
+                    'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
+                    'user_code' => $memberExt->ext_name,
+                    'amount' => (int) $request->amount
+                ];
 
-                        $memberBalance->main_balance = $databody['user_balance'];
-                        $memberBalance->save();
-            
-                        $store = new Transaction();
-                        $store->user_id = $id;
-                        $store->promotion_id = 0;
-                        $store->user_bank_id = 0;
-                        $store->amount = $request->amount;
-                        $store->type = "manual_deposit";
-                        $store->status = "approved";
-                        $store->created_ip_address = $request->ip();
-                        $store->save();
-            
-                        DB::commit();
-                        return redirect()->back()->with('success', 'Manual deposit successful.');
-                    } else {
-                        DB::rollBack();
-                        return redirect()->back()->withErrors(['error' => 'Deposit failed: ' . $databody['msg']]);
-                    }
-                } catch (\Exception $e) {
+                $response = Http::post(env('NEXUS_URL'), $postData);
+                $databody = $response->json();
+
+                if ($databody['status'] == 1 && $databody['msg'] == 'SUCCESS') {
+                    $memberBalance->main_balance = $databody['user_balance'];
+                    $memberBalance->save();
+
+                    $store = new Transaction();
+                    $store->user_id = $id;
+                    $store->promotion_id = 0;
+                    $store->user_bank_id = 0;
+                    $store->amount = $request->amount;
+                    $store->type = "manual_deposit";
+                    $store->status = "approved";
+                    $store->created_ip_address = $request->ip();
+                    $store->save();
+
+                    DB::commit();
+                    return redirect()->back()->with('success', 'Manual deposit successful.');
+                } else {
                     DB::rollBack();
-                    return redirect()->back()->withErrors(['error' => 'An error occurred: ' . $e->getMessage()]);
+                    return redirect()->back()->withErrors(['error' => 'Deposit failed: ' . $databody['msg']]);
                 }
             }
 
             if ($request->type == "manual_withdraw") {
-                DB::beginTransaction();
-                try {
-                    $memberExt = MemberExt::where('user_id', $id)->first();
-                    $memberBalance = MemberBalance::where('user_id', $id)->first();
-            
-                    $postData = [
-                        'method' => 'user_withdraw',
-                        'agent_code' => env('NEXUS_AGENT_CODE'),
-                        'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
-                        'user_code' => $memberExt->ext_name,
-                        'amount' => (int)$request->amount
-                    ];
-            
-                    $response = Http::post(env('NEXUS_URL'), $postData);
-            
-                    $databody = $response->json();
-            
-                    if ($databody['status'] == 1 && $databody['msg'] == 'SUCCESS') {
-                        $memberBalance->main_balance = $databody['user_balance'];
-                        $memberBalance->save();
-            
-                        $store = new Transaction();
-                        $store->user_id = $id;
-                        $store->promotion_id = 0;
-                        $store->user_bank_id = 0;
-                        $store->amount = $request->amount;
-                        $store->type = "manual_withdraw";
-                        $store->status = "approved";
-                        $store->created_ip_address = $request->ip();
-                        $store->save();
-            
-                        DB::commit();
-                        return redirect()->back()->with('success', 'Manual withdraw successful.');
-                    } else {
-                        DB::rollBack();
-                        return redirect()->back()->withErrors(['error' => 'Withdraw failed: ' . $databody['msg']]);
-                    }
-                } catch (\Exception $e) {
-                    DB::rollBack();
-                    return redirect()->back()->withErrors(['error' => 'An error occurred: ' . $e->getMessage()]);
-                }
-            }            
+                $postData = [
+                    'method' => 'user_withdraw',
+                    'agent_code' => env('NEXUS_AGENT_CODE'),
+                    'agent_token' => env('NEXUS_AGENT_SIGNATURE'),
+                    'user_code' => $memberExt->ext_name,
+                    'amount' => (int) $request->amount
+                ];
 
-        }catch(\Exception $e){
+                $response = Http::post(env('NEXUS_URL'), $postData);
+                $databody = $response->json();
+
+                if ($databody['status'] == 1 && $databody['msg'] == 'SUCCESS') {
+                    $memberBalance->main_balance = $databody['user_balance'];
+                    $memberBalance->save();
+
+                    $store = new Transaction();
+                    $store->user_id = $id;
+                    $store->promotion_id = 0;
+                    $store->user_bank_id = 0;
+                    $store->amount = $request->amount;
+                    $store->type = "manual_withdraw";
+                    $store->status = "approved";
+                    $store->created_ip_address = $request->ip();
+                    $store->save();
+
+                    DB::commit();
+                    return redirect()->back()->with('success', 'Manual withdraw successful.');
+                } else {
+                    DB::rollBack();
+                    return redirect()->back()->withErrors(['error' => 'Withdraw failed: ' . $databody['msg']]);
+                }
+            }
+        } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back();
+            return redirect()->back()->withErrors(['error' => 'An error occurred: ' . $e->getMessage()]);
         }
     }
+
 }
