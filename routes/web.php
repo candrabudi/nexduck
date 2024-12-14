@@ -63,7 +63,7 @@ Route::get('/login', function () {
     if(Auth::user()){
         return redirect()->route('member');
     }
-    return view('frontend.auth.peler');
+    return view('frontend.auth.login');
 });
 
 Route::get('/register', function (Request $request) {
