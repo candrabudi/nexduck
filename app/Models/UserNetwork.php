@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class UserNetwork extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'network_id',
+        'user_id'
+    ];
 
     public function user()
     {
