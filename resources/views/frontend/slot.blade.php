@@ -64,19 +64,26 @@
             offset = 0;
 
             isLoading = true;
-            fetch(`{{ route('games.search') }}?query=${searchQuery}&provider_id=${providerId}&offset=${offset}&limit=${limit}`)
+            fetch(
+                    `{{ route('games.search') }}?query=${searchQuery}&provider_id=${providerId}&offset=${offset}&limit=${limit}`
+                    )
                 .then(response => response.json())
                 .then(data => {
                     const gameCards = document.getElementById('game-cards');
                     gameCards.innerHTML = ''; // Clear previous results
 
                     data.games.forEach(game => {
+                        // Generate a random RTP between 65 and 98
+                        const randomRTP = (Math.random() * (98 - 65) + 65).toFixed(
+                            2); // Two decimal points for better display
+
                         const gameCard = `
                             <div class="game-card cursor-pointer" onclick="openModal('${game.game_name}', '${game.game_provider_code}', '${game.game_image}', '/games/play-game/${game.id}')">
                                 <img src="${game.game_image}" alt="${game.game_name}" class="game-image" />
                                 <div class="game-name-container">
                                     <div class="game-name">${game.game_name.length > 15 ? game.game_name.slice(0, 15) + '...' : game.game_name}</div>
                                     <div class="game-provider">${game.game_provider_code}</div>
+                                    <div class="game-rtp">RTP: ${randomRTP}%</div>
                                 </div>
                             </div>
                         `;
@@ -86,6 +93,7 @@
                     isLoading = false;
                 });
         }
+
 
         function loadMoreGames() {
             const searchQuery = document.getElementById('game-search').value;
@@ -94,26 +102,56 @@
             if (isLoading) return;
 
             isLoading = true;
-            fetch(`{{ route('games.search') }}?query=${searchQuery}&provider_id=${providerId}&offset=${offset}&limit=${limit}`)
+            fetch(
+                    `{{ route('games.search') }}?query=${searchQuery}&provider_id=${providerId}&offset=${offset}&limit=${limit}`
+                    )
                 .then(response => response.json())
                 .then(data => {
                     const gameCards = document.getElementById('game-cards');
                     data.games.forEach(game => {
+                        // Check if the RTP for this game has already been cached
+                        let randomRTP = sessionStorage.getItem(`rtp_${game.id}`);
+
+                        if (!randomRTP) {
+                            // Generate a random RTP between 65 and 98 and cache it
+                            randomRTP = (Math.random() * (98 - 65) + 65).toFixed(2);
+                            sessionStorage.setItem(`rtp_${game.id}`, randomRTP);
+                        }
+
+                        // Determine the color of the progress bar based on RTP
+                        let rtpColor;
+                        if (randomRTP <= 75) {
+                            rtpColor = 'yellow'; // Yellow for RTP 65-75
+                        } else if (randomRTP <= 85) {
+                            rtpColor = 'green'; // Green for RTP 76-85
+                        } else {
+                            rtpColor = 'lime'; // Bright green for RTP 86-98
+                        }
+
+                        // Calculate the percentage of the progress bar width based on RTP
+                        const rtpPercentage = ((randomRTP - 65) / (98 - 65)) * 100;
+
                         const gameCard = `
-                            <div class="game-card cursor-pointer" onclick="openModal('${game.game_name}', '${game.game_provider_code}', '${game.game_image}', '/games/play-game/${game.id}')">
-                                <img src="${game.game_image}" alt="${game.game_name}" class="game-image" />
-                                <div class="game-name-container">
-                                    <div class="game-name">${game.game_name.length > 15 ? game.game_name.slice(0, 15) + '...' : game.game_name}</div>
-                                    <div class="game-provider">${game.game_provider_code}</div>
-                                </div>
+                    <div class="game-card cursor-pointer" onclick="openModal('${game.game_name}', '${game.game_provider_code}', '${game.game_image}', '/games/play-game/${game.id}')">
+                        <img src="${game.game_image}" alt="${game.game_name}" class="game-image" />
+                        <div class="game-name-container">
+                            <div class="game-name">${game.game_name.length > 15 ? game.game_name.slice(0, 15) + '...' : game.game_name}</div>
+                            <div class="game-provider">${game.game_provider_code}</div>
+                            <!-- RTP progress bar -->
+                            <div class="game-rtp-container" style="background-color: #e0e0e0; border-radius: 5px; height: 10px; width: 100%; margin-top: 5px;">
+                                <div class="game-rtp-bar" style="background-color: ${rtpColor}; width: ${rtpPercentage}%; height: 100%; border-radius: 5px;"></div>
                             </div>
-                        `;
+                            <div class="game-rtp">RTP: ${randomRTP}%</div> <!-- RTP value -->
+                        </div>
+                    </div>
+                `;
                         gameCards.innerHTML += gameCard;
                     });
                     offset += limit;
                     isLoading = false;
                 });
         }
+
 
         function openModal(gameName, gameProvider, gameImage, gameUrl) {
             document.getElementById('modal-game-info').textContent = gameName;
