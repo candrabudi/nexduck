@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Models\SeoSetting;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\File;
 class SeoController extends Controller
 {
     public function index()
@@ -69,5 +71,44 @@ class SeoController extends Controller
         $seo->save();
 
         return redirect()->route('backoffice.seo.index')->with('success', 'SEO settings updated successfully.');
+    }
+
+    public function generateSitemap()
+    {
+        // Ambil semua route yang ada
+        $routes = Route::getRoutes();
+
+        // Buat array untuk menyimpan URL sitemap
+        $urls = [];
+
+        // Ambil URL untuk semua route non-authenticated
+        foreach ($routes as $route) {
+            // Pastikan route tidak terkait dengan authentication (misalnya, menggunakan middleware 'auth')
+            if (!in_array('auth', $route->middleware())) {
+                $url = URL::to($route->uri());
+
+                // Tambahkan URL ke array
+                $urls[] = $url;
+            }
+        }
+
+        // Format output XML untuk sitemap
+        $sitemapXml = '<?xml version="1.0" encoding="UTF-8"?>';
+        $sitemapXml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+
+        foreach ($urls as $url) {
+            $sitemapXml .= "<url><loc>{$url}</loc></url>";
+        }
+
+        $sitemapXml .= '</urlset>';
+
+        // Tentukan path file sitemap
+        $path = public_path('sitemap.xml');
+
+        // Simpan sitemap ke file
+        File::put($path, $sitemapXml);
+
+        // Berikan feedback sukses
+        return redirect()->route('admin.sitemap.index')->with('success', 'Sitemap telah berhasil di-generate!');
     }
 }

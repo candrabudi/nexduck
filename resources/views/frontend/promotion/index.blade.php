@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-
+@section('title', 'Daftar Promosi Di Situs Kami')
 @section('content')
     <div class="md:w-4/6 2xl:w-4/6 mx-auto my-16 p-4">
         <div class="relative mb-3 mt-5 flex flex-col items-start justify-start lg:mb-7 lg:items-center lg:justify-center">

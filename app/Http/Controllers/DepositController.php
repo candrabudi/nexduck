@@ -66,11 +66,27 @@ class DepositController extends Controller
                 ->first();
 
             if ($pendingTransaction) {
-                session()->put('error', 'Kamu memiliki pending deposit.');
-                return redirect()->route('transaction');
+                session()->flash('error', 'Kamu masih memiliki transaksi deposit pending!');
+                return redirect()->back();
             }
 
+            if(!$request->admin_bank_id && !$request->admin_ewallet_id && !$request->admin_qris_id) {
+                session()->flash('error', 'Pilih salah satu metode pembayaran!');
+                return redirect()->back();
+            }
+    
+            if(!$request->amount) {
+                session()->flash('error', 'Tolong masukan nominal deposit anda!');
+                return redirect()->back();
+            }
+
+
             $bankMember = MemberBank::where('user_id', Auth::user()->id)->first();
+
+            if(!$bankMember) {
+                session()->flash('error', 'Maaf, kamu tidak memiliki akun Bank / Ewallet!');
+                return redirect()->back();
+            }
 
             $storeTransaction = new Transaction();
             $storeTransaction->user_id = Auth::user()->id;
@@ -94,6 +110,10 @@ class DepositController extends Controller
                 $promotion = PromotionDetail::where('promotion_id', $request->promotion_id)
                     ->first();
 
+                if(!$promotion) {
+                    session()->flash('error', 'Silahkan cek apakah promosi masih aktif atau tidak!');
+                    return redirect()->back();
+                }
                 $bonus = ($request->amount * $promotion->percentage_bonus) / 100;
                 $store = new Transaction();
                 $store->user_id = Auth::user()->id;
@@ -109,12 +129,12 @@ class DepositController extends Controller
             }
 
             DB::commit();
-            session()->put('success', 'Deposit berhasil di ajukan, silahkan ditunggu.');
-            return redirect()->route('transaction');
+            session()->flash('good', 'Berhasil melakukan deposit, silahkan cek secara berkala!');
+            return redirect()->back();
 
         } catch (\Exception $e) {
             DB::rollBack();
-            session()->put('error', 'Gagal mengajukan deposit. ' . $e->getMessage());
+            session()->flash('error', 'Hubungi ke CS untuk kendala deposit!');
             return redirect()->back();
         }
     }

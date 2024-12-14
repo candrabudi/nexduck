@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-
+@section('title', 'Tim Support yang bisa anda hubungi!')
 @section('content')
     <script src="https://cdn.tailwindcss.com"></script>
     <div class="container mx-auto py-10 px-4">

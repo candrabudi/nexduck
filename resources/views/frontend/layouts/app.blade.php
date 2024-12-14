@@ -5,9 +5,8 @@
     use App\Models\Bank;
     use App\Models\LiveChat;
 
-    // Ambil data pengaturan SEO dari model SeoSetting
-    $seoSettings = SeoSetting::first(); // Sesuaikan dengan cara pengambilan data yang benar
-    $livechat = LiveChat::first(); // Sesuaikan dengan cara pengambilan data yang benar
+    $seoSettings = SeoSetting::first();
+    $livechat = LiveChat::first();
     $categories = Category::where('category_status', 1)->get();
     $setting = Setting::first();
     $banks = Bank::where('bank_status', 1)->get();
@@ -19,11 +18,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <!-- SEO Meta Tags -->
     <meta name="description" id="meta-description" content="{{ $seoSettings->seo_description ?? 'Default description' }}">
     <meta name="keywords" id="meta-keywords" content="{{ $seoSettings->seo_keywords ?? 'default, keywords' }}">
 
-    <!-- Open Graph Meta Tags -->
     <meta property="og:title" id="og-title" content="{{ $seoSettings->og_title ?? 'Default Web Name' }}">
     <meta property="og:description" id="og-description"
         content="{{ $seoSettings->og_description ?? 'Default description' }}">
@@ -31,7 +28,6 @@
         content="{{ asset('storage/' . ($seoSettings->og_image ?? 'default-image.jpg')) }}">
     <meta property="og:url" content="{{ url()->current() }}">
 
-    <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="twitter-title" content="{{ $seoSettings->twitter_title ?? 'Default Web Name' }}">
     <meta name="twitter:description" id="twitter-description"
@@ -39,7 +35,6 @@
     <meta name="twitter:image" id="twitter-image"
         content="{{ asset('storage/' . ($seoSettings->twitter_image ?? 'default-image.jpg')) }}">
 
-    <!-- Google Analytics -->
     @if ($seoSettings->google_analytics)
         <meta name="google-site-verification" content="{{ $seoSettings->google_analytics }}">
     @endif
@@ -52,7 +47,6 @@
         </script>
     @endif
 
-    <!-- Google Search Console -->
     @if ($seoSettings->google_search_console)
         <meta name="google-site-verification" content="{{ $seoSettings->google_search_console }}">
     @endif
@@ -67,7 +61,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&amp;family=Roboto+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100&amp;display=swap"
         rel="stylesheet">
-    <title>{{ $setting->web_name }}</title>
+    <title>@yield('title') | {{ $setting->web_name }}</title>
     <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.min.css') }}" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

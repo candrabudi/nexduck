@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-
+@section('title', 'Pengajuan Withdraw')
 @section('content')
     <style>
         .details-box {

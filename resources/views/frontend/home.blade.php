@@ -2,7 +2,7 @@
     $isLoggedIn = Auth::user() ? true : false;
 @endphp
 @extends('frontend.layouts.app')
-
+@section('title', 'Situs judi online terbaik dan terlengkap')
 @section('content')
     <div class="relative bg-gradient-to-r from-gray-900 to-gray-800 min-h-[28rem] flex items-center justify-between">
         <div class="relative z-10 w-full max-w-2xl px-6 md:px-12 lg:ml-16">

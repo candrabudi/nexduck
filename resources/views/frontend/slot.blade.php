@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-
+@section('title', 'List Game Judi Online Terbanyak dan Terlengkap')
 @section('content')
     @include('frontend.layouts.components.style_game')
     <div class="mb-5 w-full p-6">

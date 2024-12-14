@@ -8,6 +8,10 @@
                     <h6 class="card-title">Advanced SEO Settings</h6>
                 </div>
                 <div class="card-body">
+                    <form action="{{ route('backoffice.sitemap.generate') }}" method="POST">
+                        @csrf
+                        <button class="btn btn-sm btn-primary">Generate Sitemap</button>
+                    </form>
                     <form action="{{ route('backoffice.seo.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 

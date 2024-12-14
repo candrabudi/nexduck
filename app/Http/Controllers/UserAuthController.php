@@ -41,10 +41,10 @@ class UserAuthController extends Controller
         ];
 
         if (Auth::attempt($credentials)) {
-            if(Auth::user()->role != "admin") {
+            if (Auth::user()->role != "admin") {
                 RateLimiter::clear('login.' . $request->ip());
                 return redirect()->intended('/');
-            }else{
+            } else {
                 RateLimiter::hit('login.' . $request->ip(), 60);
                 return back()->withErrors([
                     'username' => 'These credentials do not match our records.',
@@ -60,18 +60,36 @@ class UserAuthController extends Controller
 
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|string|unique:users',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8',
-            'full_name' => 'required|string',
-            'phone_number' => 'required|string',
-            'bank_id' => 'required|integer',
-            'account_name' => 'required|string',
-            'account_number' => 'required|string',
-        ]);
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+        if (empty($request->input('username')) || !is_string($request->input('username')) || User::where('username', $request->input('username'))->exists()) {
+            return redirect()->back()->with('error', 'Username is required, must be a string, and must be unique.')->withInput();
+        }
+
+        if (empty($request->input('email')) || !filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) || User::where('email', $request->input('email'))->exists()) {
+            return redirect()->back()->with('error', 'Email is required, must be a valid email address, and must be unique.')->withInput();
+        }
+
+        if (empty($request->input('password')) || strlen($request->input('password')) < 8) {
+            return redirect()->back()->with('error', 'Password is required and must be at least 8 characters long.')->withInput();
+        }
+
+        if (empty($request->input('full_name')) || !is_string($request->input('full_name'))) {
+            return redirect()->back()->with('error', 'Full name is required and must be a string.')->withInput();
+        }
+
+        if (empty($request->input('phone_number')) || !is_string($request->input('phone_number'))) {
+            return redirect()->back()->with('error', 'Phone number is required and must be a string.')->withInput();
+        }
+
+        if (empty($request->input('bank_id')) || !is_numeric($request->input('bank_id'))) {
+            return redirect()->back()->with('error', 'Bank ID is required and must be an integer.')->withInput();
+        }
+
+        if (empty($request->input('account_name')) || !is_string($request->input('account_name'))) {
+            return redirect()->back()->with('error', 'Account name is required and must be a string.')->withInput();
+        }
+
+        if (empty($request->input('account_number')) || !is_string($request->input('account_number'))) {
+            return redirect()->back()->with('error', 'Account number is required and must be a string.')->withInput();
         }
 
         DB::beginTransaction();
@@ -100,47 +118,39 @@ class UserAuthController extends Controller
                 'account_status' => 1,
             ]);
 
-            $externalUsername = $this->generateRandomString(12);
             MemberExt::create([
                 'user_id' => $newUser->id,
                 'ext_name' => $request->input('username'),
             ]);
 
             MemberBalance::create([
-                'user_id' => $newUser->id, 
+                'user_id' => $newUser->id,
                 'main_balance' => 0,
                 'referral_balance' => 0,
             ]);
 
-            if($request->referral_code != "") {
-                $network = Network::where('referral', $request->referral_code)
-                    ->first();
+            if ($request->input('referral_code')) {
+                $network = Network::where('referral', $request->input('referral_code'))->first();
 
-                if($network) {
-                    $userNetwork = new UserNetwork();
-                    $userNetwork->network_id = $network->id;
-                    $userNetwork->user_id = $newUser->id;
-                    $userNetwork->save();
+                if ($network) {
+                    UserNetwork::create([
+                        'network_id' => $network->id,
+                        'user_id' => $newUser->id,
+                    ]);
                 }
             }
             $this->createNexusMember($request->input('username'));
-
             DB::commit();
             Auth::login($newUser);
-
             return redirect('/')->with('success', 'Registration successful!');
 
         } catch (\Exception $e) {
             DB::rollBack();
+            \Log::error('Registration failed: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Registration failed. Please try again later.');
         }
     }
 
-    private function generateRandomString($length = 12)
-    {
-        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        return substr(str_shuffle(str_repeat($characters, ceil($length / strlen($characters)))), 0, $length);
-    }
 
     private function createNexusMember($externalUsername)
     {

@@ -241,6 +241,7 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/seo-settings', [SeoController::class, 'index'])->name('seo.index');
             Route::post('/seo-settings', [SeoController::class, 'store'])->name('seo.store');
+            Route::post('/sitemap/generate', [SeoController::class, 'generateSitemap'])->name('sitemap.generate');
 
 
             Route::get('networks', [UserNetworkController::class, 'index'])->name('networks.index');

@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-
+@section('title', $promotion->title)
 @section('content')
 <div class="container mx-auto my-16 px-4">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8" style="padding: 20px;">

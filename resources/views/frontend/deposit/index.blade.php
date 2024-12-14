@@ -1,11 +1,43 @@
 @extends('frontend.layouts.app')
-
+@section('title', 'Deposit Member')
 @section('content')
     <div class="md:w-4/6 2xl:w-4/6 mx-auto mt-20 p-4 md:p-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             @include('frontend.layouts.components.menuprofile')
 
             <div class="relative col-span-2 bg-gray-800 text-white rounded-lg shadow-lg p-6">
+                @if (session('error'))
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Gagal!</strong>
+                        <span class="block sm:inline">{{ session('error') }}</span>
+                        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                            <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20">
+                                <title>Close</title>
+                                <path
+                                    d="M14.348 14.849a1 1 0 11-1.414 1.414l-3.536-3.536-3.536 3.536a1 1 0 11-1.414-1.414l3.536-3.536-3.536-3.536a1 1 0 111.414-1.414l3.536 3.536 3.536-3.536a1 1 0 111.414 1.414l-3.536 3.536 3.536 3.536z" />
+                            </svg>
+                        </span>
+                    </div>
+                @endif
+
+                @if (session('good'))
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                        role="alert">
+                        <strong class="font-bold">Sukses!</strong>
+                        <span class="block sm:inline">{{ session('success') }}</span>
+                        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                            <svg class="fill-current h-6 w-6 text-green-500" role="button"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <title>Close</title>
+                                <path
+                                    d="M14.348 14.849a1 1 0 11-1.414 1.414l-3.536-3.536-3.536 3.536a1 1 0 11-1.414-1.414l3.536-3.536-3.536-3.536a1 1 0 111.414-1.414l3.536 3.536 3.536-3.536a1 1 0 111.414 1.414l-3.536 3.536 3.536 3.536z" />
+                            </svg>
+                        </span>
+                    </div>
+                @endif
+
+
                 <div class="flex flex-col w-full">
                     <div class="mt-5">
                         <label for="paymentMethod" class="mb-2 text-gray-400">Select Payment Method</label>
@@ -22,7 +54,6 @@
                     <div id="payment-form" class="mt-5">
                         <form action="{{ route('deposit.store') }}" method="POST" id="deposit-form">
                             @csrf
-                            <!-- Bank Section -->
                             <div id="bank-section" class="hidden">
                                 <label for="bankMethod" class="mb-2 text-gray-400">Bank</label>
                                 <select id="bankMethod" name="admin_bank_id"
@@ -76,7 +107,8 @@
                                     onchange="showQrisDetails(this)">
                                     <option value="">Select QRIS</option>
                                     @foreach ($qris as $qris_item)
-                                        <option value="{{ $qris_item->bankAccount->id }}" data-qris="{{ json_encode($qris_item->bankAccount) }}">
+                                        <option value="{{ $qris_item->bankAccount->id }}"
+                                            data-qris="{{ json_encode($qris_item->bankAccount) }}">
                                             {{ $qris_item->name }}
                                         </option>
                                     @endforeach
