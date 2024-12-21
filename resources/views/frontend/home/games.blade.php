@@ -6,7 +6,7 @@
                     alt="Casino Icon">
                 {{ $pv['provider_name'] }}
             </h2>
-            <a href="/games">View all <span>{{ count($pv['games']) }}</span></a>
+            <a href="/slots">View all <span>{{ count($pv['games']) }}</span></a>
         </div>
 
         <div class="swiper swiper-{{ $index }}">
